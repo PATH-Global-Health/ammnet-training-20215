@@ -2,16 +2,14 @@ project:
   type: website
 
 website:
-  title: "ammnet-training-20215"
+  title: "Data Dashboard Training Materials"
   navbar:
     left:
       - href: index.qmd
-        text: Home
-      - about.qmd
 
 format:
   html:
-    theme: cosmo
+    theme: minty
     css: styles.css
     toc: true
 
