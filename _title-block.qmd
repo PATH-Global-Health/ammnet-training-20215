@@ -1,0 +1,12 @@
+---
+title: "Data Dashboard Training Materials"
+---
+
+<div style="display:flex; align-items:center; gap:20px; margin-bottom: 10px;">
+  <img src="PATH_logo.png" alt="PATH Logo" style="height:50px;">
+  <img src="AMMnet_logo.png" alt="AMMnet Logo" style="height:50px;">
+  <div>
+    <h1 style="margin: 0;">Data Dashboard Training Materials</h1>
+    <p style="margin: 0; font-size: 90%;">Ammnet Senegal 2025 Workshop</p>
+  </div>
+</div>

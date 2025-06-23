@@ -13,7 +13,7 @@ format:
 
 # Setup
 
-Welcome to the “*Developing Data Visualisation Dashboards in R*” workshop! In this session, we’ll build a Shiny app step by step, starting from zero: opening RStudio, installing packages, creating an app file, and exploring what Shiny can do - from basic reactive plots to interactive tables, maps, and advanced UI elements. Each section includes explanatory text, demo code, and exercises for you to try.
+Welcome to the “*Developing Data Visualisation Dashboards in R*” workshop! In this session, we’ll build a Shiny app step by step, exploring what Shiny can do - from basic reactive plots to interactive tables, maps, and advanced UI elements. Each section includes explanatory text, demo code, and exercises for you to try.
 
 > **Why RShiny?**
 >
@@ -26,11 +26,11 @@ Welcome to the “*Developing Data Visualisation Dashboards in R*” workshop! I
 ::: callout-important
 **Before you begin:**
 
--   Ensure you have your R Studio Project open.
+-   Ensure you have your **R Studio Project** open.
 
 -   Ensure you have your DHIS2 cleaned data saved into the correct folder: `data-outputs/data_dhis2_laos_ammnet_cleaned.csv`
 
--   If you didn't finish the steps in the earlier session - we have the dataset avaliable for download.
+-   If you didn't finish the steps in the earlier session - we have the dataset avaliable for download on the home page.
 :::
 
 ## Install Packages
@@ -81,7 +81,7 @@ We'll start by highlighting some key building blocks of dashbboards before movin
 
 In the end we hope you will have created something like the dashboard as shown below:
 
-![](images/dashboard-example-final.PNG)
+![](images/final-final.PNG)
 
 ::: callout-tip
 Tips for this tutorial

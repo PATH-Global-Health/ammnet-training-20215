@@ -1,6 +1,8 @@
 project:
   type: website
   resources:
+    - lesson-materials/part-1/french-slides.pdf
+    - lesson-materials/part-1/english.pdf
     - data-outputs.zip
 
 website:
@@ -8,6 +10,19 @@ website:
   navbar:
     left:
       - href: index.qmd
+        text: Home
+      - text: Materials
+        menu:
+          - href: english-slides.qmd
+            text: Part 1 Slides (EN)
+          - href: french-slides.qmd
+            text: Part 1 Slides (FR)
+          - href: dashboarding-slides.qmd
+            text: Part 2 Slides
+          - href: dashboard-workshop-materials.qmd
+            text: Part 2 Worksheet
+  page-footer:
+    center: "Ammnet Senegal 2025 Workshop | PATH "
 
 format:
   html:
@@ -19,6 +34,3 @@ editor: visual
 
 execute:
   freeze: auto
-  
-  
-
