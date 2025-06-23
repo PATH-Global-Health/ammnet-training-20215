@@ -164,7 +164,7 @@ You can use the `{bslib}` package to easily:
 Below are some beginner-friendly resources to help you dive deeper into Shiny:
 
 | Link | Description |
-|------------------------|------------------------------------------------|
+|----|----|
 | [Shiny Get Started](https://shiny.posit.co/r/getstarted/) | Official step-by-step tutorial for beginners, with hands-on examples. |
 | [Shiny Gallery](https://shiny.posit.co/r/gallery/) | Explore live examples of Shiny apps with source code. |
 | [Mastering Shiny (book)](https://mastering-shiny.org/) | Free online book by Hadley Wickham covering basics to advanced topics. |

@@ -1,5 +1,7 @@
 project:
   type: website
+  resources:
+    - data-outputs.zip
 
 website:
   title: "Data Dashboard Training Materials"
@@ -17,4 +19,6 @@ editor: visual
 
 execute:
   freeze: auto
+  
+  
 

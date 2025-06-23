@@ -16,7 +16,7 @@ Pour afficher le site Web en français - Ouvrez dans Google Chrome - faites un c
 
 **Time:** 9am
 
-# Description 
+# Description
 
 Data visualization is a powerful tool for understanding and communicating data. This training session is a real practical guide that is addressed to professionals wishing to master the main steps of dynamic dashboard development for the visualization of malaria epidemiological surveillance data with R-Shiny from the DHIS2 platform. In this skills course, you will learn how to use the Pivot Table tool from the Data Visualize module of DHIS2 for manual data download. To prepare the data for visualization. Creating efficient and attractive visualizations by choosing the right chart type for data, properly adjusting axes for truth and accuracy, building parameters through visual choices. To deploy a Shiny application for your dynamic dashboards. This will give you the keys to successfully creating a dynamic dashboard for data visualization.
 
@@ -49,9 +49,9 @@ library(bsicons)
 
 ```
 
-# Objectives 
+# Objectives
 
-## Part 1 
+## Part 1
 
 -   Learn how to access DHIS2
 
@@ -67,7 +67,7 @@ library(bsicons)
 
 The outcome of this session is a cleaned malaria dataset that we’ll use for part 2
 
-## Part 2 
+## Part 2
 
 -   Understand key elements of Shiny Dashbaords
 
@@ -77,16 +77,18 @@ The outcome of this session is a cleaned malaria dataset that we’ll use for pa
 
 The outcome of this session is a fully interactive local App displaying key malaria program metrics.
 
-# Materials 
+# Materials
 
-+-------------------------+--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
-| Part 1 Slides           | **English:**                                                                                                                                                                               |
-|                         |                                                                                                                                                                                            |
-|                         | **French:**                                                                                                                                                                                |
-+-------------------------+--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
-| Part 2 - Data downloads | Download the following files and save them to your R project in a folder called: `data-outputs`. If you didn't complete Part 1 don't worry the final dataset is included in this folder!   |
-+-------------------------+--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
-| Part 2 - Slides         | Click [here](dashboarding-slides.qmd)                                                                                                                                                      |
-+-------------------------+--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
-| Part 2 - Worksheet      | Click [here](dashboard-workshop-materials.qmd)                                                                                                                                             |
-+-------------------------+--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
++-------------------------+------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+| Part 1 Slides           | [**English**](english-slides.qmd)                                                                                                                                                        |
+|                         |                                                                                                                                                                                          |
+|                         | [**French**](french-slides.qmd)                                                                                                                                                          |
++-------------------------+------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+| Part 2 - Data downloads | Download the following files and save them to your R project in a folder called: `data-outputs`. If you didn't complete Part 1 don't worry the final dataset is included in this folder! |
+|                         |                                                                                                                                                                                          |
+|                         | 👉 <a href="data-outputs.zip" download>Download data-outputs.zip</a>                                                                                                                     |
++-------------------------+------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+| Part 2 - Slides         | Click [here](dashboarding-slides.qmd)                                                                                                                                                    |
++-------------------------+------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+| Part 2 - Worksheet      | Click [here](dashboard-workshop-materials.qmd)                                                                                                                                           |
++-------------------------+------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
