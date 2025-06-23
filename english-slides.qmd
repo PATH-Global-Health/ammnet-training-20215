@@ -1,2 +1,5 @@
+# Slides in English 
 
-{{< embed src="lesson-materials/part-1/english.pdf" width=800 height=600 >}}
+<iframe src="lesson-materials/part-1/english.pdf" width="800" height="600">
+  
+</iframe>

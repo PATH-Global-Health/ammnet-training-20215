@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>Development of a dynamic dashboard for visualizing malaria epidemiological surveillance data with R-Shiny – Data Dashboard Training Materials</title>
+<title>french-slides – Data Dashboard Training Materials</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -19,40 +19,6 @@ ul.task-list li input[type="checkbox"] {
   width: 0.8em;
   margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
   vertical-align: middle;
-}
-/* CSS for syntax highlighting */
-pre > code.sourceCode { white-space: pre; position: relative; }
-pre > code.sourceCode > span { line-height: 1.25; }
-pre > code.sourceCode > span:empty { height: 1.2em; }
-.sourceCode { overflow: visible; }
-code.sourceCode > span { color: inherit; text-decoration: inherit; }
-div.sourceCode { margin: 1em 0; }
-pre.sourceCode { margin: 0; }
-@media screen {
-div.sourceCode { overflow: auto; }
-}
-@media print {
-pre > code.sourceCode { white-space: pre-wrap; }
-pre > code.sourceCode > span { display: inline-block; text-indent: -5em; padding-left: 5em; }
-}
-pre.numberSource code
-  { counter-reset: source-line 0; }
-pre.numberSource code > span
-  { position: relative; left: -4em; counter-increment: source-line; }
-pre.numberSource code > span > a:first-child::before
-  { content: counter(source-line);
-    position: relative; left: -1em; text-align: right; vertical-align: baseline;
-    border: none; display: inline-block;
-    -webkit-touch-callout: none; -webkit-user-select: none;
-    -khtml-user-select: none; -moz-user-select: none;
-    -ms-user-select: none; user-select: none;
-    padding: 0 4px; width: 4em;
-  }
-pre.numberSource { margin-left: 3em;  padding-left: 4px; }
-div.sourceCode
-  {   }
-@media screen {
-pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
 }
 </style>
 
@@ -123,7 +89,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
           <div class="collapse navbar-collapse" id="navbarCollapse">
             <ul class="navbar-nav navbar-nav-scroll me-auto">
   <li class="nav-item">
-    <a class="nav-link active" href="./index.html" aria-current="page"> 
+    <a class="nav-link" href="./index.html"> 
 <span class="menu-text">Home</span></a>
   </li>  
   <li class="nav-item dropdown ">
@@ -165,134 +131,20 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
     <h2 id="toc-title">On this page</h2>
    
   <ul>
-  <li><a href="#description" id="toc-description" class="nav-link active" data-scroll-target="#description">Description</a></li>
-  <li><a href="#objectives" id="toc-objectives" class="nav-link" data-scroll-target="#objectives">Objectives</a>
-  <ul class="collapse">
-  <li><a href="#part-1" id="toc-part-1" class="nav-link" data-scroll-target="#part-1">Part 1</a></li>
-  <li><a href="#part-2" id="toc-part-2" class="nav-link" data-scroll-target="#part-2">Part 2</a></li>
-  </ul></li>
-  <li><a href="#materials" id="toc-materials" class="nav-link" data-scroll-target="#materials">Materials</a></li>
+  <li><a href="#slides-en-français" id="toc-slides-en-français" class="nav-link active" data-scroll-target="#slides-en-français">Slides en français</a></li>
   </ul>
 </nav>
     </div>
 <!-- main -->
 <main class="content" id="quarto-document-content">
 
-<header id="title-block-header" class="quarto-title-block default">
-<div class="quarto-title">
-<h1 class="title">Development of a dynamic dashboard for visualizing malaria epidemiological surveillance data with R-Shiny</h1>
-</div>
 
 
 
-<div class="quarto-title-meta">
-
-    
-  
-    
-  </div>
-  
-
-
-</header>
-
-
-<p>This Website houses the materials for the Ammnet Session - “<em>Development of a dynamic dashboard for visualizing malaria epidemiological surveillance data with R-Shiny</em>”</p>
-<div class="callout callout-style-default callout-important callout-titled">
-<div class="callout-header d-flex align-content-center">
-<div class="callout-icon-container">
-<i class="callout-icon"></i>
-</div>
-<div class="callout-title-container flex-fill">
-Important
-</div>
-</div>
-<div class="callout-body-container callout-body">
-<p>To view the website in French - Open in Google Chrome - right click anywhere on the page and select “Translate to francias”</p>
-<p>Pour afficher le site Web en français - Ouvrez dans Google Chrome - faites un clic droit n’importe où sur la page et sélectionnez “<em>Traduire en français</em>”</p>
-</div>
-</div>
-<p><strong>Date:</strong> Friday 27th June</p>
-<p><strong>Location:</strong> Evasion 3 room</p>
-<p><strong>Time:</strong> 9am</p>
-<section id="description" class="level1">
-<h1>Description</h1>
-<p>Data visualization is a powerful tool for understanding and communicating data. This training session is a real practical guide that is addressed to professionals wishing to master the main steps of dynamic dashboard development for the visualization of malaria epidemiological surveillance data with R-Shiny from the DHIS2 platform. In this skills course, you will learn how to use the Pivot Table tool from the Data Visualize module of DHIS2 for manual data download. To prepare the data for visualization. Creating efficient and attractive visualizations by choosing the right chart type for data, properly adjusting axes for truth and accuracy, building parameters through visual choices. To deploy a Shiny application for your dynamic dashboards. This will give you the keys to successfully creating a dynamic dashboard for data visualization.</p>
-<p>Before starting the training session, it is important to master the basics in descriptive data analysis, install R and the RStudio IDE, and install the required packages for the training.</p>
-<div class="cell">
-<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Packages installation ==========================================================================</span></span>
-<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="fu">install.packages</span>(<span class="st">"janitor"</span>)   <span class="co">#"janitor has simple little tools for examining and cleaning dirty data."</span></span>
-<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="fu">install.packages</span>(<span class="st">"shiny"</span>)     <span class="co">#"shiny: core package to build apps."</span></span>
-<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a><span class="fu">install.packages</span>(<span class="st">"bslib"</span>)     <span class="co">#"theming (Bootstrap customization) and modern dashboard design elements."</span></span>
-<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a><span class="fu">install.packages</span>(<span class="st">"tidyverse"</span>) <span class="co">#"Data wrangling (dplyr, ggplot2, readr…)."</span></span>
-<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a><span class="fu">install.packages</span>(<span class="st">"DT"</span>)        <span class="co">#"DT: interactive tables."</span></span>
-<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a><span class="fu">install.packages</span>(<span class="st">"plotly"</span>)    <span class="co">#"plotly: interactive plots."</span></span>
-<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a><span class="fu">install.packages</span>(<span class="st">"leaflet"</span>)   <span class="co">#"leaflet: mapping spatial data."</span></span>
-<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a><span class="fu">install.packages</span>(<span class="st">"sf"</span>)        <span class="co">#"sf: mapping spatial data."</span></span>
-<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a><span class="fu">install.paclages</span>(<span class="st">"lubridate"</span>) <span class="co">#"lubridate for dealting with date-time."</span></span>
-<span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a><span class="fu">install.packages</span>(<span class="st">"bsicons"</span>)   <span class="co">#"bsicons: Bootstrap icons for Shiny apps."</span></span>
-<span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-13"><a href="#cb1-13" aria-hidden="true" tabindex="-1"></a><span class="co"># Packages load ===================================================================================</span></span>
-<span id="cb1-14"><a href="#cb1-14" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(janitor)</span>
-<span id="cb1-15"><a href="#cb1-15" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(shiny)</span>
-<span id="cb1-16"><a href="#cb1-16" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(bslib)</span>
-<span id="cb1-17"><a href="#cb1-17" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyverse)</span>
-<span id="cb1-18"><a href="#cb1-18" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(DT)</span>
-<span id="cb1-19"><a href="#cb1-19" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(plotly)</span>
-<span id="cb1-20"><a href="#cb1-20" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(leaflet)</span>
-<span id="cb1-21"><a href="#cb1-21" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(sf)</span>
-<span id="cb1-22"><a href="#cb1-22" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(lubridate)</span>
-<span id="cb1-23"><a href="#cb1-23" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(bsicons)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</div>
-</section>
-<section id="objectives" class="level1">
-<h1>Objectives</h1>
-<section id="part-1" class="level2">
-<h2 class="anchored" data-anchor-id="part-1">Part 1</h2>
-<ul>
-<li><p>Learn how to access DHIS2</p></li>
-<li><p>Explore some existing dashboards to see graphical functionality</p></li>
-<li><p>Learn how to make a data query to access the data elements, time period and geographical units of interest</p></li>
-<li><p>Download data as a csv</p></li>
-<li><p>Read data into R</p></li>
-<li><p>Clean data, including name cleaning, visual inspection of outliers/missing data, cross-referencing different variables</p></li>
-</ul>
-<p>The outcome of this session is a cleaned malaria dataset that we’ll use for part 2</p>
-</section>
-<section id="part-2" class="level2">
-<h2 class="anchored" data-anchor-id="part-2">Part 2</h2>
-<ul>
-<li><p>Understand key elements of Shiny Dashbaords</p></li>
-<li><p>Gain hands on experience customising Shiny Dashboards</p></li>
-<li><p>Create your own Shiny Dashbaord</p></li>
-</ul>
-<p>The outcome of this session is a fully interactive local App displaying key malaria program metrics.</p>
-</section>
-</section>
-<section id="materials" class="level1">
-<h1>Materials</h1>
-<table class="caption-top table">
-<tbody>
-<tr class="odd">
-<td>Part 1 Slides</td>
-<td><p><a href="./english-slides.html"><strong>English</strong></a></p>
-<p><a href="./french-slides.html"><strong>French</strong></a></p></td>
-</tr>
-<tr class="even">
-<td>Part 2 - Data downloads</td>
-<td><p>Download the following files and save them to your R project in a folder called: <code>data-outputs</code>. If you didn’t complete Part 1 don’t worry the final dataset is included in this folder!</p>
-<p>👉 <a href="data-outputs.zip" download="">Download data-outputs.zip</a></p></td>
-</tr>
-<tr class="odd">
-<td>Part 2 - Slides</td>
-<td>Click <a href="./dashboarding-slides.html">here</a></td>
-</tr>
-<tr class="even">
-<td>Part 2 - Worksheet</td>
-<td>Click <a href="./dashboard-workshop-materials.html">here</a></td>
-</tr>
-</tbody>
-</table>
+<section id="slides-en-français" class="level1">
+<h1>Slides en français</h1>
+<iframe src="lesson-materials/part-1/french-slides.pdf" width="800" height="600">
+</iframe>
 
 
 </section>

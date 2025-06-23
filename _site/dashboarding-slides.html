@@ -6,8 +6,9 @@
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
+<meta name="author" content="">
 
-<title>Development of a dynamic dashboard for visualizing malaria epidemiological surveillance data with R-Shiny – Data Dashboard Training Materials</title>
+<title>Introduction to R Shiny Dashboarding – Data Dashboard Training Materials</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -123,7 +124,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
           <div class="collapse navbar-collapse" id="navbarCollapse">
             <ul class="navbar-nav navbar-nav-scroll me-auto">
   <li class="nav-item">
-    <a class="nav-link active" href="./index.html" aria-current="page"> 
+    <a class="nav-link" href="./index.html"> 
 <span class="menu-text">Home</span></a>
   </li>  
   <li class="nav-item dropdown ">
@@ -165,28 +166,43 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
     <h2 id="toc-title">On this page</h2>
    
   <ul>
-  <li><a href="#description" id="toc-description" class="nav-link active" data-scroll-target="#description">Description</a></li>
-  <li><a href="#objectives" id="toc-objectives" class="nav-link" data-scroll-target="#objectives">Objectives</a>
-  <ul class="collapse">
-  <li><a href="#part-1" id="toc-part-1" class="nav-link" data-scroll-target="#part-1">Part 1</a></li>
-  <li><a href="#part-2" id="toc-part-2" class="nav-link" data-scroll-target="#part-2">Part 2</a></li>
-  </ul></li>
-  <li><a href="#materials" id="toc-materials" class="nav-link" data-scroll-target="#materials">Materials</a></li>
+  <li><a href="#session-objectives" id="toc-session-objectives" class="nav-link active" data-scroll-target="#session-objectives">🎯 Session Objectives</a></li>
+  <li><a href="#section" id="toc-section" class="nav-link" data-scroll-target="#section"></a></li>
+  <li><a href="#what-is-a-dashboard" id="toc-what-is-a-dashboard" class="nav-link" data-scroll-target="#what-is-a-dashboard">What is a Dashboard?</a></li>
+  <li><a href="#why-use-shiny" id="toc-why-use-shiny" class="nav-link" data-scroll-target="#why-use-shiny">Why Use Shiny?</a></li>
+  <li><a href="#examples-of-dashboards" id="toc-examples-of-dashboards" class="nav-link" data-scroll-target="#examples-of-dashboards">Examples of Dashboards</a></li>
+  <li><a href="#anatomy-of-a-shiny-app" id="toc-anatomy-of-a-shiny-app" class="nav-link" data-scroll-target="#anatomy-of-a-shiny-app">🦵💪 Anatomy of a Shiny App</a></li>
+  <li><a href="#section-1" id="toc-section-1" class="nav-link" data-scroll-target="#section-1"></a></li>
+  <li><a href="#section-2" id="toc-section-2" class="nav-link" data-scroll-target="#section-2"></a></li>
+  <li><a href="#theming" id="toc-theming" class="nav-link" data-scroll-target="#theming">🎨 Theming</a></li>
+  <li><a href="#helpful-packages" id="toc-helpful-packages" class="nav-link" data-scroll-target="#helpful-packages">📦 Helpful Packages</a></li>
+  <li><a href="#helpful-webpages-for-getting-started-with-shiny" id="toc-helpful-webpages-for-getting-started-with-shiny" class="nav-link" data-scroll-target="#helpful-webpages-for-getting-started-with-shiny">🌐 Helpful Webpages for Getting Started with Shiny</a></li>
+  <li><a href="#what-youll-build-today-an-r-shiny-dashboard-to-visualize-routine-malaria-data" id="toc-what-youll-build-today-an-r-shiny-dashboard-to-visualize-routine-malaria-data" class="nav-link" data-scroll-target="#what-youll-build-today-an-r-shiny-dashboard-to-visualize-routine-malaria-data">What You’ll Build Today: An R Shiny dashboard to visualize routine malaria data</a></li>
+  <li><a href="#key-takeaways" id="toc-key-takeaways" class="nav-link" data-scroll-target="#key-takeaways">Key Takeaways</a></li>
+  <li><a href="#instructions" id="toc-instructions" class="nav-link" data-scroll-target="#instructions">Instructions</a></li>
+  <li><a href="#example-finished-dashboard" id="toc-example-finished-dashboard" class="nav-link" data-scroll-target="#example-finished-dashboard">Example Finished Dashboard</a></li>
   </ul>
-</nav>
+<div class="quarto-alternate-formats"><h2>Other Formats</h2><ul><li><a href="dashboarding-slides.html"><i class="bi bi-file-slides"></i>RevealJS</a></li></ul></div></nav>
     </div>
 <!-- main -->
 <main class="content" id="quarto-document-content">
 
 <header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
-<h1 class="title">Development of a dynamic dashboard for visualizing malaria epidemiological surveillance data with R-Shiny</h1>
+<h1 class="title">Introduction to R Shiny Dashboarding</h1>
+<p class="subtitle lead">June 25–27, AMMnet Senegal Workshop</p>
 </div>
 
 
 
 <div class="quarto-title-meta">
 
+    <div>
+    <div class="quarto-title-meta-heading">Author</div>
+    <div class="quarto-title-meta-contents">
+             <p> </p>
+          </div>
+  </div>
     
   
     
@@ -197,102 +213,203 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </header>
 
 
-<p>This Website houses the materials for the Ammnet Session - “<em>Development of a dynamic dashboard for visualizing malaria epidemiological surveillance data with R-Shiny</em>”</p>
-<div class="callout callout-style-default callout-important callout-titled">
-<div class="callout-header d-flex align-content-center">
-<div class="callout-icon-container">
-<i class="callout-icon"></i>
+<section id="session-objectives" class="level2">
+<h2 class="anchored" data-anchor-id="session-objectives">🎯 Session Objectives</h2>
+<div class="fragment fade-in">
+<p>Understand key elements of Shiny Dashbaords</p>
 </div>
-<div class="callout-title-container flex-fill">
-Important
+<div class="fragment fade-in">
+<p>Gain hands on experience customising Shiny dashbaords</p>
 </div>
+<div class="fragment fade-in">
+<p>We can’t cover all aspects of creating Shiny Dashboards but there are a tonne of great resources online we will share during the course of today!</p>
 </div>
-<div class="callout-body-container callout-body">
-<p>To view the website in French - Open in Google Chrome - right click anywhere on the page and select “Translate to francias”</p>
-<p>Pour afficher le site Web en français - Ouvrez dans Google Chrome - faites un clic droit n’importe où sur la page et sélectionnez “<em>Traduire en français</em>”</p>
-</div>
-</div>
-<p><strong>Date:</strong> Friday 27th June</p>
-<p><strong>Location:</strong> Evasion 3 room</p>
-<p><strong>Time:</strong> 9am</p>
-<section id="description" class="level1">
-<h1>Description</h1>
-<p>Data visualization is a powerful tool for understanding and communicating data. This training session is a real practical guide that is addressed to professionals wishing to master the main steps of dynamic dashboard development for the visualization of malaria epidemiological surveillance data with R-Shiny from the DHIS2 platform. In this skills course, you will learn how to use the Pivot Table tool from the Data Visualize module of DHIS2 for manual data download. To prepare the data for visualization. Creating efficient and attractive visualizations by choosing the right chart type for data, properly adjusting axes for truth and accuracy, building parameters through visual choices. To deploy a Shiny application for your dynamic dashboards. This will give you the keys to successfully creating a dynamic dashboard for data visualization.</p>
-<p>Before starting the training session, it is important to master the basics in descriptive data analysis, install R and the RStudio IDE, and install the required packages for the training.</p>
-<div class="cell">
-<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Packages installation ==========================================================================</span></span>
-<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="fu">install.packages</span>(<span class="st">"janitor"</span>)   <span class="co">#"janitor has simple little tools for examining and cleaning dirty data."</span></span>
-<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="fu">install.packages</span>(<span class="st">"shiny"</span>)     <span class="co">#"shiny: core package to build apps."</span></span>
-<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a><span class="fu">install.packages</span>(<span class="st">"bslib"</span>)     <span class="co">#"theming (Bootstrap customization) and modern dashboard design elements."</span></span>
-<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a><span class="fu">install.packages</span>(<span class="st">"tidyverse"</span>) <span class="co">#"Data wrangling (dplyr, ggplot2, readr…)."</span></span>
-<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a><span class="fu">install.packages</span>(<span class="st">"DT"</span>)        <span class="co">#"DT: interactive tables."</span></span>
-<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a><span class="fu">install.packages</span>(<span class="st">"plotly"</span>)    <span class="co">#"plotly: interactive plots."</span></span>
-<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a><span class="fu">install.packages</span>(<span class="st">"leaflet"</span>)   <span class="co">#"leaflet: mapping spatial data."</span></span>
-<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a><span class="fu">install.packages</span>(<span class="st">"sf"</span>)        <span class="co">#"sf: mapping spatial data."</span></span>
-<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a><span class="fu">install.paclages</span>(<span class="st">"lubridate"</span>) <span class="co">#"lubridate for dealting with date-time."</span></span>
-<span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a><span class="fu">install.packages</span>(<span class="st">"bsicons"</span>)   <span class="co">#"bsicons: Bootstrap icons for Shiny apps."</span></span>
-<span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-13"><a href="#cb1-13" aria-hidden="true" tabindex="-1"></a><span class="co"># Packages load ===================================================================================</span></span>
-<span id="cb1-14"><a href="#cb1-14" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(janitor)</span>
-<span id="cb1-15"><a href="#cb1-15" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(shiny)</span>
-<span id="cb1-16"><a href="#cb1-16" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(bslib)</span>
-<span id="cb1-17"><a href="#cb1-17" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyverse)</span>
-<span id="cb1-18"><a href="#cb1-18" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(DT)</span>
-<span id="cb1-19"><a href="#cb1-19" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(plotly)</span>
-<span id="cb1-20"><a href="#cb1-20" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(leaflet)</span>
-<span id="cb1-21"><a href="#cb1-21" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(sf)</span>
-<span id="cb1-22"><a href="#cb1-22" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(lubridate)</span>
-<span id="cb1-23"><a href="#cb1-23" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(bsicons)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</div>
+<hr>
 </section>
-<section id="objectives" class="level1">
-<h1>Objectives</h1>
-<section id="part-1" class="level2">
-<h2 class="anchored" data-anchor-id="part-1">Part 1</h2>
-<ul>
-<li><p>Learn how to access DHIS2</p></li>
-<li><p>Explore some existing dashboards to see graphical functionality</p></li>
-<li><p>Learn how to make a data query to access the data elements, time period and geographical units of interest</p></li>
-<li><p>Download data as a csv</p></li>
-<li><p>Read data into R</p></li>
-<li><p>Clean data, including name cleaning, visual inspection of outliers/missing data, cross-referencing different variables</p></li>
+<section id="section" class="level2" data-background-iframe="https://www.mentimeter.com/app/presentation/alvet43tya1npg7u1fuuh7w9vr1ctuuc/embed" data-background-interactive="true">
+<h2 data-background-iframe="https://www.mentimeter.com/app/presentation/alvet43tya1npg7u1fuuh7w9vr1ctuuc/embed" data-background-interactive="true" class="anchored" data-anchor-id="section"></h2>
+<hr>
+</section>
+<section id="what-is-a-dashboard" class="level2">
+<h2 class="anchored" data-anchor-id="what-is-a-dashboard">What is a Dashboard?</h2>
+<div class="incremental">
+<ul class="incremental">
+<li>A dashboard is a visual interface for exploring and interacting with data.</li>
+<li>In public health, dashboards help turn raw data into insights.</li>
+<li>Shiny lets you build dashboards <em>directly in R</em> — no web development needed!</li>
 </ul>
-<p>The outcome of this session is a cleaned malaria dataset that we’ll use for part 2</p>
+</div>
+<div class="fragment fade-in">
+<blockquote class="blockquote">
+<p>📊 You’ve probably seen dashboards used in the COVID-19 response - what other dashboards can you think of?</p>
+</blockquote>
+</div>
+<hr>
 </section>
-<section id="part-2" class="level2">
-<h2 class="anchored" data-anchor-id="part-2">Part 2</h2>
+<section id="why-use-shiny" class="level2">
+<h2 class="anchored" data-anchor-id="why-use-shiny">Why Use Shiny?</h2>
+<p>✅ Turns R code into interactive web apps<br>
+✅ You don’t need to learn HTML, CSS, or JavaScript<br>
+✅ Great for sharing visualizations, tables, and summaries<br>
+✅ Easy to deploy: share with collaborators or host online<br>
+✅ Allow non R users to interact and explore data without the need to code.</p>
+<hr>
+</section>
+<section id="examples-of-dashboards" class="level2">
+<h2 class="anchored" data-anchor-id="examples-of-dashboards">Examples of Dashboards</h2>
+<p>Shiny dashbaords can grow to be incredibly complex web applications but can also be small simple tools designed to help colleagues with everyday tasks and problems. Here are two examples of dashboards we’ve created recently at PATH.</p>
+<div class="columns">
+<div class="column" style="width:50%;">
+<p><img src="images/budget-dashboard.png" class="img-fluid"></p>
+</div><div class="column" style="width:50%;">
+<p><img src="images/step-size.png" class="img-fluid"></p>
+</div>
+</div>
+<hr>
+</section>
+<section id="anatomy-of-a-shiny-app" class="level2">
+<h2 class="anchored" data-anchor-id="anatomy-of-a-shiny-app">🦵💪 Anatomy of a Shiny App</h2>
+<p>A basic Shiny app has <strong>two main parts</strong>:</p>
+<ol type="1">
+<li><strong>UI (User Interface)</strong> – what the user sees and interacts with (<em>frontend</em>)</li>
+<li><strong>Server</strong> – what R does behind the scenes - computations and tasks based on the user inputs (<em>backend</em>)</li>
+</ol>
+<div class="sourceCode" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(shiny)</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(bslib)</span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Define UI ----</span></span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a>ui <span class="ot">&lt;-</span> <span class="fu">fluid_page</span>(</span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a> <span class="co"># Define the layout</span></span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a> <span class="co"># Define the theme </span></span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a> <span class="co"># Define user input selection</span></span>
+<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a> <span class="co"># Define types of outputs</span></span>
+<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a><span class="co"># Define server logic ----</span></span>
+<span id="cb1-13"><a href="#cb1-13" aria-hidden="true" tabindex="-1"></a>server <span class="ot">&lt;-</span> <span class="cf">function</span>(input, output) {</span>
+<span id="cb1-14"><a href="#cb1-14" aria-hidden="true" tabindex="-1"></a><span class="co"># Computations </span></span>
+<span id="cb1-15"><a href="#cb1-15" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb1-16"><a href="#cb1-16" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-17"><a href="#cb1-17" aria-hidden="true" tabindex="-1"></a><span class="co"># Run the app ----</span></span>
+<span id="cb1-18"><a href="#cb1-18" aria-hidden="true" tabindex="-1"></a><span class="fu">shinyApp</span>(<span class="at">ui =</span> ui, <span class="at">server =</span> server)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>This code is the bare minimum needed to create a Shiny app. The result is an empty app with a blank user interface.</p>
+<hr>
+</section>
+<section id="section-1" class="level2" data-background-iframe="https://shiny.posit.co/r/layouts/" data-background-interactive="True">
+<h2 data-background-iframe="https://shiny.posit.co/r/layouts/" data-background-interactive="True" class="anchored" data-anchor-id="section-1"></h2>
+<hr>
+</section>
+<section id="section-2" class="level2" data-background-iframe="https://shiny.posit.co/r/components/" data-background-interactive="True">
+<h2 data-background-iframe="https://shiny.posit.co/r/components/" data-background-interactive="True" class="anchored" data-anchor-id="section-2"></h2>
+<hr>
+</section>
+<section id="theming" class="level2">
+<h2 class="anchored" data-anchor-id="theming">🎨 Theming</h2>
+<p>Customizing the theme of your dashboard is a really simple way to upgrade the look and feel of your app.</p>
+<div class="columns">
+<div class="column" style="width:50%;">
+<p><img src="images/theming.png" class="img-fluid"></p>
+</div><div class="column" style="width:50%;">
+<p>You can use the <code>{bslib}</code> package to easily:</p>
 <ul>
-<li><p>Understand key elements of Shiny Dashbaords</p></li>
-<li><p>Gain hands on experience customising Shiny Dashboards</p></li>
-<li><p>Create your own Shiny Dashbaord</p></li>
+<li><p>Change colors, fonts, and spacing</p></li>
+<li><p>Apply modern Bootstrap themes (like <code>flatly</code>, <code>minty</code>, <code>cosmo</code>)</p></li>
+<li><p>Preview changes live while building your app</p></li>
 </ul>
-<p>The outcome of this session is a fully interactive local App displaying key malaria program metrics.</p>
+</div>
+</div>
+<div class="fragment fade-in">
+<blockquote class="blockquote">
+<p>We’ll explore this in more detail later — for now, just know it’s easy to give your dashboard a polished, professional look!</p>
+</blockquote>
+</div>
+<hr>
 </section>
+<section id="helpful-packages" class="level2">
+<h2 class="anchored" data-anchor-id="helpful-packages">📦 Helpful Packages</h2>
+<ul>
+<li><p><code>shiny</code> – the core package</p></li>
+<li><p><code>bslib</code> – for modern dashbaord design</p></li>
+<li><p><code>tidyverse</code> – for data wrangling</p></li>
+<li><p><code>DT</code> – for interactive tables</p></li>
+<li><p><code>plotly</code> – for interactive plots</p></li>
+<li><p><code>leaflet</code> - for open source interactive maps</p></li>
+</ul>
+<hr>
 </section>
-<section id="materials" class="level1">
-<h1>Materials</h1>
+<section id="helpful-webpages-for-getting-started-with-shiny" class="level2">
+<h2 class="anchored" data-anchor-id="helpful-webpages-for-getting-started-with-shiny">🌐 Helpful Webpages for Getting Started with Shiny</h2>
+<p>Below are some beginner-friendly resources to help you dive deeper into Shiny:</p>
 <table class="caption-top table">
+<thead>
+<tr class="header">
+<th>Link</th>
+<th>Description</th>
+</tr>
+</thead>
 <tbody>
 <tr class="odd">
-<td>Part 1 Slides</td>
-<td><p><a href="./english-slides.html"><strong>English</strong></a></p>
-<p><a href="./french-slides.html"><strong>French</strong></a></p></td>
+<td><a href="https://shiny.posit.co/r/getstarted/">Shiny Get Started</a></td>
+<td>Official step-by-step tutorial for beginners, with hands-on examples.</td>
 </tr>
 <tr class="even">
-<td>Part 2 - Data downloads</td>
-<td><p>Download the following files and save them to your R project in a folder called: <code>data-outputs</code>. If you didn’t complete Part 1 don’t worry the final dataset is included in this folder!</p>
-<p>👉 <a href="data-outputs.zip" download="">Download data-outputs.zip</a></p></td>
+<td><a href="https://shiny.posit.co/r/gallery/">Shiny Gallery</a></td>
+<td>Explore live examples of Shiny apps with source code.</td>
 </tr>
 <tr class="odd">
-<td>Part 2 - Slides</td>
-<td>Click <a href="./dashboarding-slides.html">here</a></td>
+<td><a href="https://mastering-shiny.org/">Mastering Shiny (book)</a></td>
+<td>Free online book by Hadley Wickham covering basics to advanced topics.</td>
 </tr>
 <tr class="even">
-<td>Part 2 - Worksheet</td>
-<td>Click <a href="./dashboard-workshop-materials.html">here</a></td>
+<td><a href="https://posit.co/resources/cheatsheets/">Shiny Cheatsheet</a></td>
+<td>Handy reference for Shiny functions and UI elements (download the PDF).</td>
+</tr>
+<tr class="odd">
+<td><a href="https://shiny.posit.co/r/editor/">Shiny UI Editor (Experimental)</a></td>
+<td>Drag-and-drop interface to design your UI visually.</td>
 </tr>
 </tbody>
 </table>
+<div class="fragment fade-in">
+<blockquote class="blockquote">
+<p>These links are a great place to start exploring after today’s session.</p>
+</blockquote>
+</div>
+<hr>
+</section>
+<section id="what-youll-build-today-an-r-shiny-dashboard-to-visualize-routine-malaria-data" class="level2">
+<h2 class="anchored" data-anchor-id="what-youll-build-today-an-r-shiny-dashboard-to-visualize-routine-malaria-data">What You’ll Build Today: An R Shiny dashboard to visualize routine malaria data</h2>
+<ul>
+<li><p>Pull data from DHIS2 ✔</p></li>
+<li><p>Clean and summarize key indicators ✔</p></li>
+<li><p>Build simple interactive plots and tables 🔃</p></li>
+<li><p>Customize 🔃</p></li>
+</ul>
+<hr>
+</section>
+<section id="key-takeaways" class="level2">
+<h2 class="anchored" data-anchor-id="key-takeaways">Key Takeaways</h2>
+<div class="incremental">
+<ul class="incremental">
+<li><p>Shiny makes dashboards easy to build in R</p></li>
+<li><p>You’ll learn by doing — today is all about hands-on practice</p></li>
+<li><p>You’ll work with a template and build out each element of the dasboard</p></li>
+<li><p>We’ll go step-by-step 🛠️</p></li>
+</ul>
+</div>
+<hr>
+</section>
+<section id="instructions" class="level2">
+<h2 class="anchored" data-anchor-id="instructions">Instructions</h2>
+<p>Follow the <a href="./dashboard-workshop-materials.html">link</a> to the materials worksheet - open in google chrome for auto translate.</p>
+<p>Work through each section and complete the exercises as you go.</p>
+<p>Reach out for help or to ask questions!</p>
+<p>Enjoy!!</p>
+<hr>
+</section>
+<section id="example-finished-dashboard" class="level2">
+<h2 class="anchored" data-anchor-id="example-finished-dashboard">Example Finished Dashboard</h2>
+<p><img src="images/dashboard-example-final.PNG" class="img-fluid"></p>
 
 
 </section>

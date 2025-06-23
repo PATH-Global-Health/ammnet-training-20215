@@ -334,6 +334,7 @@ If you want to, `page_sidebar` creates a sidebar layout that fills the page, an
 ```{r eval=FALSE}
 # Floating sidebar layout
 ui <- page_fluid(
+  
   layout_sidebar(
     sidebar = sidebar("Sidebar"), # sidebar elements
     
@@ -439,14 +440,23 @@ A [`value_box()`](https://rstudio.github.io/bslib/reference/value_box.html) has 
 ```{r eval = FALSE}
 
 ui <- page_fluid(
-    layout_sidebar(
+  
+  #-layout------------------------
+  layout_sidebar(
+    
+    #-sidebar---------
     sidebar = sidebar("Sidebar"),
+    
+    #-main pannel content----
     "Main contents", 
-    # including a Value Box     
+    
+    # Value Box     
     value_box(
       title = "Value box", # Title
       value = 750          # Value to show 
-      ),
+    ),
+    
+    # Card 
     card(
       height=400, 
       full_screen = TRUE, 
@@ -463,26 +473,12 @@ ui <- page_fluid(
 To make our value boxes stand-out even more we can enhance their appearance through setting their theme colour and including inforgraphic icons.
 
 ```{r eval=FALSE}
- ui <- page_fluid(
-  layout_sidebar(
-    sidebar = sidebar("Sidebar"),
-    "Main contents", 
-    # including a Value Box     
-    value_box(
+value_box(
       title = "Value box", # Title
       value = 750,         # Value to show
-      showcase = bsicons::bs_icon("laptop"), #include and icon
+      showcase = bsicons::bs_icon("laptop"), #include an icon
       theme = "pink" # change the box theme colour
-    ),
-    card(
-      height=400, 
-      full_screen = TRUE,
-      card_header("A Header"), 
-      card_body("Card Body"), 
-      card_footer("A Footer")
     )
-  )   
-)
 ```
 
 ::: callout-note
@@ -501,15 +497,24 @@ We can change the location of `value_boxes()` using the `showcase_layout()` argu
 ::: {.callout-tip collapse="true" title="Show Solution"}
 ```{r eval = FALSE}
 ui <- page_fluid(
+  
+  #-layout------------------------
   layout_sidebar(
+    
+    #-sidebar---------
     sidebar = sidebar("Sidebar"),
+    
+    #-main pannel content----
     "Main contents", 
+    
+    # Value Box     
     value_box(
-      title = "Value box",
-      value = 750,
-      showcase = bsicons::bs_icon("laptop"),
-      theme = "pink"
-    ),
+      title = "Value box", # Title
+      value = 750,         # Value to show
+      showcase = bsicons::bs_icon("laptop"), #include an icon
+      theme = "pink" # change the box theme colour
+    ), 
+    
     # second value box 
     value_box(
       title = "Value box 2", 
@@ -518,27 +523,30 @@ ui <- page_fluid(
       showcase_layout = "top right", 
       theme = "blue" 
     ), 
+    
+    # Card 
     card(
       height=400, 
-      full_screen = TRUE,
+      full_screen = TRUE, 
       card_header("A Header"), 
       card_body("Card Body"), 
       card_footer("A Footer")
     ), 
-    # second card box 
+    
+    # Second card box 
     card(
       height = 200, 
       full_screen = TRUE,
       card_header("Another Header"), 
-      card_footer("Another Footer"), 
-      card_body("Another Card")
+      card_body("Another Card"), 
+      card_footer("Another Footer")
     )
   )   
 )
 
 ```
 
-![](images/step5-addiditional-elements.PNG)
+![](images/exercise-2-answer.PNG)
 :::
 
 ## Adjusting Layout Positions
@@ -555,42 +563,50 @@ Let’s try adding moving our two value boxes side by side:
 
 ```{r eval = FALSE}
 ui <- page_fluid(
+  
+  #-layout------------------------
   layout_sidebar(
+    
+    #-sidebar---------
     sidebar = sidebar("Sidebar"),
+    
+    #-main pannel content----
     "Main contents", 
     
-    # two column value boxes
-    layout_columns(
-      value_box(
-      title = "Value box",
-      value = 750,
-      showcase = bsicons::bs_icon("laptop"),
-      theme = "pink"
-      ),
-   
+    # Value Boxes in a single row
+    layout_columns(    
+    value_box(
+      title = "Value box", # Title
+      value = 750,         # Value to show
+      showcase = bsicons::bs_icon("laptop"), #include an icon
+      theme = "pink" # change the box theme colour
+      ), 
+    
     value_box(
       title = "Value box 2", 
       value = 1993, 
       showcase = bsicons::bs_icon("calendar"), 
       showcase_layout = "top right", 
       theme = "blue" 
-      ), 
+      )
     ), 
     
+    # Card 
     card(
-      height=400,  
-      full_screen = TRUE,
+      height=400, 
+      full_screen = TRUE, 
       card_header("A Header"), 
       card_body("Card Body"), 
       card_footer("A Footer")
     ), 
-  
+    
+    # Second card box 
     card(
-      height = 200,  
+      height = 200, 
       full_screen = TRUE,
       card_header("Another Header"), 
-      card_footer("Another Footer"), 
-      card_body("Another Card")
+      card_body("Another Card"), 
+      card_footer("Another Footer")
     )
   )   
 )
@@ -606,20 +622,26 @@ ui <- page_fluid(
 3.  Use `layout_columns()` to set the `card()` elements into two columns. What do you notice about the height of the cards?
 
 ::: {.callout-tip collapse="true" title="Show Solution"}
-```{r}
+```{r eval = FALSE}
 ui <- page_fluid(
+  
+  #-layout------------------------
   layout_sidebar(
+    
+    #-sidebar---------
     sidebar = sidebar("Sidebar"),
+    
+    #-main pannel content----
     "Main contents", 
     
-    # two column value boxes
-    layout_columns(
+    # Value Boxes in a single row
+    layout_columns( 
       value_box(
-        title = "Value box",
-        value = 750,
-        showcase = bsicons::bs_icon("laptop"),
-        theme = "pink"
-      ),
+        title = "Value box", # Title
+        value = 750,         # Value to show
+        showcase = bsicons::bs_icon("laptop"), #include an icon
+        theme = "pink" # change the box theme colour
+        ), 
       
       value_box(
         title = "Value box 2", 
@@ -627,29 +649,29 @@ ui <- page_fluid(
         showcase = bsicons::bs_icon("calendar"), 
         showcase_layout = "top right", 
         theme = "blue" 
+        )
       ), 
-    ), 
     
+    # Cards in a single row
     layout_columns(
       card(
-        height=400,  
-        full_screen = TRUE,
+        height=400, 
+        full_screen = TRUE, 
         card_header("A Header"), 
         card_body("Card Body"), 
         card_footer("A Footer")
-      ), 
+        ), 
       
       card(
         height = 200, 
-        full_screen = TRUE, 
+        full_screen = TRUE,
         card_header("Another Header"), 
-        card_footer("Another Footer"), 
-        card_body("Another Card")
-      )
-    )
-    
-  )   
-)
+        card_body("Another Card"), 
+        card_footer("Another Footer")
+        )
+      ),
+    )   
+  )
 ```
 
 The two cards are now the same height as the tallest card. This is because `layout_columns()` automatically sets the height of each column to match the tallest element in that row.
@@ -665,18 +687,24 @@ For example, you might want to display six value boxes, but have them wrap autom
 
 ```{r eval = FALSE}
 ui <- page_fluid(
+  
+  #-layout------------------------
   layout_sidebar(
+    
+    #-sidebar---------
     sidebar = sidebar("Sidebar"),
+    
+    #-main pannel content----
     "Main contents", 
     
-    # adding layout_column_wrap for automatic wrapping
-    layout_column_wrap(
+    # Value Boxes in a single row that wraps responsive to screen size
+    layout_column_wrap( 
       value_box(
-        title = "Value box",
-        value = 750,
-        showcase = bsicons::bs_icon("laptop"),
-        theme = "pink"
-      ),
+        title = "Value box", # Title
+        value = 750,         # Value to show
+        showcase = bsicons::bs_icon("laptop"), #include an icon
+        theme = "pink" # change the box theme colour
+        ), 
       
       value_box(
         title = "Value box 2", 
@@ -684,47 +712,35 @@ ui <- page_fluid(
         showcase = bsicons::bs_icon("calendar"), 
         showcase_layout = "top right", 
         theme = "blue" 
-      ), 
+        ), 
+      
       # addiditional boxes
-      value_box(
-        title = "Value box 3", 
-        value = 123
-      ), 
-      value_box(
-        title = "Value box 4", 
-        value = 456
-      ), 
-      value_box(
-        title = "Value box 5", 
-        value = 789,
-        
-      ), 
-      value_box(
-        title = "Value box 6", 
-        value = 101112,
-      ), 
+      value_box(title = "Value box 3", value = 123), 
+      value_box(title = "Value box 4", value = 456), 
+      value_box(title = "Value box 5", value = 789), 
+      value_box(title = "Value box 6", value = 101112)
     ), 
     
+    # Cards in a single row
     layout_columns(
       card(
         height=400, 
-        full_screen = TRUE,
+        full_screen = TRUE, 
         card_header("A Header"), 
         card_body("Card Body"), 
         card_footer("A Footer")
-      ), 
+        ), 
       
       card(
-        height = 200,
+        height = 200, 
         full_screen = TRUE,
         card_header("Another Header"), 
-        card_footer("Another Footer"), 
-        card_body("Another Card")
-      )
-    )
-    
-  )   
-)
+        card_body("Another Card"), 
+        card_footer("Another Footer")
+        )
+      ),
+    )   
+  )
 
 ```
 
@@ -826,65 +842,19 @@ We’ll start by updating the **UI** to add a control widget that selects for pr
 Let’s now update the sidebar to add a proper dropdown input for Province selection. Remember to ensure we are reading in our dataset prior to the UI and Server code.
 
 ```{r eval=FALSE}
-ui <- page_fluid(
-  layout_sidebar(
+   #-sidebar---------
     sidebar = sidebar(
+      
       # Add user input selection 
-      p("User Inputs"),
+      p("User Inputs"), # Title
+      
       selectInput(
         inputId = "province_select",  # ID value
         label = "Select a Province:", # UI side Title
         choices = c("", sort(unique(app_data$organisation_unit))), # empty first value followed by all of our unique org_unit names
         selected = "" # default value that the application starts with as selected - in our case we want this to be blank. 
-      )
-    ),
-    
-    # Main content
-    "Main contents", 
-    
-    # value boxes wrapped automatically
-    layout_column_wrap(
-      value_box(
-        title = "Value box",
-        value = 750,
-        showcase = bsicons::bs_icon("laptop"),
-        theme = "pink"
+        )
       ),
-      
-      value_box(
-        title = "Value box 2", 
-        value = 1993, 
-        showcase = bsicons::bs_icon("calendar"), 
-        showcase_layout = "top right", 
-        theme = "blue" 
-      ), 
-      value_box(title = "Value box 3", value = 123), 
-      value_box(title = "Value box 4", value = 456), 
-      value_box(title = "Value box 5", value = 789), 
-      value_box(title = "Value box 6", value = 101112)
-    ), 
-    
-    # two cards side-by-side
-    layout_columns(
-      card(
-        height = 400,  
-        full_screen = TRUE,
-        card_header("A Header"), 
-        card_body("Card Body"), 
-        card_footer("A Footer")
-      ), 
-      
-      card(
-        height = 200, 
-        full_screen = TRUE,
-        card_header("Another Header"), 
-        card_footer("Another Footer"), 
-        card_body("Another Card")
-      )
-    )
-  )   
-)
-
 ```
 
 **What this is doing:**
@@ -979,66 +949,27 @@ We want to show some text that says:
 
 > *"You have selected: \[Province\]"*
 
-To do this, we add `textOutput()` to the UI where we want the text to appear,in this instance we add it to the `card_body()` call.
+To do this, we add `textOutput()` to the UI where we want the text to appear,in this instance we add it to the `card_body()` call to our first card.
 
 ```{r eval = FALSE}
-ui <- page_fluid(
-  layout_sidebar(
-    sidebar = sidebar(
-      p("User Inputs"),
-      selectInput(
-        inputId = "province_select",  
-        label = "Select a Province:",
-        choices = c("", sort(unique(app_data$organisation_unit))),
-        selected = "" 
-      )
-    ),
-    
-    "Main contents", 
-    
-    layout_column_wrap(
-      value_box(
-        title = "Value box",
-        value = 750,
-        showcase = bsicons::bs_icon("laptop"),
-        theme = "pink"
-      ),
-      
-      value_box(
-        title = "Value box 2", 
-        value = 1993, 
-        showcase = bsicons::bs_icon("calendar"), 
-        showcase_layout = "top right", 
-        theme = "blue" 
-      ), 
-      value_box(title = "Value box 3", value = 123), 
-      value_box(title = "Value box 4", value = 456), 
-      value_box(title = "Value box 5", value = 789), 
-      value_box(title = "Value box 6", value = 101112)
-    ), 
-    
+    # Cards in a single row
     layout_columns(
       card(
-        height = 400,  
-        full_screen = TRUE,
+        height=400, 
+        full_screen = TRUE, 
         card_header("A Header"), 
-        card_body(
-          textOutput("selected_province_text") # add textOutput to display selected province
-        ), 
+        card_body(textOutput("selected_province_text")), # add textOutput to display selected province), 
         card_footer("A Footer")
-      ), 
+        ), 
       
       card(
-        height = 200,  
+        height = 200, 
         full_screen = TRUE,
         card_header("Another Header"), 
-        card_footer("Another Footer"), 
-        card_body("Another Card")
+        card_body("Another Card"), 
+        card_footer("Another Footer")
+        )
       )
-    )
-  )   
-)
-
 ```
 
 ::: callout-note
