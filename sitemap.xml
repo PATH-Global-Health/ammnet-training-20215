@@ -1,11 +1,23 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
-    <loc>https://PATH-Global-Health.github.io/ammnet-training-20215/about.html</loc>
-    <lastmod>2025-06-22T16:08:58.943Z</lastmod>
+    <loc>https://PATH-Global-Health.github.io/ammnet-training-20215/dashboard-workshop-materials.html</loc>
+    <lastmod>2025-06-23T21:58:20.195Z</lastmod>
+  </url>
+  <url>
+    <loc>https://PATH-Global-Health.github.io/ammnet-training-20215/dashboarding-slides.html</loc>
+    <lastmod>2025-06-23T21:58:20.195Z</lastmod>
+  </url>
+  <url>
+    <loc>https://PATH-Global-Health.github.io/ammnet-training-20215/french-slides.html</loc>
+    <lastmod>2025-06-23T21:58:20.212Z</lastmod>
+  </url>
+  <url>
+    <loc>https://PATH-Global-Health.github.io/ammnet-training-20215/english-slides.html</loc>
+    <lastmod>2025-06-23T21:58:20.212Z</lastmod>
   </url>
   <url>
     <loc>https://PATH-Global-Health.github.io/ammnet-training-20215/index.html</loc>
-    <lastmod>2025-06-22T16:08:58.970Z</lastmod>
+    <lastmod>2025-06-23T21:58:20.230Z</lastmod>
   </url>
 </urlset>
