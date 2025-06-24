@@ -63,10 +63,10 @@ We can't cover all aspects of creating Shiny Dashboards but there are a tonne of
 
 ------------------------------------------------------------------------
 
-## Challenges 
+## Challenges
 
-🛑 Need an R coding background \
-🛑 Can be more complext than normal R scripts \
+🛑 Need an R coding background\
+🛑 Can be more complext than normal R scripts\
 🛑 Can be costs to hosting apps for distribution
 
 ------------------------------------------------------------------------
@@ -77,11 +77,11 @@ Shiny dashbaords can grow to be incredibly complex web applications but can also
 
 ::::: columns
 ::: {.column width="50%"}
-![](images/budget-dashboard.PNG){height="300px"}
+![](images/budget-dashboard.PNG)
 :::
 
 ::: {.column width="50%"}
-![](images/step-size.png)
+![](images/step-size.PNG)
 :::
 :::::
 
@@ -133,7 +133,7 @@ Customizing the theme of your dashboard is a really simple way to upgrade the lo
 
 ::::: columns
 ::: {.column width="50%"}
-![](images/theming.png)
+![](images/theming.PNG)
 :::
 
 ::: {.column width="50%"}
@@ -174,7 +174,7 @@ You can use the `{bslib}` package to easily:
 Below are some beginner-friendly resources to help you dive deeper into Shiny:
 
 | Link | Description |
-|------------------------|-----------------------------------------------|
+|-------------------------|-----------------------------------------------|
 | [Shiny Get Started](https://shiny.posit.co/r/getstarted/) | Official step-by-step tutorial for beginners, with hands-on examples. |
 | [Shiny Gallery](https://shiny.posit.co/r/gallery/) | Explore live examples of Shiny apps with source code. |
 | [Mastering Shiny (book)](https://mastering-shiny.org/) | Free online book by Hadley Wickham covering basics to advanced topics. |
@@ -227,4 +227,4 @@ Enjoy!!
 
 ## Example Finished Dashboard
 
-![](images/dashboard-example-final.PNG)
+![](images/final-final.PNG)
