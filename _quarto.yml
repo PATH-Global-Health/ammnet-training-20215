@@ -42,9 +42,8 @@ format:
   html:
     page-layout: full
     theme:
-    - minty
+    - pulse
     - styles.scss
-    css: styles.css
     toc: true
     grid:
       sidebar-width: 250px
