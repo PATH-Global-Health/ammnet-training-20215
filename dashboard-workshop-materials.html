@@ -76,7 +76,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <link href="site_libs/quarto-html/quarto-syntax-highlighting-37eea08aefeeee20ff55810ff984fec1.css" rel="stylesheet" id="quarto-text-highlighting-styles">
 <script src="site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="site_libs/bootstrap/bootstrap-d3cd1116957efba0f2c9922e89baffa5.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<link href="site_libs/bootstrap/bootstrap-08240845fa33d228a17eac4d4b56d8e2.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
 <script id="quarto-search-options" type="application/json">{
   "location": "navbar",
   "copy-button": false,
@@ -106,7 +106,6 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 }</script>
 
 
-<link rel="stylesheet" href="styles.css">
 </head>
 
 <body class="floating nav-fixed quarto-light">
@@ -193,7 +192,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
    
   <ul>
   <li><a href="#setup" id="toc-setup" class="nav-link active" data-scroll-target="#setup">Setup</a>
-  <ul class="collapse">
+  <ul>
   <li><a href="#install-packages" id="toc-install-packages" class="nav-link" data-scroll-target="#install-packages">Install Packages</a></li>
   <li><a href="#objectives" id="toc-objectives" class="nav-link" data-scroll-target="#objectives">Objectives</a></li>
   <li><a href="#set-up-app-skeleton" id="toc-set-up-app-skeleton" class="nav-link" data-scroll-target="#set-up-app-skeleton">Set up App Skeleton</a></li>
@@ -201,7 +200,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   <li><a href="#read-in-our-data" id="toc-read-in-our-data" class="nav-link" data-scroll-target="#read-in-our-data">Read In Our Data</a></li>
   </ul></li>
   <li><a href="#part-1-shiny-building-blocks" id="toc-part-1-shiny-building-blocks" class="nav-link" data-scroll-target="#part-1-shiny-building-blocks">Part 1: Shiny Building Blocks</a>
-  <ul class="collapse">
+  <ul>
   <li><a href="#setting-up-an-empty-layout" id="toc-setting-up-an-empty-layout" class="nav-link" data-scroll-target="#setting-up-an-empty-layout">Setting up an Empty Layout</a></li>
   <li><a href="#layout-elements" id="toc-layout-elements" class="nav-link" data-scroll-target="#layout-elements">Layout Elements</a>
   <ul class="collapse">
@@ -228,7 +227,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   </ul></li>
   </ul></li>
   <li><a href="#part-2-reactivty-and-rendering-output" id="toc-part-2-reactivty-and-rendering-output" class="nav-link" data-scroll-target="#part-2-reactivty-and-rendering-output">Part 2 Reactivty and Rendering output</a>
-  <ul class="collapse">
+  <ul>
   <li><a href="#shiny-output-types" id="toc-shiny-output-types" class="nav-link" data-scroll-target="#shiny-output-types">Shiny Output Types</a></li>
   <li><a href="#building-reactive-outputs-ui-and-server-crosstalk" id="toc-building-reactive-outputs-ui-and-server-crosstalk" class="nav-link" data-scroll-target="#building-reactive-outputs-ui-and-server-crosstalk">Building Reactive Outputs: <code>ui</code> and <code>server</code> crosstalk</a></li>
   <li><a href="#reactivity-and-data" id="toc-reactivity-and-data" class="nav-link" data-scroll-target="#reactivity-and-data">Reactivity and Data</a>
@@ -242,7 +241,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   <li><a href="#end-of-part-2-what-youve-built-so-far" id="toc-end-of-part-2-what-youve-built-so-far" class="nav-link" data-scroll-target="#end-of-part-2-what-youve-built-so-far">End of Part 2 — What You’ve Built So Far</a></li>
   </ul></li>
   <li><a href="#part-3-evolving-features---making-our-app-better" id="toc-part-3-evolving-features---making-our-app-better" class="nav-link" data-scroll-target="#part-3-evolving-features---making-our-app-better">Part 3: Evolving Features - Making Our App Better!</a>
-  <ul class="collapse">
+  <ul>
   <li><a href="#adding-messages-and-prompts" id="toc-adding-messages-and-prompts" class="nav-link" data-scroll-target="#adding-messages-and-prompts">Adding messages and prompts 📧</a></li>
   <li><a href="#adding-a-short-description-of-the-application" id="toc-adding-a-short-description-of-the-application" class="nav-link" data-scroll-target="#adding-a-short-description-of-the-application">Adding a Short Description of the Application 🖊️</a>
   <ul class="collapse">
@@ -260,7 +259,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   <li><a href="#wrapping-up-part-3-building-for-the-user" id="toc-wrapping-up-part-3-building-for-the-user" class="nav-link" data-scroll-target="#wrapping-up-part-3-building-for-the-user">Wrapping up Part 3 — Building for the User</a></li>
   </ul></li>
   <li><a href="#part-4-addiditional-outputs" id="toc-part-4-addiditional-outputs" class="nav-link" data-scroll-target="#part-4-addiditional-outputs">Part 4: Addiditional Outputs</a>
-  <ul class="collapse">
+  <ul>
   <li><a href="#computed-variables-and-conditional-widgets" id="toc-computed-variables-and-conditional-widgets" class="nav-link" data-scroll-target="#computed-variables-and-conditional-widgets">Computed Variables and Conditional Widgets</a>
   <ul class="collapse">
   <li><a href="#exrecise-12" id="toc-exrecise-12" class="nav-link" data-scroll-target="#exrecise-12">Exrecise 12</a></li>
@@ -280,7 +279,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   </ul></li>
   <li><a href="#wrapping-up" id="toc-wrapping-up" class="nav-link" data-scroll-target="#wrapping-up">Wrapping Up</a></li>
   <li><a href="#next-steps-and-extensions" id="toc-next-steps-and-extensions" class="nav-link" data-scroll-target="#next-steps-and-extensions">Next Steps and Extensions</a>
-  <ul class="collapse">
+  <ul>
   <li><a href="#expanding-functionality" id="toc-expanding-functionality" class="nav-link" data-scroll-target="#expanding-functionality">Expanding Functionality</a></li>
   <li><a href="#organizing-and-scaling-your-code" id="toc-organizing-and-scaling-your-code" class="nav-link" data-scroll-target="#organizing-and-scaling-your-code">Organizing and Scaling Your Code</a></li>
   <li><a href="#deployment-and-sharing" id="toc-deployment-and-sharing" class="nav-link" data-scroll-target="#deployment-and-sharing">Deployment and Sharing</a></li>
