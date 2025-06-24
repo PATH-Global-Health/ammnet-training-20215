@@ -4,7 +4,7 @@ author: " "
 subtitle: "June 25–27, AMMnet Senegal Workshop"
 format:
   revealjs:
-    theme: default
+    theme: dark
     transition: slide
     transition-speed: fast
     height: 900

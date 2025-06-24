@@ -1,7 +1,7 @@
 ---
 title: "Shiny Dashboard Building Blocks - Reference Summary"
 author: "AMMnet Senegal Workshop"
-date: "June 25–27, 2025"
+date: "June 27 2025"
 format:
   html:
     theme: minty

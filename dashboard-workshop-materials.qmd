@@ -1,7 +1,7 @@
 ---
 title: "Hands-On Shiny: Routine Malaria Data Dashboard Workshop"
-author: "AMMnet Senegal Workshop"
-date: "June 25–27, 2025"
+author: "AMMnet Senegal Workshop PATH Team"
+date: "June 27 2025"
 format:
   html:
     theme: minty
@@ -31,6 +31,10 @@ Welcome to the “*Developing Data Visualisation Dashboards in R*” workshop! I
 -   Ensure you have your DHIS2 cleaned data saved into the correct folder: `data-outputs/data_dhis2_laos_ammnet_cleaned.csv`
 
 -   If you didn't finish the steps in the earlier session - we have the dataset avaliable for download on the home page.
+
+-   There is **alot** of material covered here so [do not worry if you don't get through it all today]{.underline}. The materials will remain online after the workshop so you can continue to work through it at your own pace.
+
+-   If you have any questions or need help, please ask a facilitator or raise your hand.
 :::
 
 ## Install Packages
@@ -2551,7 +2555,7 @@ output$download_summary <- downloadHandler(
 
 By the end of this tutorial you have successfully built a fully functional malaria data dashboard in Shiny that allows you to:
 
--    Select a Province and filter data interactively
+-   Select a Province and filter data interactively
 
 -   Compute derived indicators (such as Test Positivity Rate) directly within the app
 
@@ -2569,9 +2573,9 @@ By the end of this tutorial you have successfully built a fully functional malar
 
 -   Style your app using `bslib` themes and branding elements such as logos, custom colors, and light/dark mode
 
--    Build dynamic layouts using `layout_sidebar()`, `cards()`, `value_box()`, `layout_columns()`, and `renderUI()`
+-   Build dynamic layouts using `layout_sidebar()`, `cards()`, `value_box()`, `layout_columns()`, and `renderUI()`
 
--    Control user experience through validation messages, prompts, and clean error handling
+-   Control user experience through validation messages, prompts, and clean error handling
 
 -   Export data using `downloadHandler()`
 
@@ -2587,11 +2591,11 @@ While we have covered a broad range of features, this only scratches the surface
 
 -   Add additional filters such as date ranges or multiple administrative levels
 
--    Include new calculated indicators directly within the dashboard
+-   Include new calculated indicators directly within the dashboard
 
 -   Build more complex plots, for example:
 
-    -    Adding trendlines or smoothing
+    -   Adding trendlines or smoothing
 
     -   Faceting across multiple provinces
 
@@ -2599,17 +2603,17 @@ While we have covered a broad range of features, this only scratches the surface
 
 -   Allow users to upload their own datasets into the dashboard directly
 
--    Build drill-down functionality to explore district- or facility-level data
+-   Build drill-down functionality to explore district- or facility-level data
 
 ## Organizing and Scaling Your Code
 
 As dashboards become more complex, managing code in a single app file can become difficult. You may want to:
 
--    Split your code into multiple files, separating UI, server, and helper functions
+-   Split your code into multiple files, separating UI, server, and helper functions
 
 -   Use modular design with `callModule()` or `moduleServer()` to create reusable components
 
--    Build centralized helper functions (e.g., `helpers.R`) for repeated tasks such as data filtering or value box creation
+-   Build centralized helper functions (e.g., `helpers.R`) for repeated tasks such as data filtering or value box creation
 
 This makes your code easier to maintain and scale over time.
 
@@ -2617,7 +2621,7 @@ This makes your code easier to maintain and scale over time.
 
 There are multiple options for sharing Shiny dashboards:
 
--    Running locally for personal or internal use
+-   Running locally for personal or internal use (what we did today)
 
 -   Publishing to cloud services such as [shinyapps.io](https://www.shinyapps.io/) (free options)
 
@@ -2627,11 +2631,13 @@ There are multiple options for sharing Shiny dashboards:
 
 When deploying dashboards, consider whether your data includes any sensitive or confidential information. Secure hosting, access controls, and user authentication may be required depending on your intended audience.
 
+For more information on hosting check out this [Shiny article](https://shiny.posit.co/r/deploy.html).
+
 ## Styling and User Experience
 
 In addition to the core functionality, improving the design and appearance of your dashboard can make it easier to use:
 
--    Customize your `bslib` themes to align with institutional branding
+-   Customize your `bslib` themes to align with institutional branding
 
 -   Provide users with contextual help such as pop-up modals or collapsible panels to explain indicators or methods
 
@@ -2639,7 +2645,7 @@ In addition to the core functionality, improving the design and appearance of yo
 
 ## Useful Resources for Further Learning
 
--    [Shiny Official Documentation](https://shiny.posit.co/)
+-   [Shiny Official Documentation](https://shiny.posit.co/)
 
 -   [Mastering Shiny by Hadley Wickham](https://mastering-shiny.org/) (free online book)
 

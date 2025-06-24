@@ -22,7 +22,6 @@ jobs:
         with:
           r-version: '4.2.1'
 
-      # 🔧 ADD THIS STEP
       - name: Install system dependencies
         run: |
           sudo apt-get update
