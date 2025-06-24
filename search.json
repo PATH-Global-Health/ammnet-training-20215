@@ -4,63 +4,63 @@
     "href": "hand-out.html",
     "title": "Shiny Dashboard Building Blocks - Reference Summary",
     "section": "",
-    "text": "This handout summarizes key Shiny concepts, functions, and patterns you can use when building interactive dashboards.\n\n\nEvery Shiny app has two main components:\n\n\n\n\n\n\n\n\nComponent\nPurpose\nLocation\n\n\n\n\nui\nUser Interface - controls layout and inputs\nTop-level ui &lt;- ...\n\n\nserver\nLogic - computations, data processing, outputs\nInside server &lt;- function(input, output) { ... }\n\n\n\nThe two are linked using shared inputId and outputId values.\n\n\n\n\n\n\n\n\n\n\n\n\n\nType\nFunction\nWhen to Use\n\n\n\n\nDropdown\nselectInput()\nFor long lists (e.g., Province selection)\n\n\nCheckboxes\ncheckboxGroupInput()\nFor multiple selections\n\n\nRadio Buttons\nradioButtons()\nFor short lists\n\n\nSingle Checkbox\ncheckboxInput()\nFor TRUE/FALSE toggles\n\n\nSlider\nsliderInput()\nFor numeric ranges\n\n\nDate\ndateInput() / dateRangeInput()\nFor date selection\n\n\n\nEach input requires:\ninputId = \"input_name\", label = \"Display Text\", choices = c(...)\nThe current value is accessed using input$input_name inside the server.\n\n\n\n\n\n\nOutput\nRender Function (Server)\nUI Function\n\n\n\n\nText\nrenderText()\ntextOutput()\n\n\nTable (static)\nrenderTable()\ntableOutput()\n\n\nTable (interactive)\nrenderDT()\nDTOutput()\n\n\nPlot (static)\nrenderPlot()\nplotOutput()\n\n\nPlot (interactive)\nrenderPlotly()\nplotlyOutput()\n\n\nMap\nrenderLeaflet()\nleafletOutput()\n\n\nDynamic UI\nrenderUI()\nuiOutput()\n\n\n\nKey rule: every output has one render*() function (server) and one *Output() function (UI), linked by the same ID.\n\n\n\n\nReactivity allows the app to update automatically when inputs change.\n\nUse reactive({ ... }) to create filtered or computed datasets that update when inputs change.\nUse render*() functions to update outputs.\n\nExample reactive filter:\nprovince_data &lt;- reactive({   req(input$province_select != \"\")\napp_data %&gt;% filter(organisation_unit == input$province_select) })\n\n\n\n\npage_sidebar(): main layout with sidebar + content\nlayout_sidebar(): floating sidebar inside a card\ncard(): container for plots/tables\nvalue_box(): summary KPIs\nlayout_columns(): arrange elements horizontally\nlayout_column_wrap(): responsive wrapping of multiple boxes\n\nExaple layout:\n\nlayout_columns(   \n  value_box(title = \"Cases\", value = textOutput(\"total_cases\")),  \n  value_box(title = \"Tests\", value = textOutput(\"total_tests\")) \n  )\n\n\n\n\n\nUse renderUI() + uiOutput() to dynamically generate inputs or outputs.\nUse validate() and need() to display user prompts when required inputs are missing.\n\n\noutput$tpr_checkbox_ui &lt;- renderUI({\n  if (all(c(\"malaria_cases\", \"malaria_tests\") %in% input$series_select)) {\n    checkboxInput(\"include_tpr\", \"Calculate TPR\", value = FALSE)\n  }\n})\n\n\n\n\n\nUse bslib::bs_theme() to apply consistent color schemes and fonts.\nUse input_dark_mode() to enable light/dark toggle.\nUse Bootstrap icons via bsicons::bs_icon() for value boxes and UI elements.\n\ntheme = bs_theme(version = 5, bootswatch = \"minty\")\n\n\n\nAllow users to download tables using downloadHandler().\nExample:\n\noutput$download_data &lt;- downloadHandler(\n  filename = function() { \"summary.csv\" },\n  content = function(file) { write.csv(summary_data(), file) }\n)\n\n\n\n\n\nShiny Documentation\nMastering Shiny Book\nbslib Theming Guide"
+    "text": "This handout summarizes key Shiny concepts, functions, and patterns you can use when building interactive dashboards."
   },
   {
     "objectID": "hand-out.html#shiny-app-structure",
     "href": "hand-out.html#shiny-app-structure",
     "title": "Shiny Dashboard Building Blocks - Reference Summary",
-    "section": "",
-    "text": "Every Shiny app has two main components:\n\n\n\n\n\n\n\n\nComponent\nPurpose\nLocation\n\n\n\n\nui\nUser Interface - controls layout and inputs\nTop-level ui &lt;- ...\n\n\nserver\nLogic - computations, data processing, outputs\nInside server &lt;- function(input, output) { ... }\n\n\n\nThe two are linked using shared inputId and outputId values."
+    "section": "Shiny App Structure",
+    "text": "Shiny App Structure\nEvery Shiny app has two main components:\n\n\n\n\n\n\n\n\nComponent\nPurpose\nLocation\n\n\n\n\nui\nUser Interface - controls layout and inputs\nTop-level ui &lt;- ...\n\n\nserver\nLogic - computations, data processing, outputs\nInside server &lt;- function(input, output) { ... }\n\n\n\nThe two are linked using shared inputId and outputId values."
   },
   {
     "objectID": "hand-out.html#inputs-and-outputs",
     "href": "hand-out.html#inputs-and-outputs",
     "title": "Shiny Dashboard Building Blocks - Reference Summary",
-    "section": "",
-    "text": "Type\nFunction\nWhen to Use\n\n\n\n\nDropdown\nselectInput()\nFor long lists (e.g., Province selection)\n\n\nCheckboxes\ncheckboxGroupInput()\nFor multiple selections\n\n\nRadio Buttons\nradioButtons()\nFor short lists\n\n\nSingle Checkbox\ncheckboxInput()\nFor TRUE/FALSE toggles\n\n\nSlider\nsliderInput()\nFor numeric ranges\n\n\nDate\ndateInput() / dateRangeInput()\nFor date selection\n\n\n\nEach input requires:\ninputId = \"input_name\", label = \"Display Text\", choices = c(...)\nThe current value is accessed using input$input_name inside the server.\n\n\n\n\n\n\nOutput\nRender Function (Server)\nUI Function\n\n\n\n\nText\nrenderText()\ntextOutput()\n\n\nTable (static)\nrenderTable()\ntableOutput()\n\n\nTable (interactive)\nrenderDT()\nDTOutput()\n\n\nPlot (static)\nrenderPlot()\nplotOutput()\n\n\nPlot (interactive)\nrenderPlotly()\nplotlyOutput()\n\n\nMap\nrenderLeaflet()\nleafletOutput()\n\n\nDynamic UI\nrenderUI()\nuiOutput()\n\n\n\nKey rule: every output has one render*() function (server) and one *Output() function (UI), linked by the same ID."
+    "section": "Inputs and Outputs",
+    "text": "Inputs and Outputs\n\nInput Widgets\n\n\n\n\n\n\n\n\nType\nFunction\nWhen to Use\n\n\n\n\nDropdown\nselectInput()\nFor long lists (e.g., Province selection)\n\n\nCheckboxes\ncheckboxGroupInput()\nFor multiple selections\n\n\nRadio Buttons\nradioButtons()\nFor short lists\n\n\nSingle Checkbox\ncheckboxInput()\nFor TRUE/FALSE toggles\n\n\nSlider\nsliderInput()\nFor numeric ranges\n\n\nDate\ndateInput() / dateRangeInput()\nFor date selection\n\n\n\nEach input requires:\ninputId = \"input_name\", label = \"Display Text\", choices = c(...)\nThe current value is accessed using input$input_name inside the server.\n\n\nOutput Types\n\n\n\nOutput\nRender Function (Server)\nUI Function\n\n\n\n\nText\nrenderText()\ntextOutput()\n\n\nTable (static)\nrenderTable()\ntableOutput()\n\n\nTable (interactive)\nrenderDT()\nDTOutput()\n\n\nPlot (static)\nrenderPlot()\nplotOutput()\n\n\nPlot (interactive)\nrenderPlotly()\nplotlyOutput()\n\n\nMap\nrenderLeaflet()\nleafletOutput()\n\n\nDynamic UI\nrenderUI()\nuiOutput()\n\n\n\nKey rule: every output has one render*() function (server) and one *Output() function (UI), linked by the same ID."
   },
   {
     "objectID": "hand-out.html#reactivity",
     "href": "hand-out.html#reactivity",
     "title": "Shiny Dashboard Building Blocks - Reference Summary",
-    "section": "",
-    "text": "Reactivity allows the app to update automatically when inputs change.\n\nUse reactive({ ... }) to create filtered or computed datasets that update when inputs change.\nUse render*() functions to update outputs.\n\nExample reactive filter:\nprovince_data &lt;- reactive({   req(input$province_select != \"\")\napp_data %&gt;% filter(organisation_unit == input$province_select) })"
+    "section": "Reactivity",
+    "text": "Reactivity\nReactivity allows the app to update automatically when inputs change.\n\nUse reactive({ ... }) to create filtered or computed datasets that update when inputs change.\nUse render*() functions to update outputs.\n\nExample reactive filter:\nprovince_data &lt;- reactive({   req(input$province_select != \"\")\napp_data %&gt;% filter(organisation_unit == input$province_select) })"
   },
   {
     "objectID": "hand-out.html#layout-tools",
     "href": "hand-out.html#layout-tools",
     "title": "Shiny Dashboard Building Blocks - Reference Summary",
-    "section": "",
-    "text": "page_sidebar(): main layout with sidebar + content\nlayout_sidebar(): floating sidebar inside a card\ncard(): container for plots/tables\nvalue_box(): summary KPIs\nlayout_columns(): arrange elements horizontally\nlayout_column_wrap(): responsive wrapping of multiple boxes\n\nExaple layout:\n\nlayout_columns(   \n  value_box(title = \"Cases\", value = textOutput(\"total_cases\")),  \n  value_box(title = \"Tests\", value = textOutput(\"total_tests\")) \n  )"
+    "section": "Layout Tools",
+    "text": "Layout Tools\n\npage_sidebar(): main layout with sidebar + content\nlayout_sidebar(): floating sidebar inside a card\ncard(): container for plots/tables\nvalue_box(): summary KPIs\nlayout_columns(): arrange elements horizontally\nlayout_column_wrap(): responsive wrapping of multiple boxes\n\nExaple layout:\n\nlayout_columns(   \n  value_box(title = \"Cases\", value = textOutput(\"total_cases\")),  \n  value_box(title = \"Tests\", value = textOutput(\"total_tests\")) \n  )"
   },
   {
     "objectID": "hand-out.html#conditional-ui-elements",
     "href": "hand-out.html#conditional-ui-elements",
     "title": "Shiny Dashboard Building Blocks - Reference Summary",
-    "section": "",
-    "text": "Use renderUI() + uiOutput() to dynamically generate inputs or outputs.\nUse validate() and need() to display user prompts when required inputs are missing.\n\n\noutput$tpr_checkbox_ui &lt;- renderUI({\n  if (all(c(\"malaria_cases\", \"malaria_tests\") %in% input$series_select)) {\n    checkboxInput(\"include_tpr\", \"Calculate TPR\", value = FALSE)\n  }\n})"
+    "section": "Conditional UI Elements",
+    "text": "Conditional UI Elements\n\nUse renderUI() + uiOutput() to dynamically generate inputs or outputs.\nUse validate() and need() to display user prompts when required inputs are missing.\n\n\noutput$tpr_checkbox_ui &lt;- renderUI({\n  if (all(c(\"malaria_cases\", \"malaria_tests\") %in% input$series_select)) {\n    checkboxInput(\"include_tpr\", \"Calculate TPR\", value = FALSE)\n  }\n})"
   },
   {
     "objectID": "hand-out.html#theming-and-styling",
     "href": "hand-out.html#theming-and-styling",
     "title": "Shiny Dashboard Building Blocks - Reference Summary",
-    "section": "",
-    "text": "Use bslib::bs_theme() to apply consistent color schemes and fonts.\nUse input_dark_mode() to enable light/dark toggle.\nUse Bootstrap icons via bsicons::bs_icon() for value boxes and UI elements.\n\ntheme = bs_theme(version = 5, bootswatch = \"minty\")"
+    "section": "Theming and Styling",
+    "text": "Theming and Styling\n\nUse bslib::bs_theme() to apply consistent color schemes and fonts.\nUse input_dark_mode() to enable light/dark toggle.\nUse Bootstrap icons via bsicons::bs_icon() for value boxes and UI elements.\n\ntheme = bs_theme(version = 5, bootswatch = \"minty\")"
   },
   {
     "objectID": "hand-out.html#data-export",
     "href": "hand-out.html#data-export",
     "title": "Shiny Dashboard Building Blocks - Reference Summary",
-    "section": "",
-    "text": "Allow users to download tables using downloadHandler().\nExample:\n\noutput$download_data &lt;- downloadHandler(\n  filename = function() { \"summary.csv\" },\n  content = function(file) { write.csv(summary_data(), file) }\n)"
+    "section": "Data Export",
+    "text": "Data Export\nAllow users to download tables using downloadHandler().\nExample:\n\noutput$download_data &lt;- downloadHandler(\n  filename = function() { \"summary.csv\" },\n  content = function(file) { write.csv(summary_data(), file) }\n)"
   },
   {
     "objectID": "hand-out.html#useful-resources",
     "href": "hand-out.html#useful-resources",
     "title": "Shiny Dashboard Building Blocks - Reference Summary",
-    "section": "",
-    "text": "Shiny Documentation\nMastering Shiny Book\nbslib Theming Guide"
+    "section": "Useful Resources",
+    "text": "Useful Resources\n\nShiny Documentation\nMastering Shiny Book\nbslib Theming Guide"
   },
   {
     "objectID": "index.html",
@@ -88,7 +88,7 @@
     "href": "english-slides.html",
     "title": "Slides in English",
     "section": "",
-    "text": "Slides in English\n\n\n\n\n\n\nNote\n\n\n\nSlides can be downloaded to your computer or viewed in the browser. Download the slides by clicking the download icon 📥 in the top right corner of the PDF viewer."
+    "text": "Slides in English\n\n\n\n\n\n\nTip\n\n\n\nSlides can be downloaded to your computer or viewed in the browser. Download the slides by clicking the download icon 📥 in the top right corner of the PDF viewer."
   },
   {
     "objectID": "french-slides.html",

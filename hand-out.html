@@ -6,8 +6,9 @@
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
+<meta name="author" content="AMMnet Senegal Workshop">
 
-<title>hand-out – Data Dashboard Training Materials</title>
+<title>Shiny Dashboard Building Blocks - Reference Summary – Data Dashboard Training Materials</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -74,7 +75,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <link href="site_libs/quarto-html/quarto-syntax-highlighting-37eea08aefeeee20ff55810ff984fec1.css" rel="stylesheet" id="quarto-text-highlighting-styles">
 <script src="site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="site_libs/bootstrap/bootstrap-39a9e38f1cfdfce297a579968602e776.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<link href="site_libs/bootstrap/bootstrap-9aa4f9194cf6bf3a8288c3860fe1d8ee.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
 <script id="quarto-search-options" type="application/json">{
   "location": "navbar",
   "copy-button": false,
@@ -107,7 +108,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <link rel="stylesheet" href="styles.css">
 </head>
 
-<body class="nav-fixed quarto-light">
+<body class="floating nav-fixed quarto-light">
 
 <div id="quarto-search-results"></div>
   <header id="quarto-header" class="headroom fixed-top">
@@ -165,41 +166,67 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <!-- content -->
 <div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-full page-navbar">
 <!-- sidebar -->
-<!-- margin-sidebar -->
-    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
-        <nav id="TOC" role="doc-toc" class="toc-active">
+  <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal quarto-sidebar-collapse-item sidebar-navigation floating overflow-auto">
+    <nav id="TOC" role="doc-toc" class="toc-active">
     <h2 id="toc-title">On this page</h2>
    
   <ul>
-  <li><a href="#shiny-dashboard-building-blocks---reference-summary" id="toc-shiny-dashboard-building-blocks---reference-summary" class="nav-link active" data-scroll-target="#shiny-dashboard-building-blocks---reference-summary">Shiny Dashboard Building Blocks - Reference Summary</a>
-  <ul class="collapse">
-  <li><a href="#shiny-app-structure" id="toc-shiny-app-structure" class="nav-link" data-scroll-target="#shiny-app-structure">1. Shiny App Structure</a></li>
-  <li><a href="#inputs-and-outputs" id="toc-inputs-and-outputs" class="nav-link" data-scroll-target="#inputs-and-outputs">2. Inputs and Outputs</a>
-  <ul class="collapse">
+  <li><a href="#shiny-app-structure" id="toc-shiny-app-structure" class="nav-link active" data-scroll-target="#shiny-app-structure">Shiny App Structure</a></li>
+  <li><a href="#inputs-and-outputs" id="toc-inputs-and-outputs" class="nav-link" data-scroll-target="#inputs-and-outputs">Inputs and Outputs</a>
+  <ul>
   <li><a href="#input-widgets" id="toc-input-widgets" class="nav-link" data-scroll-target="#input-widgets">Input Widgets</a></li>
   <li><a href="#output-types" id="toc-output-types" class="nav-link" data-scroll-target="#output-types">Output Types</a></li>
   </ul></li>
-  <li><a href="#reactivity" id="toc-reactivity" class="nav-link" data-scroll-target="#reactivity">3. Reactivity</a></li>
-  <li><a href="#layout-tools" id="toc-layout-tools" class="nav-link" data-scroll-target="#layout-tools">4. Layout Tools</a></li>
-  <li><a href="#conditional-ui-elements" id="toc-conditional-ui-elements" class="nav-link" data-scroll-target="#conditional-ui-elements">5. Conditional UI Elements</a></li>
-  <li><a href="#theming-and-styling" id="toc-theming-and-styling" class="nav-link" data-scroll-target="#theming-and-styling">6. Theming and Styling</a></li>
-  <li><a href="#data-export" id="toc-data-export" class="nav-link" data-scroll-target="#data-export">7. Data Export</a></li>
-  <li><a href="#useful-resources" id="toc-useful-resources" class="nav-link" data-scroll-target="#useful-resources">8. Useful Resources</a></li>
-  </ul></li>
+  <li><a href="#reactivity" id="toc-reactivity" class="nav-link" data-scroll-target="#reactivity">Reactivity</a></li>
+  <li><a href="#layout-tools" id="toc-layout-tools" class="nav-link" data-scroll-target="#layout-tools">Layout Tools</a></li>
+  <li><a href="#conditional-ui-elements" id="toc-conditional-ui-elements" class="nav-link" data-scroll-target="#conditional-ui-elements">Conditional UI Elements</a></li>
+  <li><a href="#theming-and-styling" id="toc-theming-and-styling" class="nav-link" data-scroll-target="#theming-and-styling">Theming and Styling</a></li>
+  <li><a href="#data-export" id="toc-data-export" class="nav-link" data-scroll-target="#data-export">Data Export</a></li>
+  <li><a href="#useful-resources" id="toc-useful-resources" class="nav-link" data-scroll-target="#useful-resources">Useful Resources</a></li>
   </ul>
 </nav>
+</nav>
+<div id="quarto-sidebar-glass" class="quarto-sidebar-collapse-item" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item"></div>
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar zindex-bottom">
     </div>
 <!-- main -->
-<main class="content column-page-left" id="quarto-document-content"><header id="title-block-header" class="quarto-title-block"></header>
+<main class="content column-page-right" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default">
+<div class="quarto-title">
+<h1 class="title">Shiny Dashboard Building Blocks - Reference Summary</h1>
+</div>
 
 
 
+<div class="quarto-title-meta column-page-right">
 
-<section id="shiny-dashboard-building-blocks---reference-summary" class="level1">
-<h1>Shiny Dashboard Building Blocks - Reference Summary</h1>
+    <div>
+    <div class="quarto-title-meta-heading">Author</div>
+    <div class="quarto-title-meta-contents">
+             <p>AMMnet Senegal Workshop </p>
+          </div>
+  </div>
+    
+    <div>
+    <div class="quarto-title-meta-heading">Published</div>
+    <div class="quarto-title-meta-contents">
+      <p class="date">Invalid Date</p>
+    </div>
+  </div>
+  
+    
+  </div>
+  
+
+
+</header>
+
+
 <p>This handout summarizes key Shiny concepts, functions, and patterns you can use when building interactive dashboards.</p>
 <section id="shiny-app-structure" class="level2">
-<h2 class="anchored" data-anchor-id="shiny-app-structure">1. Shiny App Structure</h2>
+<h2 class="anchored" data-anchor-id="shiny-app-structure">Shiny App Structure</h2>
 <p>Every Shiny app has two main components:</p>
 <table class="caption-top table">
 <colgroup>
@@ -230,7 +257,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <p>The two are linked using shared <code>inputId</code> and <code>outputId</code> values.</p>
 </section>
 <section id="inputs-and-outputs" class="level2">
-<h2 class="anchored" data-anchor-id="inputs-and-outputs">2. Inputs and Outputs</h2>
+<h2 class="anchored" data-anchor-id="inputs-and-outputs">Inputs and Outputs</h2>
 <section id="input-widgets" class="level3">
 <h3 class="anchored" data-anchor-id="input-widgets">Input Widgets</h3>
 <table class="caption-top table">
@@ -335,7 +362,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </section>
 </section>
 <section id="reactivity" class="level2">
-<h2 class="anchored" data-anchor-id="reactivity">3. Reactivity</h2>
+<h2 class="anchored" data-anchor-id="reactivity">Reactivity</h2>
 <p>Reactivity allows the app to update automatically when inputs change.</p>
 <ul>
 <li><p>Use <code>reactive({ ... })</code> to create filtered or computed datasets that update when inputs change.</p></li>
@@ -346,7 +373,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <p><code>app_data %&gt;% filter(organisation_unit == input$province_select) })</code></p>
 </section>
 <section id="layout-tools" class="level2">
-<h2 class="anchored" data-anchor-id="layout-tools">4. Layout Tools</h2>
+<h2 class="anchored" data-anchor-id="layout-tools">Layout Tools</h2>
 <ul>
 <li><p><code>page_sidebar()</code>: main layout with sidebar + content</p></li>
 <li><p><code>layout_sidebar()</code>: floating sidebar inside a card</p></li>
@@ -364,7 +391,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </div>
 </section>
 <section id="conditional-ui-elements" class="level2">
-<h2 class="anchored" data-anchor-id="conditional-ui-elements">5. Conditional UI Elements</h2>
+<h2 class="anchored" data-anchor-id="conditional-ui-elements">Conditional UI Elements</h2>
 <ul>
 <li><p>Use <code>renderUI()</code> + <code>uiOutput()</code> to dynamically generate inputs or outputs.</p></li>
 <li><p>Use <code>validate()</code> and <code>need()</code> to display user prompts when required inputs are missing.</p></li>
@@ -378,7 +405,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </div>
 </section>
 <section id="theming-and-styling" class="level2">
-<h2 class="anchored" data-anchor-id="theming-and-styling">6. Theming and Styling</h2>
+<h2 class="anchored" data-anchor-id="theming-and-styling">Theming and Styling</h2>
 <ul>
 <li><p>Use <code>bslib::bs_theme()</code> to apply consistent color schemes and fonts.</p></li>
 <li><p>Use <code>input_dark_mode()</code> to enable light/dark toggle.</p></li>
@@ -387,7 +414,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <p><code>theme = bs_theme(version = 5, bootswatch = "minty")</code></p>
 </section>
 <section id="data-export" class="level2">
-<h2 class="anchored" data-anchor-id="data-export">7. Data Export</h2>
+<h2 class="anchored" data-anchor-id="data-export">Data Export</h2>
 <p>Allow users to download tables using <code>downloadHandler()</code>.</p>
 <p>Example:</p>
 <div class="cell">
@@ -398,7 +425,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </div>
 </section>
 <section id="useful-resources" class="level2">
-<h2 class="anchored" data-anchor-id="useful-resources">8. Useful Resources</h2>
+<h2 class="anchored" data-anchor-id="useful-resources">Useful Resources</h2>
 <ul>
 <li><p><a href="https://shiny.posit.co/">Shiny Documentation</a></p></li>
 <li><p><a href="https://mastering-shiny.org/">Mastering Shiny Book</a></p></li>
@@ -406,7 +433,6 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </ul>
 
 
-</section>
 </section>
 
 </main> <!-- /main -->
