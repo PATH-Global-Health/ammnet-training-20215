@@ -158,6 +158,28 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
     </ul>
   </li>
 </ul>
+            <ul class="navbar-nav navbar-nav-scroll ms-auto">
+  <li class="nav-item">
+    <span class="nav-link">
+<span class="menu-text">![](www/AMMnet-logo.png)</span>
+    </span>
+  </li>  
+  <li class="nav-item">
+    <span class="nav-link">
+<span class="menu-text">![](images/PATH_Logo_Colour.png)</span>
+    </span>
+  </li>  
+  <li class="nav-item compact">
+    <a class="nav-link" href="https://github.com/PATH-Global-Health/ammnet-training-20215"> <i class="bi bi-github" role="img">
+</i> 
+<span class="menu-text"></span></a>
+  </li>  
+  <li class="nav-item compact">
+    <a class="nav-link" href="./hthompson@path.org"> <i class="bi bi-mail" role="img">
+</i> 
+<span class="menu-text"></span></a>
+  </li>  
+</ul>
           </div> <!-- /navcollapse -->
             <div class="quarto-navbar-tools">
 </div>
@@ -2969,6 +2991,595 @@ Show Solution
 </ul>
 <p>Throughout this process you have seen how Shiny allows you to link user inputs to real-time updates in your outputs, building fully reactive dashboards that allow end-users to explore and analyse data without needing to modify code directly.</p>
 <p>The skills you have developed through this workshop form the foundation for building interactive data dashboards that can support decision-making across a range of public health, program management, or analytic tasks.</p>
+<div class="callout callout-style-default callout-tip callout-titled" title="Full App.R code for our Demo Dashboard">
+<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-18-contents" aria-controls="callout-18" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Full App.R code for our Demo Dashboard
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-18" class="callout-18-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<p>See below for the full app.R script that creates the dashboard we have built in this workshop.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb63"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb63-1"><a href="#cb63-1" aria-hidden="true" tabindex="-1"></a><span class="co">#-Load libraries----------------------------------------------------------------</span></span>
+<span id="cb63-2"><a href="#cb63-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(shiny)</span>
+<span id="cb63-3"><a href="#cb63-3" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(bslib)</span>
+<span id="cb63-4"><a href="#cb63-4" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyverse)</span>
+<span id="cb63-5"><a href="#cb63-5" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(DT)</span>
+<span id="cb63-6"><a href="#cb63-6" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(plotly)</span>
+<span id="cb63-7"><a href="#cb63-7" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(leaflet)</span>
+<span id="cb63-8"><a href="#cb63-8" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(sf)</span>
+<span id="cb63-9"><a href="#cb63-9" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(lubridate)</span>
+<span id="cb63-10"><a href="#cb63-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb63-11"><a href="#cb63-11" aria-hidden="true" tabindex="-1"></a><span class="co">#-read in app data once on app start up-----------------------------------------</span></span>
+<span id="cb63-12"><a href="#cb63-12" aria-hidden="true" tabindex="-1"></a>app_data <span class="ot">&lt;-</span> </span>
+<span id="cb63-13"><a href="#cb63-13" aria-hidden="true" tabindex="-1"></a>  <span class="fu">read.csv</span>(<span class="st">"./data-outputs/data_dhis2_laos_ammnet_cleaned.csv"</span>) </span>
+<span id="cb63-14"><a href="#cb63-14" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb63-15"><a href="#cb63-15" aria-hidden="true" tabindex="-1"></a><span class="co"># re-classify period as a date </span></span>
+<span id="cb63-16"><a href="#cb63-16" aria-hidden="true" tabindex="-1"></a>app_data<span class="sc">$</span>period <span class="ot">&lt;-</span> lubridate<span class="sc">::</span><span class="fu">as_date</span>(app_data<span class="sc">$</span>period)</span>
+<span id="cb63-17"><a href="#cb63-17" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb63-18"><a href="#cb63-18" aria-hidden="true" tabindex="-1"></a><span class="co">#-Read in the shapefile for the provinces---------------------------------------</span></span>
+<span id="cb63-19"><a href="#cb63-19" aria-hidden="true" tabindex="-1"></a>adm1_shp <span class="ot">&lt;-</span> <span class="fu">st_read</span>(<span class="st">"./data-outputs/adm1_shapefile.shp"</span>)</span>
+<span id="cb63-20"><a href="#cb63-20" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb63-21"><a href="#cb63-21" aria-hidden="true" tabindex="-1"></a><span class="co">#-Define UI for application - User Interface------------------------------------</span></span>
+<span id="cb63-22"><a href="#cb63-22" aria-hidden="true" tabindex="-1"></a>ui <span class="ot">&lt;-</span> <span class="fu">page_fluid</span>(</span>
+<span id="cb63-23"><a href="#cb63-23" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb63-24"><a href="#cb63-24" aria-hidden="true" tabindex="-1"></a>  <span class="co">#-layout------------------------</span></span>
+<span id="cb63-25"><a href="#cb63-25" aria-hidden="true" tabindex="-1"></a>  <span class="fu">layout_sidebar</span>(</span>
+<span id="cb63-26"><a href="#cb63-26" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb63-27"><a href="#cb63-27" aria-hidden="true" tabindex="-1"></a>    <span class="co">#-sidebar---------</span></span>
+<span id="cb63-28"><a href="#cb63-28" aria-hidden="true" tabindex="-1"></a>    <span class="at">sidebar =</span> <span class="fu">sidebar</span>(</span>
+<span id="cb63-29"><a href="#cb63-29" aria-hidden="true" tabindex="-1"></a>      </span>
+<span id="cb63-30"><a href="#cb63-30" aria-hidden="true" tabindex="-1"></a>      <span class="co"># add a logo </span></span>
+<span id="cb63-31"><a href="#cb63-31" aria-hidden="true" tabindex="-1"></a>      tags<span class="sc">$</span><span class="fu">img</span>(<span class="at">src =</span> <span class="st">"AMMnet-logo.png"</span>), <span class="co"># make sure this image exists in a folder called www </span></span>
+<span id="cb63-32"><a href="#cb63-32" aria-hidden="true" tabindex="-1"></a>      </span>
+<span id="cb63-33"><a href="#cb63-33" aria-hidden="true" tabindex="-1"></a>      <span class="co"># informative title</span></span>
+<span id="cb63-34"><a href="#cb63-34" aria-hidden="true" tabindex="-1"></a>      <span class="fu">p</span>(<span class="st">"Dashboard for examining province level malaria indicators in Laos.</span></span>
+<span id="cb63-35"><a href="#cb63-35" aria-hidden="true" tabindex="-1"></a><span class="st">         Select a province and data series to view the trends over time."</span>),</span>
+<span id="cb63-36"><a href="#cb63-36" aria-hidden="true" tabindex="-1"></a>      </span>
+<span id="cb63-37"><a href="#cb63-37" aria-hidden="true" tabindex="-1"></a>      <span class="co"># add dark/light switch </span></span>
+<span id="cb63-38"><a href="#cb63-38" aria-hidden="true" tabindex="-1"></a>      <span class="fu">input_dark_mode</span>(<span class="at">mode=</span><span class="st">"light"</span>),</span>
+<span id="cb63-39"><a href="#cb63-39" aria-hidden="true" tabindex="-1"></a>      </span>
+<span id="cb63-40"><a href="#cb63-40" aria-hidden="true" tabindex="-1"></a>      <span class="co"># Province selection </span></span>
+<span id="cb63-41"><a href="#cb63-41" aria-hidden="true" tabindex="-1"></a>      <span class="fu">selectInput</span>(</span>
+<span id="cb63-42"><a href="#cb63-42" aria-hidden="true" tabindex="-1"></a>        <span class="at">inputId =</span> <span class="st">"province_select"</span>,  <span class="co"># ID value</span></span>
+<span id="cb63-43"><a href="#cb63-43" aria-hidden="true" tabindex="-1"></a>        <span class="at">label =</span> <span class="st">"Select a Province:"</span>, <span class="co"># UI side Title</span></span>
+<span id="cb63-44"><a href="#cb63-44" aria-hidden="true" tabindex="-1"></a>        <span class="at">choices =</span> <span class="fu">c</span>(<span class="st">""</span>, <span class="fu">sort</span>(<span class="fu">unique</span>(app_data<span class="sc">$</span>organisation_unit))), <span class="co"># empty first value followed by all of our unique org_unit names</span></span>
+<span id="cb63-45"><a href="#cb63-45" aria-hidden="true" tabindex="-1"></a>        <span class="at">selected =</span> <span class="st">""</span> <span class="co"># default value that the application starts with as selected - in our case we want this to be blank. </span></span>
+<span id="cb63-46"><a href="#cb63-46" aria-hidden="true" tabindex="-1"></a>        )</span>
+<span id="cb63-47"><a href="#cb63-47" aria-hidden="true" tabindex="-1"></a>      ),</span>
+<span id="cb63-48"><a href="#cb63-48" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb63-49"><a href="#cb63-49" aria-hidden="true" tabindex="-1"></a>    <span class="co">#-main pannel content----</span></span>
+<span id="cb63-50"><a href="#cb63-50" aria-hidden="true" tabindex="-1"></a>    <span class="fu">h1</span>(<span class="st">"Malaria Indicators Dashboard"</span>), <span class="co"># Main title of the app</span></span>
+<span id="cb63-51"><a href="#cb63-51" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb63-52"><a href="#cb63-52" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Value Boxes in a single row that wraps responsive to screen size and data selection</span></span>
+<span id="cb63-53"><a href="#cb63-53" aria-hidden="true" tabindex="-1"></a>    <span class="fu">uiOutput</span>(<span class="st">"value_boxes"</span>), </span>
+<span id="cb63-54"><a href="#cb63-54" aria-hidden="true" tabindex="-1"></a>   </span>
+<span id="cb63-55"><a href="#cb63-55" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Card with a sidebar for input selection </span></span>
+<span id="cb63-56"><a href="#cb63-56" aria-hidden="true" tabindex="-1"></a>    <span class="fu">card</span>(</span>
+<span id="cb63-57"><a href="#cb63-57" aria-hidden="true" tabindex="-1"></a>      <span class="at">full_screen =</span> <span class="cn">TRUE</span>, </span>
+<span id="cb63-58"><a href="#cb63-58" aria-hidden="true" tabindex="-1"></a>      <span class="co"># global card header</span></span>
+<span id="cb63-59"><a href="#cb63-59" aria-hidden="true" tabindex="-1"></a>      <span class="fu">card_header</span>(<span class="st">"Monthyl Malaria Indicator Trends"</span>),</span>
+<span id="cb63-60"><a href="#cb63-60" aria-hidden="true" tabindex="-1"></a>      <span class="co"># sidebar layout with sidebar and card body</span></span>
+<span id="cb63-61"><a href="#cb63-61" aria-hidden="true" tabindex="-1"></a>      <span class="fu">layout_sidebar</span>(</span>
+<span id="cb63-62"><a href="#cb63-62" aria-hidden="true" tabindex="-1"></a>        </span>
+<span id="cb63-63"><a href="#cb63-63" aria-hidden="true" tabindex="-1"></a>        <span class="co"># add the sidebar with input elements</span></span>
+<span id="cb63-64"><a href="#cb63-64" aria-hidden="true" tabindex="-1"></a>        <span class="at">sidebar =</span> <span class="fu">list</span>(</span>
+<span id="cb63-65"><a href="#cb63-65" aria-hidden="true" tabindex="-1"></a>          <span class="co"># include original data series checkboes</span></span>
+<span id="cb63-66"><a href="#cb63-66" aria-hidden="true" tabindex="-1"></a>          <span class="fu">checkboxGroupInput</span>(</span>
+<span id="cb63-67"><a href="#cb63-67" aria-hidden="true" tabindex="-1"></a>            <span class="at">inputId  =</span> <span class="st">"series_select"</span>,</span>
+<span id="cb63-68"><a href="#cb63-68" aria-hidden="true" tabindex="-1"></a>            <span class="at">label    =</span> <span class="st">"Select data series:"</span>,</span>
+<span id="cb63-69"><a href="#cb63-69" aria-hidden="true" tabindex="-1"></a>            <span class="at">choices  =</span> <span class="fu">c</span>(</span>
+<span id="cb63-70"><a href="#cb63-70" aria-hidden="true" tabindex="-1"></a>              <span class="st">"Confirmed Cases"</span> <span class="ot">=</span> <span class="st">"malaria_cases"</span>,</span>
+<span id="cb63-71"><a href="#cb63-71" aria-hidden="true" tabindex="-1"></a>              <span class="st">"Malaria Tests"</span>   <span class="ot">=</span> <span class="st">"malaria_tests"</span></span>
+<span id="cb63-72"><a href="#cb63-72" aria-hidden="true" tabindex="-1"></a>            )</span>
+<span id="cb63-73"><a href="#cb63-73" aria-hidden="true" tabindex="-1"></a>          ),</span>
+<span id="cb63-74"><a href="#cb63-74" aria-hidden="true" tabindex="-1"></a>          <span class="co"># condiditionally render TPR checkbox</span></span>
+<span id="cb63-75"><a href="#cb63-75" aria-hidden="true" tabindex="-1"></a>          <span class="fu">uiOutput</span>(<span class="st">"tpr_checkbox_ui"</span>)</span>
+<span id="cb63-76"><a href="#cb63-76" aria-hidden="true" tabindex="-1"></a>        ),</span>
+<span id="cb63-77"><a href="#cb63-77" aria-hidden="true" tabindex="-1"></a>        </span>
+<span id="cb63-78"><a href="#cb63-78" aria-hidden="true" tabindex="-1"></a>        <span class="co"># include the card body with the plots</span></span>
+<span id="cb63-79"><a href="#cb63-79" aria-hidden="true" tabindex="-1"></a>        <span class="fu">card_body</span>(</span>
+<span id="cb63-80"><a href="#cb63-80" aria-hidden="true" tabindex="-1"></a>          <span class="co"># UI output that will dynamically render different layout</span></span>
+<span id="cb63-81"><a href="#cb63-81" aria-hidden="true" tabindex="-1"></a>          <span class="fu">uiOutput</span>(<span class="st">"ts_plots_ui"</span>)</span>
+<span id="cb63-82"><a href="#cb63-82" aria-hidden="true" tabindex="-1"></a>        ),</span>
+<span id="cb63-83"><a href="#cb63-83" aria-hidden="true" tabindex="-1"></a>        <span class="fu">card_footer</span>(<span class="st">"Data source: DHIS2 export"</span>) <span class="co"># informative card footer</span></span>
+<span id="cb63-84"><a href="#cb63-84" aria-hidden="true" tabindex="-1"></a>      )</span>
+<span id="cb63-85"><a href="#cb63-85" aria-hidden="true" tabindex="-1"></a>    ), </span>
+<span id="cb63-86"><a href="#cb63-86" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb63-87"><a href="#cb63-87" aria-hidden="true" tabindex="-1"></a>    <span class="co"># incidence plot card - including map </span></span>
+<span id="cb63-88"><a href="#cb63-88" aria-hidden="true" tabindex="-1"></a>    <span class="fu">layout_columns</span>(</span>
+<span id="cb63-89"><a href="#cb63-89" aria-hidden="true" tabindex="-1"></a>      <span class="co"># width - adjust the width to give some more space to the line chart</span></span>
+<span id="cb63-90"><a href="#cb63-90" aria-hidden="true" tabindex="-1"></a>      <span class="at">col_widths =</span> <span class="fu">c</span>(<span class="dv">7</span>,<span class="dv">5</span>), </span>
+<span id="cb63-91"><a href="#cb63-91" aria-hidden="true" tabindex="-1"></a>      <span class="fu">card</span>(</span>
+<span id="cb63-92"><a href="#cb63-92" aria-hidden="true" tabindex="-1"></a>        <span class="at">height =</span> <span class="dv">400</span>,</span>
+<span id="cb63-93"><a href="#cb63-93" aria-hidden="true" tabindex="-1"></a>        <span class="at">full_screen =</span> <span class="cn">TRUE</span>,</span>
+<span id="cb63-94"><a href="#cb63-94" aria-hidden="true" tabindex="-1"></a>        <span class="fu">card_header</span>(<span class="st">"Monthly Malaria Incidence Trends"</span>),</span>
+<span id="cb63-95"><a href="#cb63-95" aria-hidden="true" tabindex="-1"></a>        <span class="fu">card_body</span>(<span class="fu">plotlyOutput</span>(<span class="st">"inc_plot"</span>, <span class="at">height =</span> <span class="st">"350px"</span>)),</span>
+<span id="cb63-96"><a href="#cb63-96" aria-hidden="true" tabindex="-1"></a>        <span class="fu">card_footer</span>(<span class="st">"Data source: DHIS2 export"</span>)</span>
+<span id="cb63-97"><a href="#cb63-97" aria-hidden="true" tabindex="-1"></a>      ), </span>
+<span id="cb63-98"><a href="#cb63-98" aria-hidden="true" tabindex="-1"></a>      <span class="fu">card</span>(</span>
+<span id="cb63-99"><a href="#cb63-99" aria-hidden="true" tabindex="-1"></a>        <span class="at">height =</span> <span class="dv">400</span>,</span>
+<span id="cb63-100"><a href="#cb63-100" aria-hidden="true" tabindex="-1"></a>        <span class="at">full_screen =</span> <span class="cn">TRUE</span>, </span>
+<span id="cb63-101"><a href="#cb63-101" aria-hidden="true" tabindex="-1"></a>        <span class="fu">card_header</span>(<span class="st">"Average Annual Incidence Map"</span>),</span>
+<span id="cb63-102"><a href="#cb63-102" aria-hidden="true" tabindex="-1"></a>        <span class="fu">card_body</span>(<span class="fu">leafletOutput</span>(<span class="st">"inc_map"</span>, <span class="at">height =</span> <span class="st">"350px"</span>)),</span>
+<span id="cb63-103"><a href="#cb63-103" aria-hidden="true" tabindex="-1"></a>        <span class="fu">card_footer</span>(<span class="st">"Data source: HumData for shape files, DHIS2 for malaria data"</span>)</span>
+<span id="cb63-104"><a href="#cb63-104" aria-hidden="true" tabindex="-1"></a>      )</span>
+<span id="cb63-105"><a href="#cb63-105" aria-hidden="true" tabindex="-1"></a>    ), </span>
+<span id="cb63-106"><a href="#cb63-106" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb63-107"><a href="#cb63-107" aria-hidden="true" tabindex="-1"></a>    <span class="co"># DT output </span></span>
+<span id="cb63-108"><a href="#cb63-108" aria-hidden="true" tabindex="-1"></a>    <span class="fu">card</span>(</span>
+<span id="cb63-109"><a href="#cb63-109" aria-hidden="true" tabindex="-1"></a>      <span class="fu">card_header</span>(<span class="st">"Summary Table"</span>), <span class="co"># card header</span></span>
+<span id="cb63-110"><a href="#cb63-110" aria-hidden="true" tabindex="-1"></a>      <span class="fu">card_body</span>(</span>
+<span id="cb63-111"><a href="#cb63-111" aria-hidden="true" tabindex="-1"></a>        <span class="fu">downloadButton</span>(<span class="st">"download_summary"</span>, <span class="st">"Download CSV"</span>), <span class="co"># download button</span></span>
+<span id="cb63-112"><a href="#cb63-112" aria-hidden="true" tabindex="-1"></a>        <span class="fu">DTOutput</span>(<span class="st">"summary_data"</span>) <span class="co"># DT output</span></span>
+<span id="cb63-113"><a href="#cb63-113" aria-hidden="true" tabindex="-1"></a>        ),  </span>
+<span id="cb63-114"><a href="#cb63-114" aria-hidden="true" tabindex="-1"></a>      <span class="fu">card_footer</span>(<span class="st">"Aggregated Annual Values per Province"</span>) <span class="co"># card footer</span></span>
+<span id="cb63-115"><a href="#cb63-115" aria-hidden="true" tabindex="-1"></a>    )</span>
+<span id="cb63-116"><a href="#cb63-116" aria-hidden="true" tabindex="-1"></a>  ),</span>
+<span id="cb63-117"><a href="#cb63-117" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb63-118"><a href="#cb63-118" aria-hidden="true" tabindex="-1"></a>  <span class="co"># &lt;&lt;&lt; NEW &gt;&gt;&gt; Defining the theme of your app </span></span>
+<span id="cb63-119"><a href="#cb63-119" aria-hidden="true" tabindex="-1"></a>  <span class="at">theme =</span> <span class="fu">bs_theme</span>(</span>
+<span id="cb63-120"><a href="#cb63-120" aria-hidden="true" tabindex="-1"></a>    <span class="at">version =</span> <span class="dv">5</span>, </span>
+<span id="cb63-121"><a href="#cb63-121" aria-hidden="true" tabindex="-1"></a>    <span class="at">fg =</span> <span class="st">"rgb(100, 16, 59)"</span>,   <span class="co"># set the foreground colour</span></span>
+<span id="cb63-122"><a href="#cb63-122" aria-hidden="true" tabindex="-1"></a>    <span class="at">bg =</span> <span class="st">"rgb(253, 251, 252)"</span>, <span class="co"># set the background colour </span></span>
+<span id="cb63-123"><a href="#cb63-123" aria-hidden="true" tabindex="-1"></a>    <span class="at">primary =</span> <span class="st">"#7C204F"</span>,       <span class="co"># set the primary colour </span></span>
+<span id="cb63-124"><a href="#cb63-124" aria-hidden="true" tabindex="-1"></a>    <span class="at">secondary =</span> <span class="st">"#F7CBE6"</span>      <span class="co"># set the secondary colour</span></span>
+<span id="cb63-125"><a href="#cb63-125" aria-hidden="true" tabindex="-1"></a>  )</span>
+<span id="cb63-126"><a href="#cb63-126" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb63-127"><a href="#cb63-127" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb63-128"><a href="#cb63-128" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb63-129"><a href="#cb63-129" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb63-130"><a href="#cb63-130" aria-hidden="true" tabindex="-1"></a><span class="co">#-Define server logic - Computations-------------------------------------------- </span></span>
+<span id="cb63-131"><a href="#cb63-131" aria-hidden="true" tabindex="-1"></a>server <span class="ot">&lt;-</span> <span class="cf">function</span>(input, output) {</span>
+<span id="cb63-132"><a href="#cb63-132" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb63-133"><a href="#cb63-133" aria-hidden="true" tabindex="-1"></a>   <span class="co"># bs_themer()</span></span>
+<span id="cb63-134"><a href="#cb63-134" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb63-135"><a href="#cb63-135" aria-hidden="true" tabindex="-1"></a>  <span class="co">#-Reactive data filter - filter the app_data when input value is selected---------------------</span></span>
+<span id="cb63-136"><a href="#cb63-136" aria-hidden="true" tabindex="-1"></a>  province_data <span class="ot">&lt;-</span> <span class="fu">reactive</span>({</span>
+<span id="cb63-137"><a href="#cb63-137" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb63-138"><a href="#cb63-138" aria-hidden="true" tabindex="-1"></a>    <span class="fu">req</span>(input<span class="sc">$</span>province_select <span class="sc">!=</span> <span class="st">""</span>)  <span class="co"># Only run if province selected</span></span>
+<span id="cb63-139"><a href="#cb63-139" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb63-140"><a href="#cb63-140" aria-hidden="true" tabindex="-1"></a>    app_data <span class="sc">%&gt;%</span> </span>
+<span id="cb63-141"><a href="#cb63-141" aria-hidden="true" tabindex="-1"></a>      <span class="fu">filter</span>(organisation_unit <span class="sc">==</span> input<span class="sc">$</span>province_select) <span class="co"># filter dataset to Province selected</span></span>
+<span id="cb63-142"><a href="#cb63-142" aria-hidden="true" tabindex="-1"></a>  })</span>
+<span id="cb63-143"><a href="#cb63-143" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb63-144"><a href="#cb63-144" aria-hidden="true" tabindex="-1"></a>  <span class="co">#-Compute total cases from filtered data-------------------------------------------------------</span></span>
+<span id="cb63-145"><a href="#cb63-145" aria-hidden="true" tabindex="-1"></a>  output<span class="sc">$</span>total_cases_box <span class="ot">&lt;-</span> <span class="fu">renderText</span>({</span>
+<span id="cb63-146"><a href="#cb63-146" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb63-147"><a href="#cb63-147" aria-hidden="true" tabindex="-1"></a>    <span class="co"># condiditional messaging -  Check if province selection is made and if not display the following message </span></span>
+<span id="cb63-148"><a href="#cb63-148" aria-hidden="true" tabindex="-1"></a>    <span class="fu">validate</span>(</span>
+<span id="cb63-149"><a href="#cb63-149" aria-hidden="true" tabindex="-1"></a>      <span class="fu">need</span>(input<span class="sc">$</span>province_select <span class="sc">!=</span> <span class="st">""</span>, <span class="st">"Select a province"</span>),</span>
+<span id="cb63-150"><a href="#cb63-150" aria-hidden="true" tabindex="-1"></a>    )</span>
+<span id="cb63-151"><a href="#cb63-151" aria-hidden="true" tabindex="-1"></a>   </span>
+<span id="cb63-152"><a href="#cb63-152" aria-hidden="true" tabindex="-1"></a>     df <span class="ot">&lt;-</span> <span class="fu">province_data</span>() <span class="co"># this act like a function and pulls through our filtered data to an object inside renderText called 'df'</span></span>
+<span id="cb63-153"><a href="#cb63-153" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb63-154"><a href="#cb63-154" aria-hidden="true" tabindex="-1"></a>    total_cases <span class="ot">&lt;-</span> df <span class="sc">%&gt;%</span></span>
+<span id="cb63-155"><a href="#cb63-155" aria-hidden="true" tabindex="-1"></a>      <span class="fu">filter</span>(var_name <span class="sc">==</span> <span class="st">"malaria_cases"</span>) <span class="sc">%&gt;%</span> <span class="co"># filters to malaria cases data only</span></span>
+<span id="cb63-156"><a href="#cb63-156" aria-hidden="true" tabindex="-1"></a>      <span class="fu">summarise</span>(<span class="at">total =</span> <span class="fu">sum</span>(value, <span class="at">na.rm =</span> <span class="cn">TRUE</span>)) <span class="sc">%&gt;%</span> <span class="co"># sums values over all periods included</span></span>
+<span id="cb63-157"><a href="#cb63-157" aria-hidden="true" tabindex="-1"></a>      <span class="fu">pull</span>(total) <span class="co"># pulls out the value from summary calculation into named vector</span></span>
+<span id="cb63-158"><a href="#cb63-158" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb63-159"><a href="#cb63-159" aria-hidden="true" tabindex="-1"></a>    total_cases <span class="co"># final value</span></span>
+<span id="cb63-160"><a href="#cb63-160" aria-hidden="true" tabindex="-1"></a>  })</span>
+<span id="cb63-161"><a href="#cb63-161" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb63-162"><a href="#cb63-162" aria-hidden="true" tabindex="-1"></a>  <span class="co">#-Compute total tests from filtered data-------------------------------------------------------</span></span>
+<span id="cb63-163"><a href="#cb63-163" aria-hidden="true" tabindex="-1"></a>  output<span class="sc">$</span>total_tests_box <span class="ot">&lt;-</span> <span class="fu">renderText</span>({</span>
+<span id="cb63-164"><a href="#cb63-164" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb63-165"><a href="#cb63-165" aria-hidden="true" tabindex="-1"></a>    <span class="co"># condiditional messaging -  Check if province selection is made and if not display the following message </span></span>
+<span id="cb63-166"><a href="#cb63-166" aria-hidden="true" tabindex="-1"></a>    <span class="fu">validate</span>(</span>
+<span id="cb63-167"><a href="#cb63-167" aria-hidden="true" tabindex="-1"></a>      <span class="fu">need</span>(input<span class="sc">$</span>province_select <span class="sc">!=</span> <span class="st">""</span>, <span class="st">"Select a province"</span>),</span>
+<span id="cb63-168"><a href="#cb63-168" aria-hidden="true" tabindex="-1"></a>    )</span>
+<span id="cb63-169"><a href="#cb63-169" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb63-170"><a href="#cb63-170" aria-hidden="true" tabindex="-1"></a>    df <span class="ot">&lt;-</span> <span class="fu">province_data</span>() <span class="co"># pull filtered province data</span></span>
+<span id="cb63-171"><a href="#cb63-171" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb63-172"><a href="#cb63-172" aria-hidden="true" tabindex="-1"></a>    total_tests <span class="ot">&lt;-</span> df <span class="sc">%&gt;%</span></span>
+<span id="cb63-173"><a href="#cb63-173" aria-hidden="true" tabindex="-1"></a>      <span class="fu">filter</span>(var_name <span class="sc">==</span> <span class="st">"malaria_tests"</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb63-174"><a href="#cb63-174" aria-hidden="true" tabindex="-1"></a>      <span class="fu">summarise</span>(<span class="at">total =</span> <span class="fu">sum</span>(value, <span class="at">na.rm =</span> <span class="cn">TRUE</span>)) <span class="sc">%&gt;%</span> <span class="co">#sum total tesats</span></span>
+<span id="cb63-175"><a href="#cb63-175" aria-hidden="true" tabindex="-1"></a>      <span class="fu">pull</span>(total)</span>
+<span id="cb63-176"><a href="#cb63-176" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb63-177"><a href="#cb63-177" aria-hidden="true" tabindex="-1"></a>    total_tests <span class="co"># return value</span></span>
+<span id="cb63-178"><a href="#cb63-178" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb63-179"><a href="#cb63-179" aria-hidden="true" tabindex="-1"></a>  })</span>
+<span id="cb63-180"><a href="#cb63-180" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb63-181"><a href="#cb63-181" aria-hidden="true" tabindex="-1"></a>  <span class="co">#-Plot of reported values over time selected by province---------------------------------------</span></span>
+<span id="cb63-182"><a href="#cb63-182" aria-hidden="true" tabindex="-1"></a>  output<span class="sc">$</span>ts_plot <span class="ot">&lt;-</span> <span class="fu">renderPlotly</span>({</span>
+<span id="cb63-183"><a href="#cb63-183" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb63-184"><a href="#cb63-184" aria-hidden="true" tabindex="-1"></a>    <span class="co"># condiditional messaging -  Check if province selection is made and if not display the following message </span></span>
+<span id="cb63-185"><a href="#cb63-185" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Check if data selected and prompt to select data series</span></span>
+<span id="cb63-186"><a href="#cb63-186" aria-hidden="true" tabindex="-1"></a>    <span class="fu">validate</span>(</span>
+<span id="cb63-187"><a href="#cb63-187" aria-hidden="true" tabindex="-1"></a>      <span class="fu">need</span>(input<span class="sc">$</span>province_select <span class="sc">!=</span> <span class="st">""</span>, <span class="st">"Please select a province to view data."</span>),</span>
+<span id="cb63-188"><a href="#cb63-188" aria-hidden="true" tabindex="-1"></a>      <span class="fu">need</span>(<span class="fu">length</span>(input<span class="sc">$</span>series_select) <span class="sc">&gt;</span> <span class="dv">0</span>, <span class="st">"Please select at least one data elemtent to generate the plot."</span>)</span>
+<span id="cb63-189"><a href="#cb63-189" aria-hidden="true" tabindex="-1"></a>    )</span>
+<span id="cb63-190"><a href="#cb63-190" aria-hidden="true" tabindex="-1"></a>      </span>
+<span id="cb63-191"><a href="#cb63-191" aria-hidden="true" tabindex="-1"></a>    df <span class="ot">&lt;-</span> </span>
+<span id="cb63-192"><a href="#cb63-192" aria-hidden="true" tabindex="-1"></a>      <span class="fu">province_data</span>()  <span class="sc">%&gt;%</span>  <span class="co"># get province data</span></span>
+<span id="cb63-193"><a href="#cb63-193" aria-hidden="true" tabindex="-1"></a>      <span class="fu">filter</span>(var_name <span class="sc">%in%</span> input<span class="sc">$</span>series_select) <span class="co"># Get the filtered data as per input </span></span>
+<span id="cb63-194"><a href="#cb63-194" aria-hidden="true" tabindex="-1"></a>      </span>
+<span id="cb63-195"><a href="#cb63-195" aria-hidden="true" tabindex="-1"></a>      <span class="fu">req</span>(<span class="fu">nrow</span>(df) <span class="sc">&gt;</span> <span class="dv">0</span>)              <span class="co"># Ensure there are rows to plot</span></span>
+<span id="cb63-196"><a href="#cb63-196" aria-hidden="true" tabindex="-1"></a>      </span>
+<span id="cb63-197"><a href="#cb63-197" aria-hidden="true" tabindex="-1"></a>      <span class="co"># Create a ggplot time series of time on the xaxis cases on the y, colour by data type</span></span>
+<span id="cb63-198"><a href="#cb63-198" aria-hidden="true" tabindex="-1"></a>      p <span class="ot">&lt;-</span> </span>
+<span id="cb63-199"><a href="#cb63-199" aria-hidden="true" tabindex="-1"></a>        <span class="fu">ggplot</span>(df, <span class="fu">aes</span>(<span class="at">x =</span> period, <span class="at">y =</span> value, <span class="at">col=</span>var_name)) <span class="sc">+</span></span>
+<span id="cb63-200"><a href="#cb63-200" aria-hidden="true" tabindex="-1"></a>        <span class="fu">geom_line</span>() <span class="sc">+</span>  <span class="co">#add line style</span></span>
+<span id="cb63-201"><a href="#cb63-201" aria-hidden="true" tabindex="-1"></a>        <span class="fu">geom_point</span>() <span class="sc">+</span> <span class="co"># add points to the line</span></span>
+<span id="cb63-202"><a href="#cb63-202" aria-hidden="true" tabindex="-1"></a>        <span class="fu">labs</span>(</span>
+<span id="cb63-203"><a href="#cb63-203" aria-hidden="true" tabindex="-1"></a>          <span class="at">title =</span> <span class="fu">paste</span>(<span class="st">"Malaria Indicators Cases in:"</span>, input<span class="sc">$</span>province_select), <span class="co"># add selected province to the title and change name</span></span>
+<span id="cb63-204"><a href="#cb63-204" aria-hidden="true" tabindex="-1"></a>          <span class="at">x =</span> <span class="st">"Month"</span>,</span>
+<span id="cb63-205"><a href="#cb63-205" aria-hidden="true" tabindex="-1"></a>          <span class="at">y =</span> <span class="st">"Value"</span>, </span>
+<span id="cb63-206"><a href="#cb63-206" aria-hidden="true" tabindex="-1"></a>          <span class="at">col=</span><span class="st">"Indicator"</span></span>
+<span id="cb63-207"><a href="#cb63-207" aria-hidden="true" tabindex="-1"></a>        ) <span class="sc">+</span></span>
+<span id="cb63-208"><a href="#cb63-208" aria-hidden="true" tabindex="-1"></a>        <span class="fu">scale_color_manual</span>(<span class="at">values =</span> <span class="fu">c</span>(<span class="st">"malaria_cases"</span> <span class="ot">=</span> <span class="st">"#571845"</span>, <span class="st">"malaria_tests"</span> <span class="ot">=</span> <span class="st">"#C42847"</span>))<span class="sc">+</span> <span class="co"># set the colour values</span></span>
+<span id="cb63-209"><a href="#cb63-209" aria-hidden="true" tabindex="-1"></a>        <span class="fu">theme_minimal</span>()</span>
+<span id="cb63-210"><a href="#cb63-210" aria-hidden="true" tabindex="-1"></a>      </span>
+<span id="cb63-211"><a href="#cb63-211" aria-hidden="true" tabindex="-1"></a>      <span class="co"># Convert ggplot to interactive Plotly object</span></span>
+<span id="cb63-212"><a href="#cb63-212" aria-hidden="true" tabindex="-1"></a>      <span class="fu">ggplotly</span>(p)</span>
+<span id="cb63-213"><a href="#cb63-213" aria-hidden="true" tabindex="-1"></a>      </span>
+<span id="cb63-214"><a href="#cb63-214" aria-hidden="true" tabindex="-1"></a>    })</span>
+<span id="cb63-215"><a href="#cb63-215" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb63-216"><a href="#cb63-216" aria-hidden="true" tabindex="-1"></a>  <span class="co">#-Conditional UI element for TPR checkbox------------------------------------------------------</span></span>
+<span id="cb63-217"><a href="#cb63-217" aria-hidden="true" tabindex="-1"></a>  output<span class="sc">$</span>tpr_checkbox_ui <span class="ot">&lt;-</span> <span class="fu">renderUI</span>({</span>
+<span id="cb63-218"><a href="#cb63-218" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb63-219"><a href="#cb63-219" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> (<span class="fu">all</span>(<span class="fu">c</span>(<span class="st">"malaria_cases"</span>, <span class="st">"malaria_tests"</span>) <span class="sc">%in%</span> input<span class="sc">$</span>series_select)) {</span>
+<span id="cb63-220"><a href="#cb63-220" aria-hidden="true" tabindex="-1"></a>      <span class="co"># Only show the checkbox if both series are selected</span></span>
+<span id="cb63-221"><a href="#cb63-221" aria-hidden="true" tabindex="-1"></a>      <span class="fu">checkboxInput</span>(</span>
+<span id="cb63-222"><a href="#cb63-222" aria-hidden="true" tabindex="-1"></a>        <span class="at">inputId =</span> <span class="st">"include_tpr"</span>, <span class="co"># name ID</span></span>
+<span id="cb63-223"><a href="#cb63-223" aria-hidden="true" tabindex="-1"></a>        <span class="at">label =</span> <span class="st">"Calculate and diaplay Test Positivity Rate (TPR)"</span>, <span class="co"># User side title</span></span>
+<span id="cb63-224"><a href="#cb63-224" aria-hidden="true" tabindex="-1"></a>        <span class="at">value =</span> <span class="cn">FALSE</span> <span class="co"># set to be unclicked as default</span></span>
+<span id="cb63-225"><a href="#cb63-225" aria-hidden="true" tabindex="-1"></a>      )</span>
+<span id="cb63-226"><a href="#cb63-226" aria-hidden="true" tabindex="-1"></a>    } <span class="cf">else</span> {</span>
+<span id="cb63-227"><a href="#cb63-227" aria-hidden="true" tabindex="-1"></a>      <span class="co"># If not both series selected, return NULL to not display the checkbox</span></span>
+<span id="cb63-228"><a href="#cb63-228" aria-hidden="true" tabindex="-1"></a>      <span class="cn">NULL</span></span>
+<span id="cb63-229"><a href="#cb63-229" aria-hidden="true" tabindex="-1"></a>    }</span>
+<span id="cb63-230"><a href="#cb63-230" aria-hidden="true" tabindex="-1"></a>  })</span>
+<span id="cb63-231"><a href="#cb63-231" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb63-232"><a href="#cb63-232" aria-hidden="true" tabindex="-1"></a>  <span class="co">#-Conditional rendering of TPR plot------------------------------------------------------------</span></span>
+<span id="cb63-233"><a href="#cb63-233" aria-hidden="true" tabindex="-1"></a>  output<span class="sc">$</span>tpr_plot <span class="ot">&lt;-</span> <span class="fu">renderPlotly</span>({</span>
+<span id="cb63-234"><a href="#cb63-234" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb63-235"><a href="#cb63-235" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Use validate + need to provide informative user messages</span></span>
+<span id="cb63-236"><a href="#cb63-236" aria-hidden="true" tabindex="-1"></a>    <span class="fu">validate</span>(</span>
+<span id="cb63-237"><a href="#cb63-237" aria-hidden="true" tabindex="-1"></a>      <span class="fu">need</span>(input<span class="sc">$</span>include_tpr, <span class="st">"Enable TPR toggle to display plot."</span>),</span>
+<span id="cb63-238"><a href="#cb63-238" aria-hidden="true" tabindex="-1"></a>      <span class="fu">need</span>(input<span class="sc">$</span>province_select <span class="sc">!=</span> <span class="st">""</span>, <span class="st">"Please select a province to view data."</span>),</span>
+<span id="cb63-239"><a href="#cb63-239" aria-hidden="true" tabindex="-1"></a>      <span class="fu">need</span>(<span class="fu">length</span>(input<span class="sc">$</span>series_select) <span class="sc">==</span> <span class="dv">2</span>, <span class="st">"Please select both malaria cases and malaria tests to calculate TPR."</span>)</span>
+<span id="cb63-240"><a href="#cb63-240" aria-hidden="true" tabindex="-1"></a>    )</span>
+<span id="cb63-241"><a href="#cb63-241" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb63-242"><a href="#cb63-242" aria-hidden="true" tabindex="-1"></a>    <span class="co"># calculate TPR - Test Positivity Rate</span></span>
+<span id="cb63-243"><a href="#cb63-243" aria-hidden="true" tabindex="-1"></a>    df <span class="ot">&lt;-</span> </span>
+<span id="cb63-244"><a href="#cb63-244" aria-hidden="true" tabindex="-1"></a>      <span class="fu">province_data</span>() <span class="sc">%&gt;%</span> <span class="co"># get the filtered province data</span></span>
+<span id="cb63-245"><a href="#cb63-245" aria-hidden="true" tabindex="-1"></a>      <span class="fu">pivot_wider</span>(<span class="at">names_from =</span> var_name, <span class="at">values_from =</span> value) <span class="sc">%&gt;%</span> <span class="co"># pivot the data wider to have cases and tests in separate columns</span></span>
+<span id="cb63-246"><a href="#cb63-246" aria-hidden="true" tabindex="-1"></a>      <span class="fu">arrange</span>(period) <span class="sc">%&gt;%</span> <span class="co"># arrange by period</span></span>
+<span id="cb63-247"><a href="#cb63-247" aria-hidden="true" tabindex="-1"></a>      <span class="fu">mutate</span>(</span>
+<span id="cb63-248"><a href="#cb63-248" aria-hidden="true" tabindex="-1"></a>        <span class="at">tpr =</span> <span class="fu">round</span>((malaria_cases <span class="sc">/</span> malaria_tests) <span class="sc">*</span> <span class="dv">100</span>, <span class="dv">2</span>) <span class="co"># calculate TPR as a percentage - rounded to 2 decimal places</span></span>
+<span id="cb63-249"><a href="#cb63-249" aria-hidden="true" tabindex="-1"></a>      )</span>
+<span id="cb63-250"><a href="#cb63-250" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb63-251"><a href="#cb63-251" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Plot the TPR over time</span></span>
+<span id="cb63-252"><a href="#cb63-252" aria-hidden="true" tabindex="-1"></a>    p <span class="ot">&lt;-</span> </span>
+<span id="cb63-253"><a href="#cb63-253" aria-hidden="true" tabindex="-1"></a>      <span class="fu">ggplot</span>(df, <span class="fu">aes</span>(<span class="at">x =</span> period, <span class="at">y =</span> tpr)) <span class="sc">+</span> </span>
+<span id="cb63-254"><a href="#cb63-254" aria-hidden="true" tabindex="-1"></a>      <span class="fu">geom_point</span>(<span class="at">color =</span> <span class="st">"#FECC01"</span>) <span class="sc">+</span></span>
+<span id="cb63-255"><a href="#cb63-255" aria-hidden="true" tabindex="-1"></a>      <span class="fu">labs</span>(</span>
+<span id="cb63-256"><a href="#cb63-256" aria-hidden="true" tabindex="-1"></a>        <span class="at">title =</span> <span class="fu">paste</span>(<span class="st">"Test Positivity Rate (TPR) in:"</span>, input<span class="sc">$</span>province_select), <span class="co"># add selected province to the title</span></span>
+<span id="cb63-257"><a href="#cb63-257" aria-hidden="true" tabindex="-1"></a>        <span class="at">x =</span> <span class="st">"Month"</span>,</span>
+<span id="cb63-258"><a href="#cb63-258" aria-hidden="true" tabindex="-1"></a>        <span class="at">y =</span> <span class="st">"TPR (%)"</span></span>
+<span id="cb63-259"><a href="#cb63-259" aria-hidden="true" tabindex="-1"></a>      ) <span class="sc">+</span></span>
+<span id="cb63-260"><a href="#cb63-260" aria-hidden="true" tabindex="-1"></a>      <span class="fu">theme_minimal</span>() <span class="sc">+</span></span>
+<span id="cb63-261"><a href="#cb63-261" aria-hidden="true" tabindex="-1"></a>      <span class="fu">scale_y_continuous</span>(<span class="at">limits =</span> <span class="fu">c</span>(<span class="dv">0</span>, <span class="dv">100</span>)) <span class="co"># set y-axis limits from 0 to 100%</span></span>
+<span id="cb63-262"><a href="#cb63-262" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb63-263"><a href="#cb63-263" aria-hidden="true" tabindex="-1"></a>    <span class="fu">ggplotly</span>(p) <span class="co"># convert ggplot to plotly object</span></span>
+<span id="cb63-264"><a href="#cb63-264" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb63-265"><a href="#cb63-265" aria-hidden="true" tabindex="-1"></a>  })</span>
+<span id="cb63-266"><a href="#cb63-266" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb63-267"><a href="#cb63-267" aria-hidden="true" tabindex="-1"></a>  <span class="co">#-average TPR value box-----------------------------------------------------------------</span></span>
+<span id="cb63-268"><a href="#cb63-268" aria-hidden="true" tabindex="-1"></a>  output<span class="sc">$</span>tpr_value <span class="ot">&lt;-</span> <span class="fu">renderText</span>({</span>
+<span id="cb63-269"><a href="#cb63-269" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb63-270"><a href="#cb63-270" aria-hidden="true" tabindex="-1"></a>    <span class="fu">req</span>(input<span class="sc">$</span>include_tpr) <span class="co"># requires the TPR check to be TRUE </span></span>
+<span id="cb63-271"><a href="#cb63-271" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb63-272"><a href="#cb63-272" aria-hidden="true" tabindex="-1"></a>    <span class="co"># data processing</span></span>
+<span id="cb63-273"><a href="#cb63-273" aria-hidden="true" tabindex="-1"></a>    df <span class="ot">&lt;-</span> </span>
+<span id="cb63-274"><a href="#cb63-274" aria-hidden="true" tabindex="-1"></a>      <span class="fu">province_data</span>() <span class="sc">%&gt;%</span> <span class="co"># filters to province</span></span>
+<span id="cb63-275"><a href="#cb63-275" aria-hidden="true" tabindex="-1"></a>      <span class="fu">pivot_wider</span>(<span class="at">names_from =</span> var_name, <span class="at">values_from =</span> value) <span class="sc">%&gt;%</span> <span class="co">#widens data frame to have a column per indicator </span></span>
+<span id="cb63-276"><a href="#cb63-276" aria-hidden="true" tabindex="-1"></a>      <span class="fu">mutate</span>(</span>
+<span id="cb63-277"><a href="#cb63-277" aria-hidden="true" tabindex="-1"></a>        <span class="at">tpr =</span> <span class="fu">round</span>((malaria_cases <span class="sc">/</span> malaria_tests) <span class="sc">*</span> <span class="dv">100</span>, <span class="dv">2</span>) <span class="co"># calculates TPR as a percentage</span></span>
+<span id="cb63-278"><a href="#cb63-278" aria-hidden="true" tabindex="-1"></a>      ) <span class="sc">%&gt;%</span></span>
+<span id="cb63-279"><a href="#cb63-279" aria-hidden="true" tabindex="-1"></a>      <span class="fu">summarise</span>(</span>
+<span id="cb63-280"><a href="#cb63-280" aria-hidden="true" tabindex="-1"></a>        <span class="at">tpr =</span> <span class="fu">mean</span>(tpr, <span class="at">na.rm=</span><span class="cn">TRUE</span>) <span class="co"># takes average of TPR on % scale </span></span>
+<span id="cb63-281"><a href="#cb63-281" aria-hidden="true" tabindex="-1"></a>        ) </span>
+<span id="cb63-282"><a href="#cb63-282" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb63-283"><a href="#cb63-283" aria-hidden="true" tabindex="-1"></a>    avg_tpr <span class="ot">&lt;-</span> <span class="fu">round</span>(df<span class="sc">$</span>tpr, <span class="dv">1</span>) <span class="co"># rounds to one decimal place</span></span>
+<span id="cb63-284"><a href="#cb63-284" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb63-285"><a href="#cb63-285" aria-hidden="true" tabindex="-1"></a>    avg_tpr <span class="co"># returns value </span></span>
+<span id="cb63-286"><a href="#cb63-286" aria-hidden="true" tabindex="-1"></a>  })</span>
+<span id="cb63-287"><a href="#cb63-287" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb63-288"><a href="#cb63-288" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb63-289"><a href="#cb63-289" aria-hidden="true" tabindex="-1"></a><span class="co">#-Render the value box for TPR if checkbox is selected---------------------------------------------</span></span>
+<span id="cb63-290"><a href="#cb63-290" aria-hidden="true" tabindex="-1"></a>output<span class="sc">$</span>tpr_value_box <span class="ot">&lt;-</span> <span class="fu">renderUI</span>({</span>
+<span id="cb63-291"><a href="#cb63-291" aria-hidden="true" tabindex="-1"></a>  <span class="co"># Check if the TPR checkbox is selected</span></span>
+<span id="cb63-292"><a href="#cb63-292" aria-hidden="true" tabindex="-1"></a>  <span class="cf">if</span> (<span class="fu">isTRUE</span>(input<span class="sc">$</span>include_tpr))  { <span class="co"># requires TPR check to be active</span></span>
+<span id="cb63-293"><a href="#cb63-293" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb63-294"><a href="#cb63-294" aria-hidden="true" tabindex="-1"></a>    <span class="co"># standard value box set up </span></span>
+<span id="cb63-295"><a href="#cb63-295" aria-hidden="true" tabindex="-1"></a>    <span class="fu">value_box</span>(</span>
+<span id="cb63-296"><a href="#cb63-296" aria-hidden="true" tabindex="-1"></a>      <span class="at">title =</span> <span class="st">"Average TPR (%)"</span>,       <span class="co"># Title</span></span>
+<span id="cb63-297"><a href="#cb63-297" aria-hidden="true" tabindex="-1"></a>      <span class="at">value =</span> <span class="fu">textOutput</span>(<span class="st">"tpr_value"</span>), <span class="co"># using condiditional value </span></span>
+<span id="cb63-298"><a href="#cb63-298" aria-hidden="true" tabindex="-1"></a>      <span class="at">showcase =</span> bsicons<span class="sc">::</span><span class="fu">bs_icon</span>(<span class="st">"percent"</span>), <span class="co">#Icon</span></span>
+<span id="cb63-299"><a href="#cb63-299" aria-hidden="true" tabindex="-1"></a>      <span class="at">showcase_layout =</span> <span class="st">"top right"</span>,   <span class="co"># placement</span></span>
+<span id="cb63-300"><a href="#cb63-300" aria-hidden="true" tabindex="-1"></a>      <span class="at">theme =</span> <span class="st">"secondary"</span>              <span class="co"># colour theme</span></span>
+<span id="cb63-301"><a href="#cb63-301" aria-hidden="true" tabindex="-1"></a>    )</span>
+<span id="cb63-302"><a href="#cb63-302" aria-hidden="true" tabindex="-1"></a>  } <span class="cf">else</span> {</span>
+<span id="cb63-303"><a href="#cb63-303" aria-hidden="true" tabindex="-1"></a>    <span class="cn">NULL</span> <span class="co"># if not checked then nothing is displayed</span></span>
+<span id="cb63-304"><a href="#cb63-304" aria-hidden="true" tabindex="-1"></a>  }</span>
+<span id="cb63-305"><a href="#cb63-305" aria-hidden="true" tabindex="-1"></a>})</span>
+<span id="cb63-306"><a href="#cb63-306" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb63-307"><a href="#cb63-307" aria-hidden="true" tabindex="-1"></a><span class="co">#-Value Box dynamic number based on TPR toggle-----------------------------------------------------</span></span>
+<span id="cb63-308"><a href="#cb63-308" aria-hidden="true" tabindex="-1"></a>output<span class="sc">$</span>value_boxes <span class="ot">&lt;-</span> <span class="fu">renderUI</span>({</span>
+<span id="cb63-309"><a href="#cb63-309" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb63-310"><a href="#cb63-310" aria-hidden="true" tabindex="-1"></a>  <span class="co"># Always include these two</span></span>
+<span id="cb63-311"><a href="#cb63-311" aria-hidden="true" tabindex="-1"></a>  boxes <span class="ot">&lt;-</span> <span class="fu">list</span>(</span>
+<span id="cb63-312"><a href="#cb63-312" aria-hidden="true" tabindex="-1"></a>    <span class="fu">value_box</span>(</span>
+<span id="cb63-313"><a href="#cb63-313" aria-hidden="true" tabindex="-1"></a>      <span class="at">title =</span> <span class="st">"Total Cases Reported"</span>,</span>
+<span id="cb63-314"><a href="#cb63-314" aria-hidden="true" tabindex="-1"></a>      <span class="at">value =</span> <span class="fu">textOutput</span>(<span class="st">"total_cases_box"</span>),</span>
+<span id="cb63-315"><a href="#cb63-315" aria-hidden="true" tabindex="-1"></a>      <span class="at">showcase =</span> bsicons<span class="sc">::</span><span class="fu">bs_icon</span>(<span class="st">"journal-medical"</span>),</span>
+<span id="cb63-316"><a href="#cb63-316" aria-hidden="true" tabindex="-1"></a>      <span class="at">showcase_layout =</span> <span class="st">"top right"</span>, </span>
+<span id="cb63-317"><a href="#cb63-317" aria-hidden="true" tabindex="-1"></a>      <span class="at">theme =</span> <span class="st">"secondary"</span></span>
+<span id="cb63-318"><a href="#cb63-318" aria-hidden="true" tabindex="-1"></a>    ),</span>
+<span id="cb63-319"><a href="#cb63-319" aria-hidden="true" tabindex="-1"></a>    <span class="fu">value_box</span>(</span>
+<span id="cb63-320"><a href="#cb63-320" aria-hidden="true" tabindex="-1"></a>      <span class="at">title =</span> <span class="st">"Total Tests Reported"</span>, </span>
+<span id="cb63-321"><a href="#cb63-321" aria-hidden="true" tabindex="-1"></a>      <span class="at">value =</span> <span class="fu">textOutput</span>(<span class="st">"total_tests_box"</span>),</span>
+<span id="cb63-322"><a href="#cb63-322" aria-hidden="true" tabindex="-1"></a>      <span class="at">showcase =</span> bsicons<span class="sc">::</span><span class="fu">bs_icon</span>(<span class="st">"journal-medical"</span>), </span>
+<span id="cb63-323"><a href="#cb63-323" aria-hidden="true" tabindex="-1"></a>      <span class="at">showcase_layout =</span> <span class="st">"top right"</span>, </span>
+<span id="cb63-324"><a href="#cb63-324" aria-hidden="true" tabindex="-1"></a>      <span class="at">theme =</span> <span class="st">"secondary"</span> </span>
+<span id="cb63-325"><a href="#cb63-325" aria-hidden="true" tabindex="-1"></a>    )</span>
+<span id="cb63-326"><a href="#cb63-326" aria-hidden="true" tabindex="-1"></a>  )</span>
+<span id="cb63-327"><a href="#cb63-327" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb63-328"><a href="#cb63-328" aria-hidden="true" tabindex="-1"></a>  <span class="co"># Conditionally add TPR box only if checkbox is ON</span></span>
+<span id="cb63-329"><a href="#cb63-329" aria-hidden="true" tabindex="-1"></a>  <span class="cf">if</span> (<span class="fu">isTRUE</span>(input<span class="sc">$</span>include_tpr)) {</span>
+<span id="cb63-330"><a href="#cb63-330" aria-hidden="true" tabindex="-1"></a>    boxes <span class="ot">&lt;-</span> <span class="fu">append</span>(boxes, <span class="fu">list</span>(</span>
+<span id="cb63-331"><a href="#cb63-331" aria-hidden="true" tabindex="-1"></a>      <span class="fu">value_box</span>(</span>
+<span id="cb63-332"><a href="#cb63-332" aria-hidden="true" tabindex="-1"></a>        <span class="at">title =</span> <span class="st">"Average TPR (%)"</span>,</span>
+<span id="cb63-333"><a href="#cb63-333" aria-hidden="true" tabindex="-1"></a>        <span class="at">value =</span> <span class="fu">textOutput</span>(<span class="st">"tpr_value"</span>),</span>
+<span id="cb63-334"><a href="#cb63-334" aria-hidden="true" tabindex="-1"></a>        <span class="at">showcase =</span> bsicons<span class="sc">::</span><span class="fu">bs_icon</span>(<span class="st">"percent"</span>),</span>
+<span id="cb63-335"><a href="#cb63-335" aria-hidden="true" tabindex="-1"></a>        <span class="at">showcase_layout =</span> <span class="st">"top right"</span>,</span>
+<span id="cb63-336"><a href="#cb63-336" aria-hidden="true" tabindex="-1"></a>        <span class="at">theme =</span> <span class="st">"secondary"</span></span>
+<span id="cb63-337"><a href="#cb63-337" aria-hidden="true" tabindex="-1"></a>      )</span>
+<span id="cb63-338"><a href="#cb63-338" aria-hidden="true" tabindex="-1"></a>    ))</span>
+<span id="cb63-339"><a href="#cb63-339" aria-hidden="true" tabindex="-1"></a>  }</span>
+<span id="cb63-340"><a href="#cb63-340" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb63-341"><a href="#cb63-341" aria-hidden="true" tabindex="-1"></a>  <span class="co"># Wrap all boxes inside layout_column_wrap</span></span>
+<span id="cb63-342"><a href="#cb63-342" aria-hidden="true" tabindex="-1"></a>  <span class="fu">layout_column_wrap</span>(<span class="sc">!!!</span>boxes)</span>
+<span id="cb63-343"><a href="#cb63-343" aria-hidden="true" tabindex="-1"></a>})</span>
+<span id="cb63-344"><a href="#cb63-344" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb63-345"><a href="#cb63-345" aria-hidden="true" tabindex="-1"></a><span class="co">#-conditional layout for time series plots---------------------------------------------</span></span>
+<span id="cb63-346"><a href="#cb63-346" aria-hidden="true" tabindex="-1"></a>output<span class="sc">$</span>ts_plots_ui <span class="ot">&lt;-</span> <span class="fu">renderUI</span>({</span>
+<span id="cb63-347"><a href="#cb63-347" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb63-348"><a href="#cb63-348" aria-hidden="true" tabindex="-1"></a>  <span class="co"># If TPR is selected, show both plots side by side</span></span>
+<span id="cb63-349"><a href="#cb63-349" aria-hidden="true" tabindex="-1"></a>  <span class="cf">if</span> (<span class="fu">isTRUE</span>(input<span class="sc">$</span>include_tpr)) { </span>
+<span id="cb63-350"><a href="#cb63-350" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Show both plots side by side</span></span>
+<span id="cb63-351"><a href="#cb63-351" aria-hidden="true" tabindex="-1"></a>    <span class="fu">layout_columns</span>(</span>
+<span id="cb63-352"><a href="#cb63-352" aria-hidden="true" tabindex="-1"></a>      <span class="at">col_widths =</span> <span class="fu">c</span>(<span class="dv">6</span>, <span class="dv">6</span>),  <span class="co"># 50-50 width</span></span>
+<span id="cb63-353"><a href="#cb63-353" aria-hidden="true" tabindex="-1"></a>      <span class="fu">plotlyOutput</span>(<span class="st">"ts_plot"</span>),</span>
+<span id="cb63-354"><a href="#cb63-354" aria-hidden="true" tabindex="-1"></a>      <span class="fu">plotlyOutput</span>(<span class="st">"tpr_plot"</span>)</span>
+<span id="cb63-355"><a href="#cb63-355" aria-hidden="true" tabindex="-1"></a>    )</span>
+<span id="cb63-356"><a href="#cb63-356" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb63-357"><a href="#cb63-357" aria-hidden="true" tabindex="-1"></a>  <span class="co"># If TPR is not selected, show only the main time series plot</span></span>
+<span id="cb63-358"><a href="#cb63-358" aria-hidden="true" tabindex="-1"></a>  } <span class="cf">else</span> {</span>
+<span id="cb63-359"><a href="#cb63-359" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Show single plot full width</span></span>
+<span id="cb63-360"><a href="#cb63-360" aria-hidden="true" tabindex="-1"></a>    <span class="fu">layout_columns</span>(</span>
+<span id="cb63-361"><a href="#cb63-361" aria-hidden="true" tabindex="-1"></a>      <span class="at">col_widths =</span> <span class="fu">c</span>(<span class="dv">12</span>),  <span class="co"># full width</span></span>
+<span id="cb63-362"><a href="#cb63-362" aria-hidden="true" tabindex="-1"></a>      <span class="fu">plotlyOutput</span>(<span class="st">"ts_plot"</span>)</span>
+<span id="cb63-363"><a href="#cb63-363" aria-hidden="true" tabindex="-1"></a>    )</span>
+<span id="cb63-364"><a href="#cb63-364" aria-hidden="true" tabindex="-1"></a>  }</span>
+<span id="cb63-365"><a href="#cb63-365" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb63-366"><a href="#cb63-366" aria-hidden="true" tabindex="-1"></a>})</span>
+<span id="cb63-367"><a href="#cb63-367" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb63-368"><a href="#cb63-368" aria-hidden="true" tabindex="-1"></a><span class="co">#-Incidence plot---------------------------------------------------------------------------</span></span>
+<span id="cb63-369"><a href="#cb63-369" aria-hidden="true" tabindex="-1"></a>output<span class="sc">$</span>inc_plot <span class="ot">&lt;-</span> <span class="fu">renderPlotly</span>({</span>
+<span id="cb63-370"><a href="#cb63-370" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb63-371"><a href="#cb63-371" aria-hidden="true" tabindex="-1"></a>  <span class="co"># Add messages to inform user to select a province</span></span>
+<span id="cb63-372"><a href="#cb63-372" aria-hidden="true" tabindex="-1"></a>  <span class="fu">validate</span>(</span>
+<span id="cb63-373"><a href="#cb63-373" aria-hidden="true" tabindex="-1"></a>    <span class="fu">need</span>(input<span class="sc">$</span>province_select <span class="sc">!=</span> <span class="st">""</span>, <span class="st">"Please select a province to view data."</span>)</span>
+<span id="cb63-374"><a href="#cb63-374" aria-hidden="true" tabindex="-1"></a>  )</span>
+<span id="cb63-375"><a href="#cb63-375" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb63-376"><a href="#cb63-376" aria-hidden="true" tabindex="-1"></a>  <span class="co"># filter dataset</span></span>
+<span id="cb63-377"><a href="#cb63-377" aria-hidden="true" tabindex="-1"></a>  df <span class="ot">&lt;-</span> </span>
+<span id="cb63-378"><a href="#cb63-378" aria-hidden="true" tabindex="-1"></a>    <span class="fu">province_data</span>() <span class="sc">%&gt;%</span> <span class="co"># filtr ptovince data</span></span>
+<span id="cb63-379"><a href="#cb63-379" aria-hidden="true" tabindex="-1"></a>    <span class="fu">filter</span>(var_name <span class="sc">==</span> <span class="st">"malaria_cases_per_1000"</span>) <span class="co"># select inc var</span></span>
+<span id="cb63-380"><a href="#cb63-380" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb63-381"><a href="#cb63-381" aria-hidden="true" tabindex="-1"></a>  <span class="co"># Ensure there is data to plot</span></span>
+<span id="cb63-382"><a href="#cb63-382" aria-hidden="true" tabindex="-1"></a>  <span class="fu">validate</span>(</span>
+<span id="cb63-383"><a href="#cb63-383" aria-hidden="true" tabindex="-1"></a>    <span class="fu">need</span>(<span class="fu">nrow</span>(df) <span class="sc">&gt;</span> <span class="dv">0</span>, <span class="st">"No incidence data available for this province."</span>)</span>
+<span id="cb63-384"><a href="#cb63-384" aria-hidden="true" tabindex="-1"></a>  )</span>
+<span id="cb63-385"><a href="#cb63-385" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb63-386"><a href="#cb63-386" aria-hidden="true" tabindex="-1"></a>  <span class="co"># Plot the incidence over time </span></span>
+<span id="cb63-387"><a href="#cb63-387" aria-hidden="true" tabindex="-1"></a>  p <span class="ot">&lt;-</span> </span>
+<span id="cb63-388"><a href="#cb63-388" aria-hidden="true" tabindex="-1"></a>    <span class="fu">ggplot</span>(df, <span class="fu">aes</span>(<span class="at">x =</span> period, <span class="at">y =</span> value)) <span class="sc">+</span></span>
+<span id="cb63-389"><a href="#cb63-389" aria-hidden="true" tabindex="-1"></a>    <span class="fu">geom_line</span>(<span class="at">color =</span> <span class="st">"#FECC01"</span>) <span class="sc">+</span></span>
+<span id="cb63-390"><a href="#cb63-390" aria-hidden="true" tabindex="-1"></a>    <span class="fu">geom_point</span>(<span class="at">color =</span> <span class="st">"#FECC01"</span>) <span class="sc">+</span></span>
+<span id="cb63-391"><a href="#cb63-391" aria-hidden="true" tabindex="-1"></a>    <span class="fu">labs</span>(</span>
+<span id="cb63-392"><a href="#cb63-392" aria-hidden="true" tabindex="-1"></a>      <span class="at">title =</span> <span class="fu">paste</span>(<span class="st">"Malaria Incidence in:"</span>, input<span class="sc">$</span>province_select),</span>
+<span id="cb63-393"><a href="#cb63-393" aria-hidden="true" tabindex="-1"></a>      <span class="at">x =</span> <span class="st">"Month"</span>,</span>
+<span id="cb63-394"><a href="#cb63-394" aria-hidden="true" tabindex="-1"></a>      <span class="at">y =</span> <span class="st">"Incidence (per 1,000)"</span></span>
+<span id="cb63-395"><a href="#cb63-395" aria-hidden="true" tabindex="-1"></a>    ) <span class="sc">+</span></span>
+<span id="cb63-396"><a href="#cb63-396" aria-hidden="true" tabindex="-1"></a>    <span class="fu">theme_minimal</span>()</span>
+<span id="cb63-397"><a href="#cb63-397" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb63-398"><a href="#cb63-398" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplotly</span>(p)</span>
+<span id="cb63-399"><a href="#cb63-399" aria-hidden="true" tabindex="-1"></a>})</span>
+<span id="cb63-400"><a href="#cb63-400" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb63-401"><a href="#cb63-401" aria-hidden="true" tabindex="-1"></a><span class="co"># Incidence leaflet map----------------------------------------------------------------------</span></span>
+<span id="cb63-402"><a href="#cb63-402" aria-hidden="true" tabindex="-1"></a>output<span class="sc">$</span>inc_map <span class="ot">&lt;-</span> <span class="fu">renderLeaflet</span>({</span>
+<span id="cb63-403"><a href="#cb63-403" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb63-404"><a href="#cb63-404" aria-hidden="true" tabindex="-1"></a>  <span class="co"># Add messages to inform user to select a province</span></span>
+<span id="cb63-405"><a href="#cb63-405" aria-hidden="true" tabindex="-1"></a>  <span class="fu">validate</span>(</span>
+<span id="cb63-406"><a href="#cb63-406" aria-hidden="true" tabindex="-1"></a>    <span class="fu">need</span>(input<span class="sc">$</span>province_select <span class="sc">!=</span> <span class="st">""</span>, <span class="st">"Please select a province to view data."</span>)</span>
+<span id="cb63-407"><a href="#cb63-407" aria-hidden="true" tabindex="-1"></a>  )</span>
+<span id="cb63-408"><a href="#cb63-408" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb63-409"><a href="#cb63-409" aria-hidden="true" tabindex="-1"></a>  <span class="co"># Summarise incidence by province - no need to use filtered data as </span></span>
+<span id="cb63-410"><a href="#cb63-410" aria-hidden="true" tabindex="-1"></a>  <span class="co"># we want all provinces shown on the map</span></span>
+<span id="cb63-411"><a href="#cb63-411" aria-hidden="true" tabindex="-1"></a>  df <span class="ot">&lt;-</span> </span>
+<span id="cb63-412"><a href="#cb63-412" aria-hidden="true" tabindex="-1"></a>    app_data <span class="sc">%&gt;%</span></span>
+<span id="cb63-413"><a href="#cb63-413" aria-hidden="true" tabindex="-1"></a>    <span class="fu">filter</span>(var_name <span class="sc">==</span> <span class="st">"malaria_cases_per_1000"</span>) <span class="sc">%&gt;%</span> <span class="co"># filter to incidence data</span></span>
+<span id="cb63-414"><a href="#cb63-414" aria-hidden="true" tabindex="-1"></a>    <span class="fu">group_by</span>(organisation_unit) <span class="sc">%&gt;%</span>  <span class="co"># group by organisation unit</span></span>
+<span id="cb63-415"><a href="#cb63-415" aria-hidden="true" tabindex="-1"></a>    <span class="fu">summarise</span>(<span class="at">inc =</span> <span class="fu">mean</span>(value, <span class="at">na.rm =</span> <span class="cn">TRUE</span>)) <span class="co"># calculate mean incidence per 1,000</span></span>
+<span id="cb63-416"><a href="#cb63-416" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb63-417"><a href="#cb63-417" aria-hidden="true" tabindex="-1"></a>  <span class="co"># Join data to spatial file</span></span>
+<span id="cb63-418"><a href="#cb63-418" aria-hidden="true" tabindex="-1"></a>  df_shape <span class="ot">&lt;-</span> <span class="fu">left_join</span>(adm1_shp, df, <span class="at">by =</span> <span class="fu">c</span>(<span class="st">"org_unit"</span> <span class="ot">=</span> <span class="st">"organisation_unit"</span>))</span>
+<span id="cb63-419"><a href="#cb63-419" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb63-420"><a href="#cb63-420" aria-hidden="true" tabindex="-1"></a>  <span class="co"># Create color palette </span></span>
+<span id="cb63-421"><a href="#cb63-421" aria-hidden="true" tabindex="-1"></a>  pal <span class="ot">&lt;-</span> <span class="fu">colorNumeric</span>(</span>
+<span id="cb63-422"><a href="#cb63-422" aria-hidden="true" tabindex="-1"></a>    <span class="at">palette =</span> <span class="st">"YlOrRd"</span>,</span>
+<span id="cb63-423"><a href="#cb63-423" aria-hidden="true" tabindex="-1"></a>    <span class="at">domain =</span> df_shape<span class="sc">$</span>inc, <span class="co"># use the incidence values for color mapping</span></span>
+<span id="cb63-424"><a href="#cb63-424" aria-hidden="true" tabindex="-1"></a>    <span class="at">na.color =</span> <span class="st">"#f0f0f0"</span></span>
+<span id="cb63-425"><a href="#cb63-425" aria-hidden="true" tabindex="-1"></a>  )</span>
+<span id="cb63-426"><a href="#cb63-426" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb63-427"><a href="#cb63-427" aria-hidden="true" tabindex="-1"></a>  <span class="co"># Create the leaflet map </span></span>
+<span id="cb63-428"><a href="#cb63-428" aria-hidden="true" tabindex="-1"></a>  <span class="fu">leaflet</span>(df_shape) <span class="sc">%&gt;%</span> <span class="co"># use the spatial data</span></span>
+<span id="cb63-429"><a href="#cb63-429" aria-hidden="true" tabindex="-1"></a>    <span class="fu">addProviderTiles</span>(providers<span class="sc">$</span>CartoDB.Positron) <span class="sc">%&gt;%</span> <span class="co"># adds base map layer</span></span>
+<span id="cb63-430"><a href="#cb63-430" aria-hidden="true" tabindex="-1"></a>    <span class="fu">addPolygons</span>( </span>
+<span id="cb63-431"><a href="#cb63-431" aria-hidden="true" tabindex="-1"></a>      <span class="co"># add polygons for each province</span></span>
+<span id="cb63-432"><a href="#cb63-432" aria-hidden="true" tabindex="-1"></a>      <span class="at">fillColor =</span> <span class="sc">~</span><span class="fu">pal</span>(inc), <span class="co"># fill color based on incidence</span></span>
+<span id="cb63-433"><a href="#cb63-433" aria-hidden="true" tabindex="-1"></a>      <span class="at">weight =</span> <span class="sc">~</span><span class="fu">ifelse</span>(org_unit <span class="sc">==</span> input<span class="sc">$</span>province_select, <span class="dv">3</span>, <span class="dv">1</span>), <span class="co"># highlight selected province with thicker border</span></span>
+<span id="cb63-434"><a href="#cb63-434" aria-hidden="true" tabindex="-1"></a>      <span class="at">color =</span> <span class="sc">~</span><span class="fu">ifelse</span>(org_unit <span class="sc">==</span> input<span class="sc">$</span>province_select, <span class="st">"#7C204F"</span>, <span class="st">"black"</span>), <span class="co"># set border color</span></span>
+<span id="cb63-435"><a href="#cb63-435" aria-hidden="true" tabindex="-1"></a>      <span class="at">opacity =</span> <span class="dv">1</span>, <span class="co"># set opacity of the border</span></span>
+<span id="cb63-436"><a href="#cb63-436" aria-hidden="true" tabindex="-1"></a>      <span class="at">fillOpacity =</span> <span class="fl">0.8</span>, <span class="co"># set fill opacity </span></span>
+<span id="cb63-437"><a href="#cb63-437" aria-hidden="true" tabindex="-1"></a>      <span class="at">label =</span> <span class="sc">~</span><span class="fu">paste0</span>(org_unit, <span class="st">": "</span>, <span class="fu">round</span>(inc, <span class="dv">1</span>), <span class="st">" per 1,000"</span>), <span class="co"># add labels with province name and incidence</span></span>
+<span id="cb63-438"><a href="#cb63-438" aria-hidden="true" tabindex="-1"></a>      <span class="at">highlightOptions =</span> <span class="fu">highlightOptions</span>(</span>
+<span id="cb63-439"><a href="#cb63-439" aria-hidden="true" tabindex="-1"></a>        <span class="co"># highlight options for interactivity</span></span>
+<span id="cb63-440"><a href="#cb63-440" aria-hidden="true" tabindex="-1"></a>        <span class="at">weight =</span> <span class="dv">3</span>, <span class="co"># thicker border on hover</span></span>
+<span id="cb63-441"><a href="#cb63-441" aria-hidden="true" tabindex="-1"></a>        <span class="at">color =</span> <span class="st">"#333"</span>, <span class="co"># darker border on hover</span></span>
+<span id="cb63-442"><a href="#cb63-442" aria-hidden="true" tabindex="-1"></a>        <span class="at">fillOpacity =</span> <span class="fl">0.9</span>, <span class="co"># fill opacity on hover</span></span>
+<span id="cb63-443"><a href="#cb63-443" aria-hidden="true" tabindex="-1"></a>        <span class="at">bringToFront =</span> <span class="cn">TRUE</span> <span class="co"># bring polygon to front on hover</span></span>
+<span id="cb63-444"><a href="#cb63-444" aria-hidden="true" tabindex="-1"></a>      )</span>
+<span id="cb63-445"><a href="#cb63-445" aria-hidden="true" tabindex="-1"></a>    ) <span class="sc">|&gt;</span></span>
+<span id="cb63-446"><a href="#cb63-446" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Add the color legend</span></span>
+<span id="cb63-447"><a href="#cb63-447" aria-hidden="true" tabindex="-1"></a>    <span class="fu">addLegend</span>(</span>
+<span id="cb63-448"><a href="#cb63-448" aria-hidden="true" tabindex="-1"></a>      <span class="at">pal =</span> pal,</span>
+<span id="cb63-449"><a href="#cb63-449" aria-hidden="true" tabindex="-1"></a>      <span class="at">values =</span> df_shape<span class="sc">$</span>inc,</span>
+<span id="cb63-450"><a href="#cb63-450" aria-hidden="true" tabindex="-1"></a>      <span class="at">title =</span> <span class="st">"Avg Incidence (per 1,000)"</span>,</span>
+<span id="cb63-451"><a href="#cb63-451" aria-hidden="true" tabindex="-1"></a>      <span class="at">position =</span> <span class="st">"bottomright"</span></span>
+<span id="cb63-452"><a href="#cb63-452" aria-hidden="true" tabindex="-1"></a>    )</span>
+<span id="cb63-453"><a href="#cb63-453" aria-hidden="true" tabindex="-1"></a>})</span>
+<span id="cb63-454"><a href="#cb63-454" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb63-455"><a href="#cb63-455" aria-hidden="true" tabindex="-1"></a><span class="co"># -Summary table of annual values-------------------------------------------------------------</span></span>
+<span id="cb63-456"><a href="#cb63-456" aria-hidden="true" tabindex="-1"></a>output<span class="sc">$</span>summary_data <span class="ot">&lt;-</span> <span class="fu">renderDT</span>({</span>
+<span id="cb63-457"><a href="#cb63-457" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb63-458"><a href="#cb63-458" aria-hidden="true" tabindex="-1"></a>  <span class="co"># Add messages to inform user to select a province</span></span>
+<span id="cb63-459"><a href="#cb63-459" aria-hidden="true" tabindex="-1"></a>  <span class="fu">validate</span>(</span>
+<span id="cb63-460"><a href="#cb63-460" aria-hidden="true" tabindex="-1"></a>    <span class="fu">need</span>(input<span class="sc">$</span>province_select <span class="sc">!=</span> <span class="st">""</span>, <span class="st">"Please select a province to view data."</span>)</span>
+<span id="cb63-461"><a href="#cb63-461" aria-hidden="true" tabindex="-1"></a>  )</span>
+<span id="cb63-462"><a href="#cb63-462" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb63-463"><a href="#cb63-463" aria-hidden="true" tabindex="-1"></a>  <span class="co"># Filter and summarise the app_data to create a summary table using all provinces </span></span>
+<span id="cb63-464"><a href="#cb63-464" aria-hidden="true" tabindex="-1"></a>  df <span class="ot">&lt;-</span> </span>
+<span id="cb63-465"><a href="#cb63-465" aria-hidden="true" tabindex="-1"></a>    app_data <span class="sc">%&gt;%</span></span>
+<span id="cb63-466"><a href="#cb63-466" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Filter to relevant variables</span></span>
+<span id="cb63-467"><a href="#cb63-467" aria-hidden="true" tabindex="-1"></a>    <span class="fu">filter</span>(var_name <span class="sc">%in%</span> <span class="fu">c</span>(<span class="st">"malaria_cases"</span>, <span class="st">"malaria_tests"</span>, <span class="st">"malaria_cases_per_1000"</span>)) <span class="sc">%&gt;%</span></span>
+<span id="cb63-468"><a href="#cb63-468" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Pivot the data to wide format</span></span>
+<span id="cb63-469"><a href="#cb63-469" aria-hidden="true" tabindex="-1"></a>    <span class="fu">pivot_wider</span>(</span>
+<span id="cb63-470"><a href="#cb63-470" aria-hidden="true" tabindex="-1"></a>      <span class="at">names_from =</span> var_name,</span>
+<span id="cb63-471"><a href="#cb63-471" aria-hidden="true" tabindex="-1"></a>      <span class="at">values_from =</span> value,</span>
+<span id="cb63-472"><a href="#cb63-472" aria-hidden="true" tabindex="-1"></a>    ) <span class="sc">%&gt;%</span> </span>
+<span id="cb63-473"><a href="#cb63-473" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Group by organisation unit (province)</span></span>
+<span id="cb63-474"><a href="#cb63-474" aria-hidden="true" tabindex="-1"></a>    <span class="fu">group_by</span>(organisation_unit) <span class="sc">%&gt;%</span> </span>
+<span id="cb63-475"><a href="#cb63-475" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Calculate TPR and summarise the data</span></span>
+<span id="cb63-476"><a href="#cb63-476" aria-hidden="true" tabindex="-1"></a>    <span class="fu">mutate</span>(<span class="at">tpr =</span> <span class="fu">round</span>((malaria_cases <span class="sc">/</span> malaria_tests) <span class="sc">*</span> <span class="dv">100</span>, <span class="dv">1</span>)) <span class="sc">%&gt;%</span> </span>
+<span id="cb63-477"><a href="#cb63-477" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Summarise the data to get total cases, total tests, average TPR, and average incidence</span></span>
+<span id="cb63-478"><a href="#cb63-478" aria-hidden="true" tabindex="-1"></a>    <span class="co"># And two new variables - reporting months for cases and tests</span></span>
+<span id="cb63-479"><a href="#cb63-479" aria-hidden="true" tabindex="-1"></a>    <span class="fu">summarise</span>(</span>
+<span id="cb63-480"><a href="#cb63-480" aria-hidden="true" tabindex="-1"></a>      <span class="at">total_cases =</span> <span class="fu">sum</span>(malaria_cases, <span class="at">na.rm =</span> <span class="cn">TRUE</span>),</span>
+<span id="cb63-481"><a href="#cb63-481" aria-hidden="true" tabindex="-1"></a>      <span class="at">total_tests =</span> <span class="fu">sum</span>(malaria_tests, <span class="at">na.rm=</span><span class="cn">TRUE</span>), </span>
+<span id="cb63-482"><a href="#cb63-482" aria-hidden="true" tabindex="-1"></a>      <span class="at">avg_tpr =</span> <span class="fu">round</span>(<span class="fu">mean</span>(tpr, <span class="at">na.rm=</span><span class="cn">TRUE</span>), <span class="dv">1</span>),</span>
+<span id="cb63-483"><a href="#cb63-483" aria-hidden="true" tabindex="-1"></a>      <span class="at">avg_inc =</span> <span class="fu">round</span>(<span class="fu">mean</span>(malaria_cases_per_1000, <span class="at">na.rm=</span><span class="cn">TRUE</span>),<span class="dv">1</span>), </span>
+<span id="cb63-484"><a href="#cb63-484" aria-hidden="true" tabindex="-1"></a>      <span class="at">reporting_months_cases =</span> <span class="fu">sum</span>(<span class="sc">!</span><span class="fu">is.na</span>(malaria_cases)),</span>
+<span id="cb63-485"><a href="#cb63-485" aria-hidden="true" tabindex="-1"></a>      <span class="at">reporting_months_tests =</span> <span class="fu">sum</span>(<span class="sc">!</span><span class="fu">is.na</span>(malaria_tests))</span>
+<span id="cb63-486"><a href="#cb63-486" aria-hidden="true" tabindex="-1"></a>    ) <span class="sc">%&gt;%</span> </span>
+<span id="cb63-487"><a href="#cb63-487" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Rename columns for nice table headings</span></span>
+<span id="cb63-488"><a href="#cb63-488" aria-hidden="true" tabindex="-1"></a>    <span class="fu">rename</span>(</span>
+<span id="cb63-489"><a href="#cb63-489" aria-hidden="true" tabindex="-1"></a>      <span class="at">Province =</span> organisation_unit,</span>
+<span id="cb63-490"><a href="#cb63-490" aria-hidden="true" tabindex="-1"></a>      <span class="st">`</span><span class="at">Total Cases</span><span class="st">`</span> <span class="ot">=</span> total_cases,</span>
+<span id="cb63-491"><a href="#cb63-491" aria-hidden="true" tabindex="-1"></a>      <span class="st">`</span><span class="at">Total Tests</span><span class="st">`</span> <span class="ot">=</span> total_tests,</span>
+<span id="cb63-492"><a href="#cb63-492" aria-hidden="true" tabindex="-1"></a>      <span class="st">`</span><span class="at">Average TPR (%)</span><span class="st">`</span> <span class="ot">=</span> avg_tpr,</span>
+<span id="cb63-493"><a href="#cb63-493" aria-hidden="true" tabindex="-1"></a>      <span class="st">`</span><span class="at">Avg Incidence</span><span class="st">`</span> <span class="ot">=</span> avg_inc,</span>
+<span id="cb63-494"><a href="#cb63-494" aria-hidden="true" tabindex="-1"></a>      <span class="st">`</span><span class="at">Case Reporting Months</span><span class="st">`</span> <span class="ot">=</span> reporting_months_cases,</span>
+<span id="cb63-495"><a href="#cb63-495" aria-hidden="true" tabindex="-1"></a>      <span class="st">`</span><span class="at">Test Reporting Months</span><span class="st">`</span> <span class="ot">=</span> reporting_months_tests</span>
+<span id="cb63-496"><a href="#cb63-496" aria-hidden="true" tabindex="-1"></a>    )</span>
+<span id="cb63-497"><a href="#cb63-497" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb63-498"><a href="#cb63-498" aria-hidden="true" tabindex="-1"></a>  <span class="co"># Build DT object</span></span>
+<span id="cb63-499"><a href="#cb63-499" aria-hidden="true" tabindex="-1"></a>  dt <span class="ot">&lt;-</span> <span class="fu">datatable</span>(</span>
+<span id="cb63-500"><a href="#cb63-500" aria-hidden="true" tabindex="-1"></a>    df, <span class="co"># Create a datatable from the summarised data</span></span>
+<span id="cb63-501"><a href="#cb63-501" aria-hidden="true" tabindex="-1"></a>    <span class="at">rownames =</span> <span class="cn">FALSE</span>,  <span class="co"># disable row names</span></span>
+<span id="cb63-502"><a href="#cb63-502" aria-hidden="true" tabindex="-1"></a>    <span class="at">options =</span> <span class="fu">list</span>(</span>
+<span id="cb63-503"><a href="#cb63-503" aria-hidden="true" tabindex="-1"></a>      <span class="at">pageLength =</span> <span class="dv">10</span>, <span class="co"># number of rows per page</span></span>
+<span id="cb63-504"><a href="#cb63-504" aria-hidden="true" tabindex="-1"></a>      <span class="at">dom =</span> <span class="st">"tip"</span>,     <span class="co"># table controls</span></span>
+<span id="cb63-505"><a href="#cb63-505" aria-hidden="true" tabindex="-1"></a>      <span class="at">autoWidth =</span> <span class="cn">TRUE</span> <span class="co"># auto width for columns</span></span>
+<span id="cb63-506"><a href="#cb63-506" aria-hidden="true" tabindex="-1"></a>    )</span>
+<span id="cb63-507"><a href="#cb63-507" aria-hidden="true" tabindex="-1"></a>  )</span>
+<span id="cb63-508"><a href="#cb63-508" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb63-509"><a href="#cb63-509" aria-hidden="true" tabindex="-1"></a>  <span class="co"># Highlight selected province</span></span>
+<span id="cb63-510"><a href="#cb63-510" aria-hidden="true" tabindex="-1"></a>  <span class="cf">if</span> (input<span class="sc">$</span>province_select <span class="sc">!=</span> <span class="st">""</span>) {</span>
+<span id="cb63-511"><a href="#cb63-511" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Apply row styling to highlight the selected province</span></span>
+<span id="cb63-512"><a href="#cb63-512" aria-hidden="true" tabindex="-1"></a>    selected <span class="ot">&lt;-</span> input<span class="sc">$</span>province_select </span>
+<span id="cb63-513"><a href="#cb63-513" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Use formatStyle to apply bold font weight to the selected province row</span></span>
+<span id="cb63-514"><a href="#cb63-514" aria-hidden="true" tabindex="-1"></a>    dt <span class="ot">&lt;-</span> dt <span class="sc">%&gt;%</span></span>
+<span id="cb63-515"><a href="#cb63-515" aria-hidden="true" tabindex="-1"></a>      <span class="fu">formatStyle</span>(</span>
+<span id="cb63-516"><a href="#cb63-516" aria-hidden="true" tabindex="-1"></a>        <span class="st">"Province"</span>,</span>
+<span id="cb63-517"><a href="#cb63-517" aria-hidden="true" tabindex="-1"></a>        <span class="at">target =</span> <span class="st">"row"</span>,</span>
+<span id="cb63-518"><a href="#cb63-518" aria-hidden="true" tabindex="-1"></a>        <span class="at">fontWeight =</span> <span class="fu">styleEqual</span>(selected, <span class="st">"bold"</span>)</span>
+<span id="cb63-519"><a href="#cb63-519" aria-hidden="true" tabindex="-1"></a>      )</span>
+<span id="cb63-520"><a href="#cb63-520" aria-hidden="true" tabindex="-1"></a>  }</span>
+<span id="cb63-521"><a href="#cb63-521" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb63-522"><a href="#cb63-522" aria-hidden="true" tabindex="-1"></a>  <span class="co"># Return the datatable object</span></span>
+<span id="cb63-523"><a href="#cb63-523" aria-hidden="true" tabindex="-1"></a>  dt</span>
+<span id="cb63-524"><a href="#cb63-524" aria-hidden="true" tabindex="-1"></a>})</span>
+<span id="cb63-525"><a href="#cb63-525" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb63-526"><a href="#cb63-526" aria-hidden="true" tabindex="-1"></a><span class="co">#-Code for handling data downloads--------------------------------------------------------------</span></span>
+<span id="cb63-527"><a href="#cb63-527" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb63-528"><a href="#cb63-528" aria-hidden="true" tabindex="-1"></a><span class="co"># Create a reactive data frame for the summary table to pull data from same logic as in the</span></span>
+<span id="cb63-529"><a href="#cb63-529" aria-hidden="true" tabindex="-1"></a><span class="co"># data rendering code</span></span>
+<span id="cb63-530"><a href="#cb63-530" aria-hidden="true" tabindex="-1"></a>summary_table_data <span class="ot">&lt;-</span> <span class="fu">reactive</span>({</span>
+<span id="cb63-531"><a href="#cb63-531" aria-hidden="true" tabindex="-1"></a>  app_data <span class="sc">|&gt;</span></span>
+<span id="cb63-532"><a href="#cb63-532" aria-hidden="true" tabindex="-1"></a>    <span class="fu">filter</span>(var_name <span class="sc">%in%</span> <span class="fu">c</span>(<span class="st">"malaria_cases"</span>, <span class="st">"malaria_tests"</span>, <span class="st">"malaria_cases_per_1000"</span>)) <span class="sc">|&gt;</span></span>
+<span id="cb63-533"><a href="#cb63-533" aria-hidden="true" tabindex="-1"></a>    <span class="fu">pivot_wider</span>(<span class="at">names_from =</span> var_name, <span class="at">values_from =</span> value) <span class="sc">|&gt;</span> </span>
+<span id="cb63-534"><a href="#cb63-534" aria-hidden="true" tabindex="-1"></a>    <span class="fu">group_by</span>(organisation_unit) <span class="sc">|&gt;</span> </span>
+<span id="cb63-535"><a href="#cb63-535" aria-hidden="true" tabindex="-1"></a>    <span class="fu">mutate</span>(<span class="at">tpr =</span> <span class="fu">round</span>((malaria_cases <span class="sc">/</span> malaria_tests) <span class="sc">*</span> <span class="dv">100</span>, <span class="dv">2</span>)) <span class="sc">|&gt;</span> </span>
+<span id="cb63-536"><a href="#cb63-536" aria-hidden="true" tabindex="-1"></a>    <span class="fu">summarise</span>(</span>
+<span id="cb63-537"><a href="#cb63-537" aria-hidden="true" tabindex="-1"></a>      <span class="at">total_cases =</span> <span class="fu">sum</span>(malaria_cases, <span class="at">na.rm =</span> <span class="cn">TRUE</span>),</span>
+<span id="cb63-538"><a href="#cb63-538" aria-hidden="true" tabindex="-1"></a>      <span class="at">total_tests =</span> <span class="fu">sum</span>(malaria_tests, <span class="at">na.rm=</span><span class="cn">TRUE</span>), </span>
+<span id="cb63-539"><a href="#cb63-539" aria-hidden="true" tabindex="-1"></a>      <span class="at">avg_tpr =</span> <span class="fu">round</span>(<span class="fu">mean</span>(tpr, <span class="at">na.rm=</span><span class="cn">TRUE</span>), <span class="dv">1</span>),</span>
+<span id="cb63-540"><a href="#cb63-540" aria-hidden="true" tabindex="-1"></a>      <span class="at">avg_inc =</span> <span class="fu">round</span>(<span class="fu">mean</span>(malaria_cases_per_1000, <span class="at">na.rm=</span><span class="cn">TRUE</span>),<span class="dv">1</span>), </span>
+<span id="cb63-541"><a href="#cb63-541" aria-hidden="true" tabindex="-1"></a>      <span class="at">reporting_months_cases =</span> <span class="fu">sum</span>(<span class="sc">!</span><span class="fu">is.na</span>(malaria_cases)),</span>
+<span id="cb63-542"><a href="#cb63-542" aria-hidden="true" tabindex="-1"></a>      <span class="at">reporting_months_tests =</span> <span class="fu">sum</span>(<span class="sc">!</span><span class="fu">is.na</span>(malaria_tests))</span>
+<span id="cb63-543"><a href="#cb63-543" aria-hidden="true" tabindex="-1"></a>    ) <span class="sc">|&gt;</span> </span>
+<span id="cb63-544"><a href="#cb63-544" aria-hidden="true" tabindex="-1"></a>    <span class="fu">rename</span>(</span>
+<span id="cb63-545"><a href="#cb63-545" aria-hidden="true" tabindex="-1"></a>      <span class="at">Province =</span> organisation_unit,</span>
+<span id="cb63-546"><a href="#cb63-546" aria-hidden="true" tabindex="-1"></a>      <span class="st">`</span><span class="at">Total Cases</span><span class="st">`</span> <span class="ot">=</span> total_cases,</span>
+<span id="cb63-547"><a href="#cb63-547" aria-hidden="true" tabindex="-1"></a>      <span class="st">`</span><span class="at">Total Tests</span><span class="st">`</span> <span class="ot">=</span> total_tests,</span>
+<span id="cb63-548"><a href="#cb63-548" aria-hidden="true" tabindex="-1"></a>      <span class="st">`</span><span class="at">Average TPR (%)</span><span class="st">`</span> <span class="ot">=</span> avg_tpr,</span>
+<span id="cb63-549"><a href="#cb63-549" aria-hidden="true" tabindex="-1"></a>      <span class="st">`</span><span class="at">Avg Incidence</span><span class="st">`</span> <span class="ot">=</span> avg_inc,</span>
+<span id="cb63-550"><a href="#cb63-550" aria-hidden="true" tabindex="-1"></a>      <span class="st">`</span><span class="at">Case Reporting Months</span><span class="st">`</span> <span class="ot">=</span> reporting_months_cases,</span>
+<span id="cb63-551"><a href="#cb63-551" aria-hidden="true" tabindex="-1"></a>      <span class="st">`</span><span class="at">Test Reporting Months</span><span class="st">`</span> <span class="ot">=</span> reporting_months_tests</span>
+<span id="cb63-552"><a href="#cb63-552" aria-hidden="true" tabindex="-1"></a>    )</span>
+<span id="cb63-553"><a href="#cb63-553" aria-hidden="true" tabindex="-1"></a>})</span>
+<span id="cb63-554"><a href="#cb63-554" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb63-555"><a href="#cb63-555" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb63-556"><a href="#cb63-556" aria-hidden="true" tabindex="-1"></a><span class="co"># Enable file download </span></span>
+<span id="cb63-557"><a href="#cb63-557" aria-hidden="true" tabindex="-1"></a>output<span class="sc">$</span>download_summary <span class="ot">&lt;-</span> <span class="fu">downloadHandler</span>(</span>
+<span id="cb63-558"><a href="#cb63-558" aria-hidden="true" tabindex="-1"></a>  <span class="co"># Define the filename for the downloaded file</span></span>
+<span id="cb63-559"><a href="#cb63-559" aria-hidden="true" tabindex="-1"></a>  <span class="at">filename =</span> <span class="cf">function</span>() { <span class="fu">paste0</span>(<span class="st">"summary_data_"</span>, <span class="fu">Sys.Date</span>(), <span class="st">".csv"</span>) }, <span class="co"># This will create a file name with the current date</span></span>
+<span id="cb63-560"><a href="#cb63-560" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb63-561"><a href="#cb63-561" aria-hidden="true" tabindex="-1"></a>  <span class="co"># Define the content of the file </span></span>
+<span id="cb63-562"><a href="#cb63-562" aria-hidden="true" tabindex="-1"></a>  <span class="at">content =</span> <span class="cf">function</span>(file) {</span>
+<span id="cb63-563"><a href="#cb63-563" aria-hidden="true" tabindex="-1"></a>    <span class="fu">write.csv</span>(<span class="fu">summary_table_data</span>(), file, <span class="at">row.names =</span> <span class="cn">FALSE</span>) <span class="co"># Write the summary table data to a CSV file</span></span>
+<span id="cb63-564"><a href="#cb63-564" aria-hidden="true" tabindex="-1"></a>  }</span>
+<span id="cb63-565"><a href="#cb63-565" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb63-566"><a href="#cb63-566" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb63-567"><a href="#cb63-567" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb63-568"><a href="#cb63-568" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb63-569"><a href="#cb63-569" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb63-570"><a href="#cb63-570" aria-hidden="true" tabindex="-1"></a><span class="co">#-Run the application-----------------------------------------------------------</span></span>
+<span id="cb63-571"><a href="#cb63-571" aria-hidden="true" tabindex="-1"></a><span class="fu">shinyApp</span>(<span class="at">ui =</span> ui, <span class="at">server =</span> server)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</div>
+</div>
+</div>
 </section>
 <section id="next-steps-and-extensions" class="level1">
 <h1>Next Steps and Extensions</h1>
@@ -3032,7 +3643,7 @@ Show Solution
 </section>
 </section>
 
-</main> <!-- /main -->
+<a onclick="window.scrollTo(0, 0); return false;" role="button" id="quarto-back-to-top"><i class="bi bi-arrow-up"></i> Back to top</a></main> <!-- /main -->
 <script id="quarto-html-after-body" type="application/javascript">
   window.document.addEventListener("DOMContentLoaded", function (event) {
     const icon = "";
