@@ -57,7 +57,17 @@ We can't cover all aspects of creating Shiny Dashboards but there are a tonne of
 ✅ You don't need to learn HTML, CSS, or JavaScript\
 ✅ Great for sharing visualizations, tables, and summaries\
 ✅ Easy to deploy: share with collaborators or host online\
-✅ Allow non R users to interact and explore data without the need to code.
+✅ Allow non R users to interact and explore data without the need to code.\
+✅ Provide analytical capacity to people without analytical skills\
+✅ Shiny is a lot more flexible that DHIS2 modules
+
+------------------------------------------------------------------------
+
+## Challenges 
+
+🛑 Need an R coding background \
+🛑 Can be more complext than normal R scripts \
+🛑 Can be costs to hosting apps for distribution
 
 ------------------------------------------------------------------------
 
@@ -164,7 +174,7 @@ You can use the `{bslib}` package to easily:
 Below are some beginner-friendly resources to help you dive deeper into Shiny:
 
 | Link | Description |
-|----|----|
+|------------------------|-----------------------------------------------|
 | [Shiny Get Started](https://shiny.posit.co/r/getstarted/) | Official step-by-step tutorial for beginners, with hands-on examples. |
 | [Shiny Gallery](https://shiny.posit.co/r/gallery/) | Explore live examples of Shiny apps with source code. |
 | [Mastering Shiny (book)](https://mastering-shiny.org/) | Free online book by Hadley Wickham covering basics to advanced topics. |
