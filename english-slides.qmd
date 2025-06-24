@@ -1,6 +1,6 @@
 # Slides in English
 
-::: callout-note
+::: callout-tip
 Slides can be downloaded to your computer or viewed in the browser. Download the slides by clicking the download icon 📥 in the top right corner of the PDF viewer.
 :::
 

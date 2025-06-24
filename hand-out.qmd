@@ -1,8 +1,19 @@
-# Shiny Dashboard Building Blocks - Reference Summary
+---
+title: "Shiny Dashboard Building Blocks - Reference Summary"
+author: "AMMnet Senegal Workshop"
+date: "June 25–27, 2025"
+format:
+  html:
+    theme: minty
+    toc: true
+    toc-depth: 6
+    toc-location: left
+    number-sections: false
+---
 
 This handout summarizes key Shiny concepts, functions, and patterns you can use when building interactive dashboards.
 
-## 1. Shiny App Structure
+## Shiny App Structure
 
 Every Shiny app has two main components:
 
@@ -13,7 +24,7 @@ Every Shiny app has two main components:
 
 The two are linked using shared `inputId` and `outputId` values.
 
-## 2. Inputs and Outputs
+## Inputs and Outputs
 
 ### Input Widgets
 
@@ -46,7 +57,7 @@ The current value is accessed using `input$input_name` inside the server.
 
 **Key rule:** every output has one `render*()` function (server) and one `*Output()` function (UI), linked by the same ID.
 
-## 3. Reactivity
+## Reactivity
 
 Reactivity allows the app to update automatically when inputs change.
 
@@ -60,7 +71,7 @@ Example reactive filter:
 
 `app_data %>% filter(organisation_unit == input$province_select) })`
 
-## 4. Layout Tools
+## Layout Tools
 
 -    `page_sidebar()`: main layout with sidebar + content
 
@@ -83,7 +94,7 @@ layout_columns(
   )
 ```
 
-## 5. Conditional UI Elements
+## Conditional UI Elements
 
 -   Use `renderUI()` + `uiOutput()` to dynamically generate inputs or outputs.
 
@@ -98,7 +109,7 @@ output$tpr_checkbox_ui <- renderUI({
 
 ```
 
-## 6. Theming and Styling
+## Theming and Styling
 
 -    Use `bslib::bs_theme()` to apply consistent color schemes and fonts.
 
@@ -108,7 +119,7 @@ output$tpr_checkbox_ui <- renderUI({
 
 `theme = bs_theme(version = 5, bootswatch = "minty")`
 
-## 7. Data Export
+## Data Export
 
 Allow users to download tables using `downloadHandler()`.
 
@@ -121,10 +132,10 @@ output$download_data <- downloadHandler(
 )
 ```
 
-## 8. Useful Resources
+## Useful Resources
 
--    [Shiny Documentation](https://shiny.posit.co/)
+-   [Shiny Documentation](https://shiny.posit.co/)
 
 -   [Mastering Shiny Book](https://mastering-shiny.org/)
 
--    [bslib Theming Guide](https://rstudio.github.io/bslib/)
+-   [bslib Theming Guide](https://rstudio.github.io/bslib/)
