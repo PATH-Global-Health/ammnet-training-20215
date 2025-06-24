@@ -4,9 +4,8 @@ author: "AMMnet Senegal Workshop"
 date: "June 27 2025"
 format:
   html:
-    theme: minty
     toc: true
-    toc-depth: 6
+    toc-depth: 3
     toc-location: left
     number-sections: false
 ---
