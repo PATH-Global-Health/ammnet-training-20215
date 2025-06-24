@@ -1926,7 +1926,7 @@ Compute average TPR: Add this to your `server()`:
   })
 ```
 
-Update UI code to include ![](images/conditional-value-box.PNG)
+Update UI code to include
 
 ```{r eval = FALSE}
 layout_column_wrap( 
