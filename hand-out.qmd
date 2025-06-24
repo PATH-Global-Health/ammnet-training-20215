@@ -1,0 +1,130 @@
+# Shiny Dashboard Building Blocks - Reference Summary
+
+This handout summarizes key Shiny concepts, functions, and patterns you can use when building interactive dashboards.
+
+## 1. Shiny App Structure
+
+Every Shiny app has two main components:
+
+| Component | Purpose | Location |
+|----|----|----|
+| `ui` | User Interface - controls layout and inputs | Top-level `ui <- ...` |
+| `server` | Logic - computations, data processing, outputs | Inside `server <- function(input, output) { ... }` |
+
+The two are linked using shared `inputId` and `outputId` values.
+
+## 2. Inputs and Outputs
+
+### Input Widgets
+
+| Type | Function | When to Use |
+|----|----|----|
+| Dropdown | `selectInput()` | For long lists (e.g., Province selection) |
+| Checkboxes | `checkboxGroupInput()` | For multiple selections |
+| Radio Buttons | `radioButtons()` | For short lists |
+| Single Checkbox | `checkboxInput()` | For TRUE/FALSE toggles |
+| Slider | `sliderInput()` | For numeric ranges |
+| Date | `dateInput()` / `dateRangeInput()` | For date selection |
+
+Each input requires:
+
+`inputId = "input_name", label = "Display Text", choices = c(...)`
+
+The current value is accessed using `input$input_name` inside the server.
+
+### Output Types
+
+| Output              | Render Function (Server) | UI Function       |
+|---------------------|--------------------------|-------------------|
+| Text                | `renderText()`           | `textOutput()`    |
+| Table (static)      | `renderTable()`          | `tableOutput()`   |
+| Table (interactive) | `renderDT()`             | `DTOutput()`      |
+| Plot (static)       | `renderPlot()`           | `plotOutput()`    |
+| Plot (interactive)  | `renderPlotly()`         | `plotlyOutput()`  |
+| Map                 | `renderLeaflet()`        | `leafletOutput()` |
+| Dynamic UI          | `renderUI()`             | `uiOutput()`      |
+
+**Key rule:** every output has one `render*()` function (server) and one `*Output()` function (UI), linked by the same ID.
+
+## 3. Reactivity
+
+Reactivity allows the app to update automatically when inputs change.
+
+-    Use `reactive({ ... })` to create filtered or computed datasets that update when inputs change.
+
+-   Use `render*()` functions to update outputs.
+
+Example reactive filter:
+
+`province_data <- reactive({   req(input$province_select != "")`
+
+`app_data %>% filter(organisation_unit == input$province_select) })`
+
+## 4. Layout Tools
+
+-    `page_sidebar()`: main layout with sidebar + content
+
+-   `layout_sidebar()`: floating sidebar inside a card
+
+-   `card()`: container for plots/tables
+
+-   `value_box()`: summary KPIs
+
+-    `layout_columns()`: arrange elements horizontally
+
+-   `layout_column_wrap()`: responsive wrapping of multiple boxes
+
+Exaple layout:
+
+```{r eval = FALSE}
+layout_columns(   
+  value_box(title = "Cases", value = textOutput("total_cases")),  
+  value_box(title = "Tests", value = textOutput("total_tests")) 
+  )
+```
+
+## 5. Conditional UI Elements
+
+-   Use `renderUI()` + `uiOutput()` to dynamically generate inputs or outputs.
+
+-   Use `validate()` and `need()` to display user prompts when required inputs are missing.
+
+```{r eval = FALSE}
+output$tpr_checkbox_ui <- renderUI({
+  if (all(c("malaria_cases", "malaria_tests") %in% input$series_select)) {
+    checkboxInput("include_tpr", "Calculate TPR", value = FALSE)
+  }
+})
+
+```
+
+## 6. Theming and Styling
+
+-    Use `bslib::bs_theme()` to apply consistent color schemes and fonts.
+
+-   Use `input_dark_mode()` to enable light/dark toggle.
+
+-   Use Bootstrap icons via `bsicons::bs_icon()` for value boxes and UI elements.
+
+`theme = bs_theme(version = 5, bootswatch = "minty")`
+
+## 7. Data Export
+
+Allow users to download tables using `downloadHandler()`.
+
+Example:
+
+```{r eval = FALSE}
+output$download_data <- downloadHandler(
+  filename = function() { "summary.csv" },
+  content = function(file) { write.csv(summary_data(), file) }
+)
+```
+
+## 8. Useful Resources
+
+-    [Shiny Documentation](https://shiny.posit.co/)
+
+-   [Mastering Shiny Book](https://mastering-shiny.org/)
+
+-    [bslib Theming Guide](https://rstudio.github.io/bslib/)

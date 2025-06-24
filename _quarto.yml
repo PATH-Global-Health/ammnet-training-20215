@@ -21,6 +21,8 @@ website:
             text: Part 2 Slides
           - href: dashboard-workshop-materials.qmd
             text: Part 2 Worksheet
+          - href: hand-out.qmd
+            text: Part 2 Reference sheet
   page-footer:
     center: "Ammnet Senegal 2025 Workshop | PATH "
 
