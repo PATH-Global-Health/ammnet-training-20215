@@ -4,6 +4,7 @@ project:
     - lesson-materials/part-1/french-slides.pdf
     - lesson-materials/part-1/english.pdf
     - data-outputs.zip
+    - images
 
 website:
   title: "Data Dashboard Training Materials"
