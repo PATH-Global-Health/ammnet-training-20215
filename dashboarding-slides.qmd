@@ -77,7 +77,7 @@ Shiny dashbaords can grow to be incredibly complex web applications but can also
 
 ::::: columns
 ::: {.column width="50%"}
-![](images/budget-dashboard.png)
+![](images/budget-dashboard.png){height="300px"}
 :::
 
 ::: {.column width="50%"}
