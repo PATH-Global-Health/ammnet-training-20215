@@ -76,7 +76,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <link href="site_libs/quarto-html/quarto-syntax-highlighting-37eea08aefeeee20ff55810ff984fec1.css" rel="stylesheet" id="quarto-text-highlighting-styles">
 <script src="site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="site_libs/bootstrap/bootstrap-9aa4f9194cf6bf3a8288c3860fe1d8ee.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<link href="site_libs/bootstrap/bootstrap-8a7dfc3821000f8b6a7a5dc71bd2f51d.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
 <script id="quarto-search-options" type="application/json">{
   "location": "navbar",
   "copy-button": false,
@@ -193,7 +193,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
    
   <ul>
   <li><a href="#setup" id="toc-setup" class="nav-link active" data-scroll-target="#setup">Setup</a>
-  <ul>
+  <ul class="collapse">
   <li><a href="#install-packages" id="toc-install-packages" class="nav-link" data-scroll-target="#install-packages">Install Packages</a></li>
   <li><a href="#objectives" id="toc-objectives" class="nav-link" data-scroll-target="#objectives">Objectives</a></li>
   <li><a href="#set-up-app-skeleton" id="toc-set-up-app-skeleton" class="nav-link" data-scroll-target="#set-up-app-skeleton">Set up App Skeleton</a></li>
@@ -201,86 +201,86 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   <li><a href="#read-in-our-data" id="toc-read-in-our-data" class="nav-link" data-scroll-target="#read-in-our-data">Read In Our Data</a></li>
   </ul></li>
   <li><a href="#part-1-shiny-building-blocks" id="toc-part-1-shiny-building-blocks" class="nav-link" data-scroll-target="#part-1-shiny-building-blocks">Part 1: Shiny Building Blocks</a>
-  <ul>
+  <ul class="collapse">
   <li><a href="#setting-up-an-empty-layout" id="toc-setting-up-an-empty-layout" class="nav-link" data-scroll-target="#setting-up-an-empty-layout">Setting up an Empty Layout</a></li>
   <li><a href="#layout-elements" id="toc-layout-elements" class="nav-link" data-scroll-target="#layout-elements">Layout Elements</a>
-  <ul>
+  <ul class="collapse">
   <li><a href="#cards" id="toc-cards" class="nav-link" data-scroll-target="#cards"><code>Cards()</code></a></li>
   <li><a href="#exercise-1" id="toc-exercise-1" class="nav-link" data-scroll-target="#exercise-1">Exercise 1</a></li>
   <li><a href="#value_boxes" id="toc-value_boxes" class="nav-link" data-scroll-target="#value_boxes"><code>value_boxes()</code></a></li>
   <li><a href="#exercise-2" id="toc-exercise-2" class="nav-link" data-scroll-target="#exercise-2">Exercise 2</a></li>
   </ul></li>
   <li><a href="#adjusting-layout-positions" id="toc-adjusting-layout-positions" class="nav-link" data-scroll-target="#adjusting-layout-positions">Adjusting Layout Positions</a>
-  <ul>
+  <ul class="collapse">
   <li><a href="#layout_columns" id="toc-layout_columns" class="nav-link" data-scroll-target="#layout_columns"><code>layout_columns()</code></a></li>
   <li><a href="#exercise-3" id="toc-exercise-3" class="nav-link" data-scroll-target="#exercise-3">Exercise 3</a></li>
   <li><a href="#layout_column_wrap" id="toc-layout_column_wrap" class="nav-link" data-scroll-target="#layout_column_wrap"><code>layout_column_wrap()</code></a></li>
   </ul></li>
   <li><a href="#widget-control-elements" id="toc-widget-control-elements" class="nav-link" data-scroll-target="#widget-control-elements">Widget Control Elements</a>
-  <ul>
+  <ul class="collapse">
   <li><a href="#choosing-the-right-input-controls-a-quick-exploration" id="toc-choosing-the-right-input-controls-a-quick-exploration" class="nav-link" data-scroll-target="#choosing-the-right-input-controls-a-quick-exploration">Choosing the Right Input controls: A Quick Exploration</a></li>
   <li><a href="#exercise-4" id="toc-exercise-4" class="nav-link" data-scroll-target="#exercise-4">Exercise 4</a></li>
   </ul></li>
   <li><a href="#putting-it-all-together" id="toc-putting-it-all-together" class="nav-link" data-scroll-target="#putting-it-all-together">Putting it all together</a></li>
   <li><a href="#pause-reflect-where-we-are" id="toc-pause-reflect-where-we-are" class="nav-link" data-scroll-target="#pause-reflect-where-we-are">Pause &amp; Reflect: Where We Are</a>
-  <ul>
+  <ul class="collapse">
   <li><a href="#quick-self-check-questions" id="toc-quick-self-check-questions" class="nav-link" data-scroll-target="#quick-self-check-questions">Quick self-check questions</a></li>
   </ul></li>
   </ul></li>
   <li><a href="#part-2-reactivty-and-rendering-output" id="toc-part-2-reactivty-and-rendering-output" class="nav-link" data-scroll-target="#part-2-reactivty-and-rendering-output">Part 2 Reactivty and Rendering output</a>
-  <ul>
+  <ul class="collapse">
   <li><a href="#shiny-output-types" id="toc-shiny-output-types" class="nav-link" data-scroll-target="#shiny-output-types">Shiny Output Types</a></li>
   <li><a href="#building-reactive-outputs-ui-and-server-crosstalk" id="toc-building-reactive-outputs-ui-and-server-crosstalk" class="nav-link" data-scroll-target="#building-reactive-outputs-ui-and-server-crosstalk">Building Reactive Outputs: <code>ui</code> and <code>server</code> crosstalk</a></li>
   <li><a href="#reactivity-and-data" id="toc-reactivity-and-data" class="nav-link" data-scroll-target="#reactivity-and-data">Reactivity and Data</a>
-  <ul>
+  <ul class="collapse">
   <li><a href="#exercise-5" id="toc-exercise-5" class="nav-link" data-scroll-target="#exercise-5">Exercise 5</a></li>
   </ul></li>
   <li><a href="#adding-a-reactive-plot" id="toc-adding-a-reactive-plot" class="nav-link" data-scroll-target="#adding-a-reactive-plot">Adding a Reactive Plot</a>
-  <ul>
+  <ul class="collapse">
   <li><a href="#exercise-6--7" id="toc-exercise-6--7" class="nav-link" data-scroll-target="#exercise-6--7">Exercise 6 -7:</a></li>
   </ul></li>
   <li><a href="#end-of-part-2-what-youve-built-so-far" id="toc-end-of-part-2-what-youve-built-so-far" class="nav-link" data-scroll-target="#end-of-part-2-what-youve-built-so-far">End of Part 2 — What You’ve Built So Far</a></li>
   </ul></li>
   <li><a href="#part-3-evolving-features---making-our-app-better" id="toc-part-3-evolving-features---making-our-app-better" class="nav-link" data-scroll-target="#part-3-evolving-features---making-our-app-better">Part 3: Evolving Features - Making Our App Better!</a>
-  <ul>
+  <ul class="collapse">
   <li><a href="#adding-messages-and-prompts" id="toc-adding-messages-and-prompts" class="nav-link" data-scroll-target="#adding-messages-and-prompts">Adding messages and prompts 📧</a></li>
   <li><a href="#adding-a-short-description-of-the-application" id="toc-adding-a-short-description-of-the-application" class="nav-link" data-scroll-target="#adding-a-short-description-of-the-application">Adding a Short Description of the Application 🖊️</a>
-  <ul>
+  <ul class="collapse">
   <li><a href="#exercise-8" id="toc-exercise-8" class="nav-link" data-scroll-target="#exercise-8">Exercise 8</a></li>
   </ul></li>
   <li><a href="#theming-with-bs_theme" id="toc-theming-with-bs_theme" class="nav-link" data-scroll-target="#theming-with-bs_theme">Theming with <code>bs_theme</code> 🎨</a>
-  <ul>
+  <ul class="collapse">
   <li><a href="#exercise-9" id="toc-exercise-9" class="nav-link" data-scroll-target="#exercise-9">Exercise 9</a></li>
   <li><a href="#exercise-10" id="toc-exercise-10" class="nav-link" data-scroll-target="#exercise-10">Exercise 10</a></li>
   </ul></li>
   <li><a href="#adding-a-logo-to-your-app" id="toc-adding-a-logo-to-your-app" class="nav-link" data-scroll-target="#adding-a-logo-to-your-app">Adding a Logo to Your App</a>
-  <ul>
+  <ul class="collapse">
   <li><a href="#exercise-11" id="toc-exercise-11" class="nav-link" data-scroll-target="#exercise-11">Exercise 11</a></li>
   </ul></li>
   <li><a href="#wrapping-up-part-3-building-for-the-user" id="toc-wrapping-up-part-3-building-for-the-user" class="nav-link" data-scroll-target="#wrapping-up-part-3-building-for-the-user">Wrapping up Part 3 — Building for the User</a></li>
   </ul></li>
   <li><a href="#part-4-addiditional-outputs" id="toc-part-4-addiditional-outputs" class="nav-link" data-scroll-target="#part-4-addiditional-outputs">Part 4: Addiditional Outputs</a>
-  <ul>
+  <ul class="collapse">
   <li><a href="#computed-variables-and-conditional-widgets" id="toc-computed-variables-and-conditional-widgets" class="nav-link" data-scroll-target="#computed-variables-and-conditional-widgets">Computed Variables and Conditional Widgets</a>
-  <ul>
+  <ul class="collapse">
   <li><a href="#exrecise-12" id="toc-exrecise-12" class="nav-link" data-scroll-target="#exrecise-12">Exrecise 12</a></li>
   </ul></li>
   <li><a href="#input-selection-within-cards" id="toc-input-selection-within-cards" class="nav-link" data-scroll-target="#input-selection-within-cards">Input Selection Within Cards</a>
-  <ul>
+  <ul class="collapse">
   <li><a href="#stretch-exercise" id="toc-stretch-exercise" class="nav-link" data-scroll-target="#stretch-exercise">Stretch Exercise</a></li>
   </ul></li>
   <li><a href="#including-leaflet-maps" id="toc-including-leaflet-maps" class="nav-link" data-scroll-target="#including-leaflet-maps">Including Leaflet Maps</a>
-  <ul>
+  <ul class="collapse">
   <li><a href="#exercise-13" id="toc-exercise-13" class="nav-link" data-scroll-target="#exercise-13">Exercise 13</a></li>
   </ul></li>
   <li><a href="#adding-a-table-output" id="toc-adding-a-table-output" class="nav-link" data-scroll-target="#adding-a-table-output">Adding a Table Output</a>
-  <ul>
+  <ul class="collapse">
   <li><a href="#exercise-14---tricky" id="toc-exercise-14---tricky" class="nav-link" data-scroll-target="#exercise-14---tricky">Exercise 14 - Tricky</a></li>
   </ul></li>
   </ul></li>
   <li><a href="#wrapping-up" id="toc-wrapping-up" class="nav-link" data-scroll-target="#wrapping-up">Wrapping Up</a></li>
   <li><a href="#next-steps-and-extensions" id="toc-next-steps-and-extensions" class="nav-link" data-scroll-target="#next-steps-and-extensions">Next Steps and Extensions</a>
-  <ul>
+  <ul class="collapse">
   <li><a href="#expanding-functionality" id="toc-expanding-functionality" class="nav-link" data-scroll-target="#expanding-functionality">Expanding Functionality</a></li>
   <li><a href="#organizing-and-scaling-your-code" id="toc-organizing-and-scaling-your-code" class="nav-link" data-scroll-target="#organizing-and-scaling-your-code">Organizing and Scaling Your Code</a></li>
   <li><a href="#deployment-and-sharing" id="toc-deployment-and-sharing" class="nav-link" data-scroll-target="#deployment-and-sharing">Deployment and Sharing</a></li>
