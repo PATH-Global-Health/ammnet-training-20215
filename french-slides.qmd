@@ -1,5 +1,9 @@
 # Slides en français
 
+Slides can be downloaded to your computer or viewed in the browser. Download the slides by clicking the download icon 📥 in the top right corner of the PDF viewer.
+
+Les diapositives peuvent être téléchargées sur votre ordinateur ou visualisées dans le navigateur. Téléchargez les diapositives en cliquant sur l'icône de téléchargement 📥 dans le coin supérieur droit de la visionneuse PDF.
+
 <iframe src="lesson-materials/part-1/french-slides.pdf" width="800" height="600">
   
 </iframe>

@@ -1,5 +1,7 @@
-# Slides in English 
+# Slides in English
 
-<iframe src="lesson-materials/part-1/english.pdf" width="800" height="600">
-  
+Slides can be downloaded to your computer or viewed in the browser. Download the slides by clicking the download icon 📥 in the top right corner of the PDF viewer.
+
+<iframe src="lesson-materials/part-1/english.pdf" width="100vw" height="600">
+
 </iframe>
