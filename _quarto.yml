@@ -8,6 +8,7 @@ project:
 
 website:
   title: "Data Dashboard Training Materials"
+  back-to-top-navigation: true
   navbar:
     left:
       - href: index.qmd
@@ -24,6 +25,14 @@ website:
             text: Part 2 Worksheet
           - href: hand-out.qmd
             text: Part 2 Reference sheet
+    right:
+      - text: "![](www/AMMnet-logo.png)"
+      - text: "![](images/PATH_Logo_Colour.png)"
+      - icon: github
+        href: https://github.com/PATH-Global-Health/ammnet-training-20215
+      - icon: mail
+        href: hthompson@path.org 
+        
   page-footer:
     center: "Ammnet Senegal 2025 Workshop | PATH "
 
