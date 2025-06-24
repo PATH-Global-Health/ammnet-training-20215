@@ -29,9 +29,15 @@ website:
 
 format:
   html:
+    page-layout: full
     theme: minty
     css: styles.css
     toc: true
+    grid:
+      sidebar-width: 100px
+      body-width: 900px
+      margin-width: 100px
+      gutter-width: 1.5rem
 
 editor: visual
 
