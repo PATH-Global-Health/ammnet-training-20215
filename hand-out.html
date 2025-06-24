@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>Development of a dynamic dashboard for visualizing malaria epidemiological surveillance data with R-Shiny – Data Dashboard Training Materials</title>
+<title>hand-out – Data Dashboard Training Materials</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -125,7 +125,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
           <div class="collapse navbar-collapse" id="navbarCollapse">
             <ul class="navbar-nav navbar-nav-scroll me-auto">
   <li class="nav-item">
-    <a class="nav-link active" href="./index.html" aria-current="page"> 
+    <a class="nav-link" href="./index.html"> 
 <span class="menu-text">Home</span></a>
   </li>  
   <li class="nav-item dropdown ">
@@ -171,136 +171,242 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
     <h2 id="toc-title">On this page</h2>
    
   <ul>
-  <li><a href="#description" id="toc-description" class="nav-link active" data-scroll-target="#description">Description</a></li>
-  <li><a href="#objectives" id="toc-objectives" class="nav-link" data-scroll-target="#objectives">Objectives</a>
+  <li><a href="#shiny-dashboard-building-blocks---reference-summary" id="toc-shiny-dashboard-building-blocks---reference-summary" class="nav-link active" data-scroll-target="#shiny-dashboard-building-blocks---reference-summary">Shiny Dashboard Building Blocks - Reference Summary</a>
   <ul class="collapse">
-  <li><a href="#part-1" id="toc-part-1" class="nav-link" data-scroll-target="#part-1">Part 1</a></li>
-  <li><a href="#part-2" id="toc-part-2" class="nav-link" data-scroll-target="#part-2">Part 2</a></li>
+  <li><a href="#shiny-app-structure" id="toc-shiny-app-structure" class="nav-link" data-scroll-target="#shiny-app-structure">1. Shiny App Structure</a></li>
+  <li><a href="#inputs-and-outputs" id="toc-inputs-and-outputs" class="nav-link" data-scroll-target="#inputs-and-outputs">2. Inputs and Outputs</a>
+  <ul class="collapse">
+  <li><a href="#input-widgets" id="toc-input-widgets" class="nav-link" data-scroll-target="#input-widgets">Input Widgets</a></li>
+  <li><a href="#output-types" id="toc-output-types" class="nav-link" data-scroll-target="#output-types">Output Types</a></li>
   </ul></li>
-  <li><a href="#materials" id="toc-materials" class="nav-link" data-scroll-target="#materials">Materials</a></li>
+  <li><a href="#reactivity" id="toc-reactivity" class="nav-link" data-scroll-target="#reactivity">3. Reactivity</a></li>
+  <li><a href="#layout-tools" id="toc-layout-tools" class="nav-link" data-scroll-target="#layout-tools">4. Layout Tools</a></li>
+  <li><a href="#conditional-ui-elements" id="toc-conditional-ui-elements" class="nav-link" data-scroll-target="#conditional-ui-elements">5. Conditional UI Elements</a></li>
+  <li><a href="#theming-and-styling" id="toc-theming-and-styling" class="nav-link" data-scroll-target="#theming-and-styling">6. Theming and Styling</a></li>
+  <li><a href="#data-export" id="toc-data-export" class="nav-link" data-scroll-target="#data-export">7. Data Export</a></li>
+  <li><a href="#useful-resources" id="toc-useful-resources" class="nav-link" data-scroll-target="#useful-resources">8. Useful Resources</a></li>
+  </ul></li>
   </ul>
 </nav>
     </div>
 <!-- main -->
-<main class="content" id="quarto-document-content">
-
-<header id="title-block-header" class="quarto-title-block default">
-<div class="quarto-title">
-<h1 class="title">Development of a dynamic dashboard for visualizing malaria epidemiological surveillance data with R-Shiny</h1>
-</div>
+<main class="content" id="quarto-document-content"><header id="title-block-header" class="quarto-title-block"></header>
 
 
 
-<div class="quarto-title-meta">
 
-    
-  
-    
-  </div>
-  
-
-
-</header>
-
-
-<p>This Website houses the materials for the Ammnet Session - “<em>Development of a dynamic dashboard for visualizing malaria epidemiological surveillance data with R-Shiny</em>”</p>
-<div class="callout callout-style-default callout-important callout-titled">
-<div class="callout-header d-flex align-content-center">
-<div class="callout-icon-container">
-<i class="callout-icon"></i>
-</div>
-<div class="callout-title-container flex-fill">
-Important
-</div>
-</div>
-<div class="callout-body-container callout-body">
-<p>To view the website in French - Open in Google Chrome - right click anywhere on the page and select “Translate to francias”</p>
-<p>Pour afficher le site Web en français - Ouvrez dans Google Chrome - faites un clic droit n’importe où sur la page et sélectionnez “<em>Traduire en français</em>”</p>
-</div>
-</div>
-<p><strong>Date:</strong> Friday 27th June</p>
-<p><strong>Location:</strong> Evasion 3 room</p>
-<p><strong>Time:</strong> 9am</p>
-<section id="description" class="level1">
-<h1>Description</h1>
-<p>Data visualization is a powerful tool for understanding and communicating data. This training session is a real practical guide that is addressed to professionals wishing to master the main steps of dynamic dashboard development for the visualization of malaria epidemiological surveillance data with R-Shiny from the DHIS2 platform. In this skills course, you will learn how to use the Pivot Table tool from the Data Visualize module of DHIS2 for manual data download. To prepare the data for visualization. Creating efficient and attractive visualizations by choosing the right chart type for data, properly adjusting axes for truth and accuracy, building parameters through visual choices. To deploy a Shiny application for your dynamic dashboards. This will give you the keys to successfully creating a dynamic dashboard for data visualization.</p>
-<p>Before starting the training session, it is important to master the basics in descriptive data analysis, install R and the RStudio IDE, and install the required packages for the training.</p>
-<div class="cell">
-<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Packages installation ==========================================================================</span></span>
-<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="fu">install.packages</span>(<span class="st">"janitor"</span>)   <span class="co">#"janitor has simple little tools for examining and cleaning dirty data."</span></span>
-<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="fu">install.packages</span>(<span class="st">"shiny"</span>)     <span class="co">#"shiny: core package to build apps."</span></span>
-<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a><span class="fu">install.packages</span>(<span class="st">"bslib"</span>)     <span class="co">#"theming (Bootstrap customization) and modern dashboard design elements."</span></span>
-<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a><span class="fu">install.packages</span>(<span class="st">"tidyverse"</span>) <span class="co">#"Data wrangling (dplyr, ggplot2, readr…)."</span></span>
-<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a><span class="fu">install.packages</span>(<span class="st">"DT"</span>)        <span class="co">#"DT: interactive tables."</span></span>
-<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a><span class="fu">install.packages</span>(<span class="st">"plotly"</span>)    <span class="co">#"plotly: interactive plots."</span></span>
-<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a><span class="fu">install.packages</span>(<span class="st">"leaflet"</span>)   <span class="co">#"leaflet: mapping spatial data."</span></span>
-<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a><span class="fu">install.packages</span>(<span class="st">"sf"</span>)        <span class="co">#"sf: mapping spatial data."</span></span>
-<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a><span class="fu">install.paclages</span>(<span class="st">"lubridate"</span>) <span class="co">#"lubridate for dealting with date-time."</span></span>
-<span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a><span class="fu">install.packages</span>(<span class="st">"bsicons"</span>)   <span class="co">#"bsicons: Bootstrap icons for Shiny apps."</span></span>
-<span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-13"><a href="#cb1-13" aria-hidden="true" tabindex="-1"></a><span class="co"># Packages load ===================================================================================</span></span>
-<span id="cb1-14"><a href="#cb1-14" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(janitor)</span>
-<span id="cb1-15"><a href="#cb1-15" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(shiny)</span>
-<span id="cb1-16"><a href="#cb1-16" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(bslib)</span>
-<span id="cb1-17"><a href="#cb1-17" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyverse)</span>
-<span id="cb1-18"><a href="#cb1-18" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(DT)</span>
-<span id="cb1-19"><a href="#cb1-19" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(plotly)</span>
-<span id="cb1-20"><a href="#cb1-20" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(leaflet)</span>
-<span id="cb1-21"><a href="#cb1-21" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(sf)</span>
-<span id="cb1-22"><a href="#cb1-22" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(lubridate)</span>
-<span id="cb1-23"><a href="#cb1-23" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(bsicons)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</div>
-</section>
-<section id="objectives" class="level1">
-<h1>Objectives</h1>
-<section id="part-1" class="level2">
-<h2 class="anchored" data-anchor-id="part-1">Part 1</h2>
-<ul>
-<li><p>Learn how to access DHIS2</p></li>
-<li><p>Explore some existing dashboards to see graphical functionality</p></li>
-<li><p>Learn how to make a data query to access the data elements, time period and geographical units of interest</p></li>
-<li><p>Download data as a csv</p></li>
-<li><p>Read data into R</p></li>
-<li><p>Clean data, including name cleaning, visual inspection of outliers/missing data, cross-referencing different variables</p></li>
-</ul>
-<p>The outcome of this session is a cleaned malaria dataset that we’ll use for part 2</p>
-</section>
-<section id="part-2" class="level2">
-<h2 class="anchored" data-anchor-id="part-2">Part 2</h2>
-<ul>
-<li><p>Understand key elements of Shiny Dashbaords</p></li>
-<li><p>Gain hands on experience customising Shiny Dashboards</p></li>
-<li><p>Create your own Shiny Dashbaord</p></li>
-</ul>
-<p>The outcome of this session is a fully interactive local App displaying key malaria program metrics.</p>
-</section>
-</section>
-<section id="materials" class="level1">
-<h1>Materials</h1>
+<section id="shiny-dashboard-building-blocks---reference-summary" class="level1">
+<h1>Shiny Dashboard Building Blocks - Reference Summary</h1>
+<p>This handout summarizes key Shiny concepts, functions, and patterns you can use when building interactive dashboards.</p>
+<section id="shiny-app-structure" class="level2">
+<h2 class="anchored" data-anchor-id="shiny-app-structure">1. Shiny App Structure</h2>
+<p>Every Shiny app has two main components:</p>
 <table class="caption-top table">
+<colgroup>
+<col style="width: 33%">
+<col style="width: 33%">
+<col style="width: 33%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Component</th>
+<th>Purpose</th>
+<th>Location</th>
+</tr>
+</thead>
 <tbody>
 <tr class="odd">
-<td>Part 1 Slides</td>
-<td><p><a href="./english-slides.html"><strong>English</strong></a></p>
-<p><a href="./french-slides.html"><strong>French</strong></a></p></td>
+<td><code>ui</code></td>
+<td>User Interface - controls layout and inputs</td>
+<td>Top-level <code>ui &lt;- ...</code></td>
 </tr>
 <tr class="even">
-<td>Part 2 - Data downloads</td>
-<td><p>Download the following files and save them to your R project in a folder called: <code>data-outputs</code>. If you didn’t complete Part 1 don’t worry the final dataset is included in this folder!</p>
-<p>👉 <a href="data-outputs.zip" download="">Download data-outputs.zip</a></p></td>
-</tr>
-<tr class="odd">
-<td>Part 2 - Slides</td>
-<td>Click <a href="./dashboarding-slides.html">here</a></td>
-</tr>
-<tr class="even">
-<td>Part 2 - Worksheet</td>
-<td>Click <a href="./dashboard-workshop-materials.html">here</a></td>
+<td><code>server</code></td>
+<td>Logic - computations, data processing, outputs</td>
+<td>Inside <code>server &lt;- function(input, output) { ... }</code></td>
 </tr>
 </tbody>
 </table>
+<p>The two are linked using shared <code>inputId</code> and <code>outputId</code> values.</p>
+</section>
+<section id="inputs-and-outputs" class="level2">
+<h2 class="anchored" data-anchor-id="inputs-and-outputs">2. Inputs and Outputs</h2>
+<section id="input-widgets" class="level3">
+<h3 class="anchored" data-anchor-id="input-widgets">Input Widgets</h3>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 33%">
+<col style="width: 33%">
+<col style="width: 33%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Type</th>
+<th>Function</th>
+<th>When to Use</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Dropdown</td>
+<td><code>selectInput()</code></td>
+<td>For long lists (e.g., Province selection)</td>
+</tr>
+<tr class="even">
+<td>Checkboxes</td>
+<td><code>checkboxGroupInput()</code></td>
+<td>For multiple selections</td>
+</tr>
+<tr class="odd">
+<td>Radio Buttons</td>
+<td><code>radioButtons()</code></td>
+<td>For short lists</td>
+</tr>
+<tr class="even">
+<td>Single Checkbox</td>
+<td><code>checkboxInput()</code></td>
+<td>For TRUE/FALSE toggles</td>
+</tr>
+<tr class="odd">
+<td>Slider</td>
+<td><code>sliderInput()</code></td>
+<td>For numeric ranges</td>
+</tr>
+<tr class="even">
+<td>Date</td>
+<td><code>dateInput()</code> / <code>dateRangeInput()</code></td>
+<td>For date selection</td>
+</tr>
+</tbody>
+</table>
+<p>Each input requires:</p>
+<p><code>inputId = "input_name", label = "Display Text", choices = c(...)</code></p>
+<p>The current value is accessed using <code>input$input_name</code> inside the server.</p>
+</section>
+<section id="output-types" class="level3">
+<h3 class="anchored" data-anchor-id="output-types">Output Types</h3>
+<table class="caption-top table">
+<thead>
+<tr class="header">
+<th>Output</th>
+<th>Render Function (Server)</th>
+<th>UI Function</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Text</td>
+<td><code>renderText()</code></td>
+<td><code>textOutput()</code></td>
+</tr>
+<tr class="even">
+<td>Table (static)</td>
+<td><code>renderTable()</code></td>
+<td><code>tableOutput()</code></td>
+</tr>
+<tr class="odd">
+<td>Table (interactive)</td>
+<td><code>renderDT()</code></td>
+<td><code>DTOutput()</code></td>
+</tr>
+<tr class="even">
+<td>Plot (static)</td>
+<td><code>renderPlot()</code></td>
+<td><code>plotOutput()</code></td>
+</tr>
+<tr class="odd">
+<td>Plot (interactive)</td>
+<td><code>renderPlotly()</code></td>
+<td><code>plotlyOutput()</code></td>
+</tr>
+<tr class="even">
+<td>Map</td>
+<td><code>renderLeaflet()</code></td>
+<td><code>leafletOutput()</code></td>
+</tr>
+<tr class="odd">
+<td>Dynamic UI</td>
+<td><code>renderUI()</code></td>
+<td><code>uiOutput()</code></td>
+</tr>
+</tbody>
+</table>
+<p><strong>Key rule:</strong> every output has one <code>render*()</code> function (server) and one <code>*Output()</code> function (UI), linked by the same ID.</p>
+</section>
+</section>
+<section id="reactivity" class="level2">
+<h2 class="anchored" data-anchor-id="reactivity">3. Reactivity</h2>
+<p>Reactivity allows the app to update automatically when inputs change.</p>
+<ul>
+<li><p>Use <code>reactive({ ... })</code> to create filtered or computed datasets that update when inputs change.</p></li>
+<li><p>Use <code>render*()</code> functions to update outputs.</p></li>
+</ul>
+<p>Example reactive filter:</p>
+<p><code>province_data &lt;- reactive({   req(input$province_select != "")</code></p>
+<p><code>app_data %&gt;% filter(organisation_unit == input$province_select) })</code></p>
+</section>
+<section id="layout-tools" class="level2">
+<h2 class="anchored" data-anchor-id="layout-tools">4. Layout Tools</h2>
+<ul>
+<li><p><code>page_sidebar()</code>: main layout with sidebar + content</p></li>
+<li><p><code>layout_sidebar()</code>: floating sidebar inside a card</p></li>
+<li><p><code>card()</code>: container for plots/tables</p></li>
+<li><p><code>value_box()</code>: summary KPIs</p></li>
+<li><p><code>layout_columns()</code>: arrange elements horizontally</p></li>
+<li><p><code>layout_column_wrap()</code>: responsive wrapping of multiple boxes</p></li>
+</ul>
+<p>Exaple layout:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">layout_columns</span>(   </span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">value_box</span>(<span class="at">title =</span> <span class="st">"Cases"</span>, <span class="at">value =</span> <span class="fu">textOutput</span>(<span class="st">"total_cases"</span>)),  </span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">value_box</span>(<span class="at">title =</span> <span class="st">"Tests"</span>, <span class="at">value =</span> <span class="fu">textOutput</span>(<span class="st">"total_tests"</span>)) </span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a>  )</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</section>
+<section id="conditional-ui-elements" class="level2">
+<h2 class="anchored" data-anchor-id="conditional-ui-elements">5. Conditional UI Elements</h2>
+<ul>
+<li><p>Use <code>renderUI()</code> + <code>uiOutput()</code> to dynamically generate inputs or outputs.</p></li>
+<li><p>Use <code>validate()</code> and <code>need()</code> to display user prompts when required inputs are missing.</p></li>
+</ul>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>output<span class="sc">$</span>tpr_checkbox_ui <span class="ot">&lt;-</span> <span class="fu">renderUI</span>({</span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>  <span class="cf">if</span> (<span class="fu">all</span>(<span class="fu">c</span>(<span class="st">"malaria_cases"</span>, <span class="st">"malaria_tests"</span>) <span class="sc">%in%</span> input<span class="sc">$</span>series_select)) {</span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>    <span class="fu">checkboxInput</span>(<span class="st">"include_tpr"</span>, <span class="st">"Calculate TPR"</span>, <span class="at">value =</span> <span class="cn">FALSE</span>)</span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a>  }</span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a>})</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</section>
+<section id="theming-and-styling" class="level2">
+<h2 class="anchored" data-anchor-id="theming-and-styling">6. Theming and Styling</h2>
+<ul>
+<li><p>Use <code>bslib::bs_theme()</code> to apply consistent color schemes and fonts.</p></li>
+<li><p>Use <code>input_dark_mode()</code> to enable light/dark toggle.</p></li>
+<li><p>Use Bootstrap icons via <code>bsicons::bs_icon()</code> for value boxes and UI elements.</p></li>
+</ul>
+<p><code>theme = bs_theme(version = 5, bootswatch = "minty")</code></p>
+</section>
+<section id="data-export" class="level2">
+<h2 class="anchored" data-anchor-id="data-export">7. Data Export</h2>
+<p>Allow users to download tables using <code>downloadHandler()</code>.</p>
+<p>Example:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>output<span class="sc">$</span>download_data <span class="ot">&lt;-</span> <span class="fu">downloadHandler</span>(</span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>  <span class="at">filename =</span> <span class="cf">function</span>() { <span class="st">"summary.csv"</span> },</span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">content =</span> <span class="cf">function</span>(file) { <span class="fu">write.csv</span>(<span class="fu">summary_data</span>(), file) }</span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</section>
+<section id="useful-resources" class="level2">
+<h2 class="anchored" data-anchor-id="useful-resources">8. Useful Resources</h2>
+<ul>
+<li><p><a href="https://shiny.posit.co/">Shiny Documentation</a></p></li>
+<li><p><a href="https://mastering-shiny.org/">Mastering Shiny Book</a></p></li>
+<li><p><a href="https://rstudio.github.io/bslib/">bslib Theming Guide</a></p></li>
+</ul>
 
 
+</section>
 </section>
 
 </main> <!-- /main -->
