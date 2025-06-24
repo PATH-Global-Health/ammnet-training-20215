@@ -31,9 +31,9 @@ website:
       - href: "mailto:hayley@example.org"
         icon: envelope
       - href: "#"
-        text: "<img src='images/AMMnet-logo.png'>"
+        text: "<img src='images/AMMnet-logo.png' height='60'>"
       - href: "#"
-        text: "<img src='images/PATH_Logo_Color.png'>"
+        text: "<img src='images/PATH_Logo_Color.png' height='60'>"
 
   page-footer:
     center: "Ammnet Senegal 2025 Workshop | PATH "
@@ -41,7 +41,9 @@ website:
 format:
   html:
     page-layout: full
-    theme: minty
+    theme:
+    - minty
+    - styles.scss
     css: styles.css
     toc: true
     grid:
