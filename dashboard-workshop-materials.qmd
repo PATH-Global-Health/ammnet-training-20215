@@ -87,7 +87,9 @@ We'll start by highlighting some key building blocks of dashbboards before movin
 
 In the end we hope you will have created something like the dashboard as shown below:
 
-![](images/final-final.PNG)
+![](images/db-1.PNG)
+
+![](images/db-2.PNG)
 
 ::: callout-tip
 Tips for this tutorial
