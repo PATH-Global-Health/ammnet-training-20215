@@ -2,7 +2,8 @@
 title: "Development of a dynamic dashboard for visualizing malaria epidemiological surveillance data with R-Shiny"
 ---
 
-This Website houses the materials for the Ammnet Session - "*Development of a dynamic dashboard for visualizing malaria epidemiological surveillance data with R-Shiny*"
+Website for the materials for the Ammnet Session - "*Development of a dynamic dashboard for visualizing malaria epidemiological surveillance data with R-Shiny*"
+
 
 ::: callout-important
 To view the website in French - Open in Google Chrome - right click anywhere on the page and select "Translate to francias"
@@ -22,7 +23,10 @@ Data visualization is a powerful tool for understanding and communicating data. 
 
 Before starting the training session, it is important to master the basics in descriptive data analysis, install R and the RStudio IDE, and install the required packages for the training.
 
-Installation Guide: 👉 <a href="lesson-materials/installation-guide.pdf" download>Download Install guide</a> 
+Installation Guide: 
+👉 <a href="lesson-materials/installation-guide.pdf" download>Download Install guide (EN) </a> 
+
+👉 <a href="lesson-materials/installation-guide-FR.pdf" download>Download Install guide (FR) </a> 
 
 ```{r eval = FALSE}
 # Packages installation ==========================================================================
@@ -36,6 +40,7 @@ install.packages("leaflet")   #"leaflet: mapping spatial data."
 install.packages("sf")        #"sf: mapping spatial data."
 install.paclages("lubridate") #"lubridate for dealting with date-time."
 install.packages("bsicons")   #"bsicons: Bootstrap icons for Shiny apps."
+install.packages("scales")    #"scales: for formatting numbers, dates, and other data types in a consistent way."
 
 # Packages load ===================================================================================
 library(janitor)
@@ -48,6 +53,7 @@ library(leaflet)
 library(sf)
 library(lubridate)
 library(bsicons)
+library(scales)
 
 ```
 
