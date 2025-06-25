@@ -91,7 +91,7 @@ library(bsicons)
 
 | Materials             | Links |
 |-----------------------|-------|
-| Part 1 Slides (EN)     | [English]([lesson-materials/part-1/english.pdf](https://path-global-health.github.io/ammnet-training-20215/english-slides.html)) | 
+| Part 1 Slides (EN)     | [English](https://path-global-health.github.io/ammnet-training-20215/english-slides.html) | 
 | Part 1 Slides (FR)     | [French](https://path-global-health.github.io/ammnet-training-20215/french-slides.html) |
 | Part 2 - Data Files    | [Download data-outputs.zip](data-outputs.zip) |
 | Part 2 - Slides        | [Dashboarding Slides](https://path-global-health.github.io/ammnet-training-20215/dashboarding-slides.html#/title-slide) | 
