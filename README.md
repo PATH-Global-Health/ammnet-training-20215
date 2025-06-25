@@ -95,4 +95,4 @@ library(bsicons)
 | Part 1 Slides (FR)     | [French](https://path-global-health.github.io/ammnet-training-20215/french-slides.html) |
 | Part 2 - Data Files    | [Download data-outputs.zip](data-outputs.zip) |
 | Part 2 - Slides        | [Dashboarding Slides](https://path-global-health.github.io/ammnet-training-20215/dashboarding-slides.html#/title-slide) | 
-| Part 2 - Worksheet     | [Dashboard Workshop Materials]([dashboard-workshop-materials.qmd](https://path-global-health.github.io/ammnet-training-20215/dashboard-workshop-materials.html)) | 
+| Part 2 - Worksheet     | [Dashboard Workshop Materials](https://path-global-health.github.io/ammnet-training-20215/dashboard-workshop-materials.html) | 
