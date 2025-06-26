@@ -50,6 +50,7 @@ install.packages("leaflet")
 install.packages("sf")
 install.packages("lubridate")
 install.packages("bsicons")
+install.packages("scales")
 ```
 
 These packages will allow us to do the following:
@@ -70,6 +71,8 @@ These packages will allow us to do the following:
 
 -   **`bsicons`**: for using Bootstrap icons in Shiny.
 
+-   **`scales`** for formatting numeric values
+
 ## Objectives
 
 Imagine you are a data analyst for the Minstry of Health and you've been tasked with creating a way for Provinces in the country to quickly and easily visualise and compare their malaria trends without the need for individual excel files or analyses. That's the kind of problem we're framing our dashboard around today. During this session you will:
@@ -84,7 +87,9 @@ We'll start by highlighting some key building blocks of dashbboards before movin
 
 In the end we hope you will have created something like the dashboard as shown below:
 
-![](images/final-final.PNG)
+![](images/db-1.PNG)
+
+![](images/db-2.PNG)
 
 ::: callout-tip
 Tips for this tutorial
@@ -222,6 +227,7 @@ library(leaflet)
 library(sf)
 library(lubridate)
 library(bsicons)
+library(scales)
 ```
 
 ## Read In Our Data
@@ -790,7 +796,7 @@ The remaining arguments vary from widget to widget, depending on what the widget
 
 ### Exercise 4
 
-4.  For our dashboard, we want to be able to select a single province to display our data - lets test out some of these examples above and select the most appropriate option for our dashboard.
+4.  We might want our dashboard to be able to filter down to one of our provinces in the dataset - lets test out some of these examples above and select the most appropriate option for this.
 
 Replace your `sidebar` code with the following:
 
@@ -838,11 +844,9 @@ For this app, we’ll use `selectInput()` because:
 
 ## Putting it all together
 
-Lets now create the skeleton of our dashboard. Firstly what we want to be able to do is allow user to select a **Province**.
+Lets now create the skeleton of our dashboard. Firstly what we want to be able to do is allow user to select a **Province** from a dropdown list of all the unique values in our dataset.
 
-We’ll start by updating the **UI** to add a control widget that selects for province and in Part 2 we will address adding reactive elements to our output containers.
-
-Let’s now update the sidebar to add a proper dropdown input for Province selection. Remember to ensure we are reading in our dataset prior to the UI and Server code.
+We’ll start by updating the **UI** to add a control widget `selectInput()` that will allow the user to select a Province from our dataset.
 
 ```{r eval=FALSE}
    #-sidebar---------
@@ -851,13 +855,14 @@ Let’s now update the sidebar to add a proper dropdown input for Province selec
       # Add user input selection 
       p("User Inputs"), # Title
       
+      # Province selection input
       selectInput(
         inputId = "province_select",  # ID value
         label = "Select a Province:", # UI side Title
         choices = c("", sort(unique(app_data$organisation_unit))), # empty first value followed by all of our unique org_unit names
         selected = "" # default value that the application starts with as selected - in our case we want this to be blank. 
         )
-      ),
+      )
 ```
 
 **What this is doing:**
@@ -887,7 +892,7 @@ Before we move forward, take a quick moment to review what you’ve built so far
 
 -   `layout_columns()` and `layout_column_wrap()` to control the page structure
 
-✅ You’ve explored how to place **interactive control widgets** into the sidebar using `selectInput()`, which will allow users to filter the data.
+✅ You’ve explored how to place **interactive control widgets** into the sidebar, which will allow users to control the application.
 
 ### Quick self-check questions
 
@@ -903,9 +908,7 @@ In Part 2, you will learn:
 
 -   How to add display elements into the dashbaord cards.
 
--   How to connect your `selectInput()` dropdown to your dataset.
-
--   How to filter data reactively based on user selections.
+-   How to connect your `**Input()` to your dataset to generate outputs.
 
 -   How to update your value boxes and outputs automatically when the user interacts.
 
@@ -952,6 +955,8 @@ We want to show some text that says:
 
 > *"You have selected: \[Province\]"*
 
+### `ui()` side arguements
+
 To do this, we add `textOutput()` to the UI where we want the text to appear,in this instance we add it to the `card_body()` call to our first card.
 
 ```{r eval = FALSE}
@@ -983,6 +988,8 @@ Placing a function in `ui` tells Shiny where to display your object. Next, you n
 
 We do this by providing the R code that builds the object in the `server` function.
 
+### `server()` side arguements
+
 The `server` function plays a special role in the Shiny process; it builds a list-like object named `output` that contains all of the code needed to update the R objects in your app. Each R object needs to have its own entry in the list.
 
 You can create an entry by defining a new element for `output` within the `server` function, like below. The element name should match the name of the reactive element that you created in the `ui`.
@@ -1008,7 +1015,7 @@ server <- function(input, output) {
 
 `input` is a second list-like object created by the server function. It stores the current values of all of the widgets in your app. These values will be saved under the names that you gave the widgets in your `ui`.
 
-So for example, our app has one widget, one named `"province_select"` .The values of `"province_select"` will be saved in `input` as `input$province_select`.
+So for example, our app has a widget named `"province_select"` .The values of `"province_select"` will be saved in `input` as `input$province_select`.
 
 Shiny will automatically make an object reactive if the object uses an `input` value. For example, the `server` function above creates a reactive line of text by calling the value of the select box widget to build the text.
 
@@ -1024,7 +1031,7 @@ When the user changes the province name the text outoput will update automatical
 | Server | `output$selected_province_text <- renderText({ ... })` |
 | Link   | Both use the same ID: `"selected_province_text"`       |
 
-Each entry to `output$ <-` should contain the output of one of Shiny’s `render*` functions. These functions capture an R expression and do some light pre-processing on the expression. Use the `render*` function that corrresponds to the type of reactive object you are making (Pairs are listed in the table above).
+Each entry to `output$ <-` should contain the output of one of Shiny’s `render*` functions. These functions capture an R expression and do some light pre-processing on the expression. Use the `render*` function that corresponds to the type of reactive object you are making (Pairs are listed in the table above).
 
 Each `render*` function takes a single argument: an R expression surrounded by braces, `{}`. The expression can be one simple line of text, or it can involve many lines of code, as if it were a complicated function call.
 
@@ -1036,7 +1043,7 @@ For this to work, your expression should return the object you have in mind (a p
 
 In the previous step our app simply reacts to the user input and displays the Province - now we want to also tell our App to do more with that information by filtering and displaying summary data from our DHIS2 data pull.
 
-We want to compute (for now, keep it simple):
+We want to compute (for now):
 
 -   Total number of malaria cases reported in the selected province for the year
 
@@ -1695,7 +1702,7 @@ These are small details — but they make your app feel polished, intentional, a
 
 # Part 4: Addiditional Outputs
 
-Now that we’ve built a simple reactive and styled our app, let’s level up by introducing **addiditional output types** - we can convey more information than what we have currentlly presented in our app by adding more outputs.
+Now that we’ve built a simple reactive and styled our app, let’s level up by introducing **addiditional output types** and features so that we can convey more information than what we have currentlly presented in our app.
 
 A reminder that Shiny supports a wide range of different output types
 
@@ -2170,19 +2177,396 @@ output$ts_plots_ui <- renderUI({
 
 ![](images/short-card.PNG)
 
+## User Experience
+
+At this staage we have learnt some great skills on building Shiny dashboards but now is a good time to take a step back and this about our end-user who we are designing this application for - a really key part of building a good dashboard.
+
+Let's take a step back and evolve the app to reflect a more **realistic reporting structure** often seen in Ministry of Health surveillance dashboards.
+
+**Why make this change?**
+
+-   Many surveillance dashboards begin at the **national level**, providing a quick high-level summary of the country’s malaria indicators.
+
+-   The user can then **drill down** into province-specific trends when needed.
+
+-   This allows stakeholders to get both a big-picture view and explore granular data.
+
+**We'll evolve our app to allow:**
+
+-   Default view = National summary (all provinces combined)
+
+-   User can toggle between National or Province level using a **radio button**
+
+-   If Province is selected, a dropdown appears allowing the user to pick a Province.
+
+-   All plots, value boxes, and outputs automatically adjust based on this selection.
+
+Let's first update the **sidebar UI** to allow the user to select the reporting level, update our description and .
+
+Update your `sidebar = sidebar()` with:
+
+```{r eval = FALSE}
+#-sidebar---------
+sidebar = sidebar(
+  
+  # add a logo 
+  tags$img(src = "AMMnet-logo.png"), 
+  
+  # informative description
+  p("Dashboard for examining malaria indicators at national and province levels in Laos.
+     Select reporting level and indicators to view trends over time."),
+  
+  # add dark/light switch 
+  input_dark_mode(mode = "light"),
+  
+  # Reporting Level selection - National or Province
+  radioButtons(
+    inputId = "reporting_level", # ID for crosstalk in the app
+    label = "Select reporting level:", # Titlefor user side
+    choices = c("National", "Province"), # Options of selection 
+    selected = "National"  # Default to National on app launch
+  ),
+  
+  # Conditionally render Province dropdown only if Province level is selected
+  uiOutput("province_selector")
+  
+)
+
+```
+
+::: callout-note
+The `uiOutput("province_selector")` creates a placeholder — we'll dynamically insert the Province dropdown *only* when Province is selected.
+:::
+
+Next, we need to add the logic to conditionally display the Province dropdown based on the selected reporting level. Add this to the top of your `server()` function:
+
+```{r eval = FALSE}
+
+#- Dynamically show province selection if Province level is selected ----------------------------
+output$province_selector <- renderUI({
+  
+  # Check if the reporting level is set to Province
+  if (input$reporting_level == "Province") {
+    # Create a dropdown for province selection
+    selectInput(
+      inputId = "province_select", # ID for the province selection,
+      label = "Select a Province:",# UI side title
+      choices = c("", sort(unique(app_data$organisation_unit))), # empty first value followed by all of our unique org_unit names
+      selected = "" # default value that the application starts with as selected - in our case we want this to be blank.
+    )
+  } else {
+    NULL # If National level is selected, return NULL to not display the dropdown
+  }
+})
+
+```
+
+This ensures the Province dropdown only appears when appropriate. We’re giving users a cleaner, more intuitive interface!
+
+::: {layout-ncol="2"}
+![](images/user-inputs-national-on.PNG)
+
+![](images/user-inputs-national-off.PNG)
+:::
+
+Now we need to adjust our reactive data filter to reflect both National and Province level selections.
+
+Replace your existing `province_data()` reactive with this:
+
+```{r eval = FALSE}
+
+#-Reactive data filter: adjust for national or province selection---------
+  filtered_data <- reactive({
+    
+    # If Province is selected, ensure province dropdown has a selection
+    if (input$reporting_level == "Province") {
+      req(input$province_select != "")
+      app_data %>% filter(organisation_unit == input$province_select)
+    } else {
+      # If National, use full dataset and sum over all provinces
+      app_data %>% 
+        group_by(period, var_name) %>% # group by period and variable name
+        summarise(value = sum(value, na.rm = TRUE), .groups = "drop") # sum values over all provinces
+        
+    }
+  })
+```
+
+Now replace all server-side value box calculations to use `filtered_data()` instead of `province_data()`, add a condidtional statement to only show our `validate()` messages when the dashboard is in "Province" level view and make sure the numerical values are formatted nicely.
+
+```{r eval = FALSE}
+
+  #-Compute total cases from filtered data-----------------------
+  output$total_cases_box <- renderText({
+    
+    # Only validate if Province level is selected
+    if (input$reporting_level == "Province") {
+      validate(
+        need(input$province_select != "", "Select a province")
+      )
+    }
+   
+     df <- filtered_data() # this act like a function and pulls through our filtered data to an object inside renderText called 'df'
+    
+    total_cases <- df %>%
+      filter(var_name == "malaria_cases") %>% # filters to malaria cases data only
+      summarise(total = sum(value, na.rm = TRUE)) %>% # sums values over all periods included
+      pull(total) # pulls out the value from summary calculation into named vector
+    
+    # Apply formatting here
+    scales::comma(total_cases) # final value with nice formatting 
+  })
+  
+  #-Compute total tests from filtered data-------------------------
+  output$total_tests_box <- renderText({
+    
+    # Only validate if Province level is selected
+    if (input$reporting_level == "Province") {
+      validate(
+        need(input$province_select != "", "Select a province")
+      )
+    }
+    
+    df <- filtered_data() # pull filtered data
+    
+    total_tests <- df %>%
+      filter(var_name == "malaria_tests") %>%
+      summarise(total = sum(value, na.rm = TRUE)) %>% #sum total tesats
+      pull(total)
+    
+    scales::comma(total_tests) # final value with nice formatting 
+    
+  })
+  
+  #-average TPR value box--------------------------------------------
+  output$tpr_value <- renderText({
+    
+    req(input$include_tpr) # requires the TPR check to be TRUE 
+    
+    # data processing
+    df <- 
+      filtered_data() %>% # pull filtered data
+      pivot_wider(names_from = var_name, values_from = value) %>% #widens data frame to have a column per indicator 
+      mutate(
+        tpr = round((malaria_cases / malaria_tests) * 100, 2) # calculates TPR as a percentage
+      ) %>%
+      summarise(
+        tpr = mean(tpr, na.rm=TRUE) # takes average of TPR on % scale 
+      ) 
+    
+    avg_tpr <- round(df$tpr, 1) # rounds to one decimal place
+    
+    avg_tpr # returns value 
+  })
+  
+
+```
+
+And update the call to `value_box()` so that now our data will always be displayed with numeric comma style presentation for easier reading.
+
+```{r eval = FALSE}
+#-Value Box dynamic number based on TPR toggle-----------------------------------------------------
+  output$value_boxes <- renderUI({
+    
+    # Always include these two
+    boxes <- list(
+      value_box(
+        title = "Total Cases Reported",
+        value = textOutput(scales::comma("total_cases_box")), # use scales::comma to format the number with commas
+        showcase = bsicons::bs_icon("journal-medical"),
+        showcase_layout = "top right", 
+        theme = "secondary"
+      ),
+      value_box(
+        title = "Total Tests Reported", 
+        value = textOutput(scales::comma("total_tests_box")), # use scales::comma to format the number with commas
+        showcase = bsicons::bs_icon("journal-medical"), 
+        showcase_layout = "top right", 
+        theme = "secondary" 
+      )
+    )
+    
+    # Conditionally add TPR box only if checkbox is ON
+    if (isTRUE(input$include_tpr)) {
+      boxes <- append(boxes, list(
+        value_box(
+          title = "Average TPR (%)",
+          value = textOutput(scales::comma("tpr_value")), # use scales::comma to format the number with commas
+          showcase = bsicons::bs_icon("percent"),
+          showcase_layout = "top right",
+          theme = "secondary"
+        )
+      ))
+    }
+    
+    # Wrap all boxes inside layout_column_wrap
+    layout_column_wrap(!!!boxes)
+  })
+    
+
+```
+
+![](images/national-value-boxes.PNG)
+
+Update the plotting code to also use `filtered_data()` instead of `province_data()`, add a condidtional statement to only show our `validate()` messages when the dashboard is in "Province" level view and update the title text to be informative at the National level.
+
+```{r eval = FALSE}
+
+#-PLOTS------------------------------------------------------------------------------------------------------
+  
+  #-Plot of reported values over time selected by province----------------------
+  output$ts_plot <- renderPlotly({
+    
+    # only validate if Province level is selected
+    if (input$reporting_level == "Province") {
+      # condiditional messaging -  Check if province selection is made and if not display the following message 
+      # Check if data selected and prompt to select data series
+      validate(
+        need(input$province_select != "", "Please select a province to view data."),
+        need(length(input$series_select) > 0, "Please select at least one data elemtent to generate the plot.")
+      )
+    }
+    
+    # title value 
+    title_val = 
+      ifelse(input$reporting_level == "Province", 
+             paste("Malaria Indicators in:", input$province_select), 
+             "Malaria Indicators at National Level")
+      
+  
+    df <- 
+      filtered_data()  %>%  # get province data
+      filter(var_name %in% input$series_select) # Get the filtered data as per input 
+      
+      req(nrow(df) > 0)              # Ensure there are rows to plot
+      
+      # Create a ggplot time series of time on the xaxis cases on the y, colour by data type
+      p <- 
+        ggplot(df, aes(x = period, y = value, col=var_name)) +
+        geom_line() +  #add line style
+        geom_point() + # add points to the line
+        labs(
+          title = title_val,
+          x = "Month",
+          y = "Value", 
+          col="Indicator"
+        ) +
+        scale_color_manual(values = c("malaria_cases" = "#571845", "malaria_tests" = "#C42847"))+ # set the colour values
+        theme_minimal()
+      
+      # Convert ggplot to interactive Plotly object
+      ggplotly(p)
+      
+    })
+  
+  
+  
+  #-Conditional rendering of TPR plot-------------------------------------------
+  output$tpr_plot <- renderPlotly({
+    
+    # validate if Province level is selected
+    if (input$reporting_level == "Province") {
+      # condiditional messaging -  Check if province selection is made and if not display the following message 
+      # Check if data selected and prompt to select data series
+      validate(
+        need(input$province_select != "", "Please select a province to view data."),
+        need(input$include_tpr, "Enable TPR toggle to display plot."),
+        need(length(input$series_select) == 2, "Please select both malaria cases and malaria tests to calculate TPR.")
+      )
+    }
+    
+    # Validate for national level 
+    # Use validate + need to provide informative user messages
+    validate(
+      need(input$include_tpr, "Enable TPR toggle to display plot."),
+      need(length(input$series_select) == 2, "Please select both malaria cases and malaria tests to calculate TPR.")
+    )
+    
+    # title value 
+    title_val = 
+      ifelse(input$reporting_level == "Province", 
+             paste("Test Positivity Rate (TPR) in:", input$province_select), 
+             "Test Positivity Rate (TPR) at National Level")
+    
+    # calculate TPR - Test Positivity Rate
+    df <- 
+      filtered_data() %>% # get the filtered province data
+      pivot_wider(names_from = var_name, values_from = value) %>% # pivot the data wider to have cases and tests in separate columns
+      arrange(period) %>% # arrange by period
+      mutate(
+        tpr = round((malaria_cases / malaria_tests) * 100, 2) # calculate TPR as a percentage - rounded to 2 decimal places
+      )
+    
+    # Plot the TPR over time
+    p <- 
+      ggplot(df, aes(x = period, y = tpr)) + 
+      geom_point(color = "#FECC01") +
+      labs(
+        title =  title_val,
+        x = "Month",
+        y = "TPR (%)"
+      ) +
+      theme_minimal() +
+      scale_y_continuous(limits = c(0, 100)) # set y-axis limits from 0 to 100%
+    
+    ggplotly(p) # convert ggplot to plotly object
+    
+  })
+```
+
+And in the `ui()` lets reset our default selection of plot variables to set the default to fill the plot first with case data
+
+```{r eval = FALSE}
+# Card with a sidebar for input selection 
+    card(
+      full_screen = TRUE, 
+      # global card header
+      card_header("Monthyl Malaria Indicator Trends"),
+      # sidebar layout with sidebar and card body
+      layout_sidebar(
+        
+        # add the sidebar with input elements
+        sidebar = list(
+          # include original data series checkboes
+          checkboxGroupInput(
+            inputId  = "series_select",
+            label    = "Select data series:",
+            choices  = c(
+              "Confirmed Cases" = "malaria_cases",
+              "Malaria Tests"   = "malaria_tests"
+            ), 
+            selected = "malaria_cases" # set the default to cases
+          ),
+          # condiditionally render TPR checkbox
+          uiOutput("tpr_checkbox_ui")
+        ),
+        
+        # include the card body with the plots
+        card_body(
+          # UI output that will dynamically render different layout
+          uiOutput("ts_plots_ui")
+        ),
+        card_footer("Data source: DHIS2 export") # informative card footer
+      )
+    )
+
+```
+
+![](images/national-default-plot.PNG)
+
 ### Stretch Exercise
 
-🎯 Your Task - add a new card panel below the current plots showing a time series plot of incidence per 1,000 people in the selected province.
+🎯 Your Task - add a new card panel below the current plots showing a time series plot of incidence per 1,000 people. Beacuse the dataset does not contain population data we cannot calculate the national level monthly incidence so we will display monthly data for each province as a single line to see the range across the country.
 
 This plot will:
 
 -   Use data where `var_name == "malaria_cases_per_1000"`
 
--   Show a single line plot with one point per month
+-   Show a single line plot with one point per month for each province coloured by province
 
 -   Appear in a new `card()` component with a header and footer
 
--   Only display when a province `input$province_select` is selected, prior to showing a plot display a helpful message to let users know to select a province
+-   Appears by default when National level is selected but displays Province selection message if Province level selected.
 
 -   Use `renderPlotly()` to make it interactive
 
@@ -2192,7 +2576,7 @@ Add a new card to the UI
 ```{r eval = FALSE}
 # incidence plot card 
     card(
-      height = 400,
+      height = 500,
       full_screen = TRUE,
       card_header("Monthyl Malaria Incidence Trends"), # card header
       card_body(plotlyOutput("inc_plot")),     # plotly output for the incidence plot
@@ -2203,47 +2587,61 @@ Add a new card to the UI
 Add plot code to the server
 
 ```{r eval = FALSE}
-output$inc_plot <- renderPlotly({
+  #-Incidence plot----------------------------------------------------------------
+  output$inc_plot <- renderPlotly({
   
   # Add messages to inform user to select a province
-  validate(
-    need(input$province_select != "", "Please select a province to view data.")
-  )
+  if (input$reporting_level == "Province") {
+    validate(
+      need(input$province_select != "", "Please select a province to view data.")
+      )
+  }
   
-  # filter dataset
-  df <- 
-    province_data() %>% # filtr ptovince data
-    filter(var_name == "malaria_cases_per_1000") # select inc var
+  # filter dataset if province level otherwise use the full dataset
+  if(input$reporting_level == "Province"){
+    df <- 
+      filtered_data() %>% # filtr province data
+      filter(var_name == "malaria_cases_per_1000") # select inc var
+    
+  }else{
+    df <- app_data %>% 
+      filter(var_name == "malaria_cases_per_1000") # select inc var
+  }
   
-  # Ensure there is data to plot
-  validate(
-    need(nrow(df) > 0, "No incidence data available for this province.")
-  )
+  
+  # title value 
+  title_val = 
+    ifelse(input$reporting_level == "Province", 
+           paste("Malaria Incidence in:", input$province_select), 
+           "Malaria Incidence at National Level")
   
   # Plot the incidence over time 
   p <- 
-    ggplot(df, aes(x = period, y = value)) +
-    geom_line(color = "#FECC01") +
-    geom_point(color = "#FECC01") +
+    ggplot(df, aes(x = period, y = value, col=organisation_unit)) +
+    geom_line( ) +
+    geom_point( ) +
     labs(
-      title = paste("Malaria Incidence in:", input$province_select),
+      title = title_val,
       x = "Month",
       y = "Incidence (per 1,000)"
     ) +
     theme_minimal()
   
   ggplotly(p)
+  
 })
 ```
 
-![](images/incidence.PNG)
+![](images/national-inc.PNG)
+
+![](images/province-inc.PNG)
 :::
 
 ## Including Leaflet Maps
 
-Now that your dashboard includes time series and summary statistics, let’s add a **spatial view** using an interactive map. This will help users visually explore **malaria burden across provinces**.
+Now that your dashboard includes time series and summary statistics, let’s add a **spatial view** using an interactive map. This will help users visually explore **malaria burden across the country**.
 
-We’ll use the `{leaflet}` package to create a **map** of average annual incidence per 1,000 people, and we’ll highlight the **selected province** from the sidebar dropdown.
+We’ll use the `{leaflet}` package to create a **map** of average annual incidence per 1,000 people, and when our dashboard is in Province view we’ll highlight the **selected province** from the sidebar dropdown.
 
 Think of leaflet as allowing us to use a google maps style map to our dashboard rather than a static image.
 
@@ -2268,7 +2666,7 @@ adm1_shp <- st_read("./data-outputs/adm1_shapefile.shp")
 
 ```
 
-Add a new column layout to ensure the map and the incidence plot fall on the same row of the dashboard and adjust the widths to allow more space for the line plot.
+Add a `layout_columns()` and an extra `card` to ensure the map and the incidence plot fall on the same row of the dashboard and adjust the widths to allow more space for the line plot.
 
 ```{r eval = FALSE}
 # incidence plot card - including map 
@@ -2279,29 +2677,24 @@ Add a new column layout to ensure the map and the incidence plot fall on the sam
         height = 400,
         full_screen = TRUE,
         card_header("Monthly Malaria Incidence Trends"),
-        card_body(plotlyOutput("inc_plot", height = "350px")),
+        card_body(plotlyOutput("inc_plot", height = "400px")),
         card_footer("Data source: DHIS2 export")
       ), 
       card(
         height = 400,
         full_screen = TRUE, 
         card_header("Average Annual Incidence Map"),
-        card_body(leafletOutput("inc_map", height = "350px")),
+        card_body(leafletOutput("inc_map", height = "400px")),
         card_footer("Data source: HumData for shape files, DHIS2 for malaria data")
       )
     )
 ```
 
-Now buid the Maps using Leaflet Syntax in the server. We add a highlight outline to the Province that the user has selected.
+Now buid the Maps using Leaflet Syntax in the server. This is slightly different syntax to plotting using `ggplot2` and each arguement is described below.
 
 ```{r eval = FALSE}
 # Incidence leaflet map----------------------------------------------------------------------
 output$inc_map <- renderLeaflet({
-  
-  # Add messages to inform user to select a province
-  validate(
-    need(input$province_select != "", "Please select a province to view data.")
-  )
   
   # Summarise incidence by province - no need to use filtered data as 
   # we want all provinces shown on the map
@@ -2316,10 +2709,17 @@ output$inc_map <- renderLeaflet({
   
   # Create color palette 
   pal <- colorNumeric(
-    palette = "YlOrRd",
+    palette = "YlOrRd",    # yellow orange red scale 
     domain = df_shape$inc, # use the incidence values for color mapping
-    na.color = "#f0f0f0"
+    na.color = "#f0f0f0"   # set the NA value colour
   )
+  
+  # Determine which province (if any) is selected to highlight
+  selected_province <- if (input$reporting_level == "Province" && input$province_select != "") {
+    input$province_select
+  } else {
+    "national"
+  }
   
   # Create the leaflet map 
   leaflet(df_shape) %>% # use the spatial data
@@ -2327,8 +2727,8 @@ output$inc_map <- renderLeaflet({
     addPolygons( 
       # add polygons for each province
       fillColor = ~pal(inc), # fill color based on incidence
-      weight = ~ifelse(org_unit == input$province_select, 3, 1), # highlight selected province with thicker border
-      color = ~ifelse(org_unit == input$province_select, "#7C204F", "black"), # set border color
+      weight = ~ifelse(org_unit == selected_province, 3, 1), # highlight selected province with thicker border
+      color = ~ifelse(org_unit == selected_province, "#7C204F", "black"), # set border color
       opacity = 1, # set opacity of the border
       fillOpacity = 0.8, # set fill opacity 
       label = ~paste0(org_unit, ": ", round(inc, 1), " per 1,000"), # add labels with province name and incidence
@@ -2352,7 +2752,7 @@ output$inc_map <- renderLeaflet({
 
 ```
 
-![](images/map-inc.PNG)
+![](images/map-and-inc-national.PNG)
 
 In the current app, your `leaflet()` map uses: `addProviderTiles(providers$CartoDB.Positron)`
 
@@ -2371,9 +2771,9 @@ Shiny has great support for interactive tables using the **DT** package.
 
 Let’s create a summary table that:
 
--   Aggregates total cases, total tests, average TPR and average incidence by province and includes the number of months that data is reported for in the province
+-   Aggregates total cases, total tests, average TPR and average incidence by province over the year and includes the number of months that data is reported for in the province
 
--   Highlights the currently selected province
+-   Highlights the currently selected province if province level display is selected
 
 -   Displays all provinces at once
 
@@ -2386,7 +2786,7 @@ We will use `renderDT()` inside the server and `DTOutput()` inside the UI to cre
     card(
       card_header("Summary Table"), # card header
       card_body(DTOutput("summary_data")), # DT output 
-      card_footer("Aggregated Annual Values per Province") # card footer
+      card_footer("Aggregated Annual Values") # card footer
     )
 
 ```
@@ -2394,13 +2794,8 @@ We will use `renderDT()` inside the server and `DTOutput()` inside the UI to cre
 Now add this code inside your server:
 
 ```{r eval = FALSE}
-# -Summary table of annual values-------------------------------------------------------------
+#-Summary table of annual values-------------------------------------------------------------
 output$summary_data <- renderDT({
-  
-  # Add messages to inform user to select a province
-  validate(
-    need(input$province_select != "", "Please select a province to view data.")
-  )
   
   # Filter and summarise the app_data to create a summary table using all provinces 
   df <- 
@@ -2449,7 +2844,7 @@ output$summary_data <- renderDT({
   )
   
   # Highlight selected province
-  if (input$province_select != "") {
+  if (input$reporting_level == "Province" && input$province_select != "") {
     # Apply row styling to highlight the selected province
     selected <- input$province_select 
     # Use formatStyle to apply bold font weight to the selected province row
@@ -2554,7 +2949,7 @@ output$download_summary <- downloadHandler(
 
 By the end of this tutorial you have successfully built a fully functional malaria data dashboard in Shiny that allows you to:
 
--   Select a Province and filter data interactively
+-   Select a spatial scale and filter/ process data interactively
 
 -   Compute derived indicators (such as Test Positivity Rate) directly within the app
 
@@ -2582,6 +2977,18 @@ Throughout this process you have seen how Shiny allows you to link user inputs t
 
 The skills you have developed through this workshop form the foundation for building interactive data dashboards that can support decision-making across a range of public health, program management, or analytic tasks.
 
+::: callout-important
+There are so of course so many elements we could build into our dashboards and figures that are useful ways to present our data. Here are some examples but can you thik of any more:
+
+-   If we have addiditional years of data adding time based filtering inputs
+
+-   An addiditonal tab used to compare locations or time periods
+
+-   Ability to select a location based on a map input
+
+...
+:::
+
 ::: {.callout-tip collapse="true" title="Full App.R code for our Demo Dashboard"}
 See below for the full app.R script that creates the dashboard we have built in this workshop.
 
@@ -2596,6 +3003,8 @@ library(plotly)
 library(leaflet)
 library(sf)
 library(lubridate)
+library(bsicons)
+library(scales)
 
 #-read in app data once on app start up-----------------------------------------
 app_data <- 
@@ -2617,23 +3026,27 @@ ui <- page_fluid(
     sidebar = sidebar(
       
       # add a logo 
-      tags$img(src = "AMMnet-logo.png"), # make sure this image exists in a folder called www 
+      tags$img(src = "AMMnet-logo.png"), 
       
-      # informative title
-      p("Dashboard for examining province level malaria indicators in Laos.
-         Select a province and data series to view the trends over time."),
+      # informative description
+      p("Dashboard for examining malaria indicators at national and province levels in Laos.
+     Select reporting level and indicators to view trends over time."),
       
       # add dark/light switch 
-      input_dark_mode(mode="light"),
+      input_dark_mode(mode = "light"),
       
-      # Province selection 
-      selectInput(
-        inputId = "province_select",  # ID value
-        label = "Select a Province:", # UI side Title
-        choices = c("", sort(unique(app_data$organisation_unit))), # empty first value followed by all of our unique org_unit names
-        selected = "" # default value that the application starts with as selected - in our case we want this to be blank. 
-        )
+      # Reporting Level selection - National or Province
+      radioButtons(
+        inputId = "reporting_level",
+        label = "Select reporting level:",
+        choices = c("National", "Province"),
+        selected = "National"  # Default to National on app launch
       ),
+      
+      # Conditionally render Province dropdown only if Province level is selected
+      uiOutput("province_selector")
+      
+    ),
     
     #-main pannel content----
     h1("Malaria Indicators Dashboard"), # Main title of the app
@@ -2658,7 +3071,8 @@ ui <- page_fluid(
             choices  = c(
               "Confirmed Cases" = "malaria_cases",
               "Malaria Tests"   = "malaria_tests"
-            )
+            ), 
+            selected = "malaria_cases"
           ),
           # condiditionally render TPR checkbox
           uiOutput("tpr_checkbox_ui")
@@ -2678,14 +3092,13 @@ ui <- page_fluid(
       # width - adjust the width to give some more space to the line chart
       col_widths = c(7,5), 
       card(
-        height = 400,
+        height = 500,
         full_screen = TRUE,
         card_header("Monthly Malaria Incidence Trends"),
         card_body(plotlyOutput("inc_plot", height = "350px")),
         card_footer("Data source: DHIS2 export")
       ), 
       card(
-        height = 400,
         full_screen = TRUE, 
         card_header("Average Annual Incidence Map"),
         card_body(leafletOutput("inc_map", height = "350px")),
@@ -2716,93 +3129,48 @@ ui <- page_fluid(
 )
 
 
-#-Define server logic - Computations-------------------------------------------- 
+#-Define server logic - Computations------------------------------------------------------------------
 server <- function(input, output) {
   
    # bs_themer()
-  
-  #-Reactive data filter - filter the app_data when input value is selected---------------------
-  province_data <- reactive({
-    
-    req(input$province_select != "")  # Only run if province selected
-    
-    app_data %>% 
-      filter(organisation_unit == input$province_select) # filter dataset to Province selected
-  })
-  
-  #-Compute total cases from filtered data-------------------------------------------------------
-  output$total_cases_box <- renderText({
-    
-    # condiditional messaging -  Check if province selection is made and if not display the following message 
-    validate(
-      need(input$province_select != "", "Select a province"),
-    )
    
-     df <- province_data() # this act like a function and pulls through our filtered data to an object inside renderText called 'df'
+  #-DATA---------------------------------------------------------------------------------------------
+  #-Reactive data filter: adjust for national or province selection------
+  filtered_data <- reactive({
     
-    total_cases <- df %>%
-      filter(var_name == "malaria_cases") %>% # filters to malaria cases data only
-      summarise(total = sum(value, na.rm = TRUE)) %>% # sums values over all periods included
-      pull(total) # pulls out the value from summary calculation into named vector
-    
-    total_cases # final value
+    # If Province is selected, ensure province dropdown has a selection
+    if (input$reporting_level == "Province") {
+      req(input$province_select != "")
+      app_data %>% filter(organisation_unit == input$province_select)
+    } else {
+      # If National, use full dataset and sum over all provinces
+      app_data %>% 
+        group_by(period, var_name) %>% # group by period and variable name
+        summarise(value = sum(value, na.rm = TRUE), .groups = "drop") # sum values over all provinces
+      
+    }
   })
   
-  #-Compute total tests from filtered data-------------------------------------------------------
-  output$total_tests_box <- renderText({
+  #-UI dynamics------------------------------------------------------------------------------------
+  
+  #-Dynamically show province selection if Province level is selected ----------
+  output$province_selector <- renderUI({
     
-    # condiditional messaging -  Check if province selection is made and if not display the following message 
-    validate(
-      need(input$province_select != "", "Select a province"),
-    )
-    
-    df <- province_data() # pull filtered province data
-    
-    total_tests <- df %>%
-      filter(var_name == "malaria_tests") %>%
-      summarise(total = sum(value, na.rm = TRUE)) %>% #sum total tesats
-      pull(total)
-    
-    total_tests # return value
-    
+    # Check if the reporting level is set to Province
+    if (input$reporting_level == "Province") {
+      # Create a dropdown for province selection
+      selectInput(
+        inputId = "province_select", # ID for the province selection,
+        label = "Select a Province:",# UI side title
+        choices = c("", sort(unique(app_data$organisation_unit))), # empty first value followed by all of our unique org_unit names
+        selected = "" # default value that the application starts with as selected - in our case we want this to be blank.
+      )
+    } else {
+      NULL # If National level is selected, return NULL to not display the dropdown
+    }
   })
   
-  #-Plot of reported values over time selected by province---------------------------------------
-  output$ts_plot <- renderPlotly({
-    
-    # condiditional messaging -  Check if province selection is made and if not display the following message 
-    # Check if data selected and prompt to select data series
-    validate(
-      need(input$province_select != "", "Please select a province to view data."),
-      need(length(input$series_select) > 0, "Please select at least one data elemtent to generate the plot.")
-    )
-      
-    df <- 
-      province_data()  %>%  # get province data
-      filter(var_name %in% input$series_select) # Get the filtered data as per input 
-      
-      req(nrow(df) > 0)              # Ensure there are rows to plot
-      
-      # Create a ggplot time series of time on the xaxis cases on the y, colour by data type
-      p <- 
-        ggplot(df, aes(x = period, y = value, col=var_name)) +
-        geom_line() +  #add line style
-        geom_point() + # add points to the line
-        labs(
-          title = paste("Malaria Indicators Cases in:", input$province_select), # add selected province to the title and change name
-          x = "Month",
-          y = "Value", 
-          col="Indicator"
-        ) +
-        scale_color_manual(values = c("malaria_cases" = "#571845", "malaria_tests" = "#C42847"))+ # set the colour values
-        theme_minimal()
-      
-      # Convert ggplot to interactive Plotly object
-      ggplotly(p)
-      
-    })
-  
-  #-Conditional UI element for TPR checkbox------------------------------------------------------
+  #-Conditional UI element for TPR checkbox-------------------------------------
   output$tpr_checkbox_ui <- renderUI({
     
     if (all(c("malaria_cases", "malaria_tests") %in% input$series_select)) {
@@ -2818,19 +3186,228 @@ server <- function(input, output) {
     }
   })
   
-  #-Conditional rendering of TPR plot------------------------------------------------------------
+  #-Render the value box for TPR if checkbox is selected------------------------
+  output$tpr_value_box <- renderUI({
+    # Check if the TPR checkbox is selected
+    if (isTRUE(input$include_tpr))  { # requires TPR check to be active
+      
+      # standard value box set up 
+      value_box(
+        title = "Average TPR (%)",       # Title
+        value = textOutput("tpr_value"), # using condiditional value 
+        showcase = bsicons::bs_icon("percent"), #Icon
+        showcase_layout = "top right",   # placement
+        theme = "secondary"              # colour theme
+      )
+    } else {
+      NULL # if not checked then nothing is displayed
+    }
+  })
+  
+  #-Value Box dynamic number based on TPR toggle--------------------------------
+  output$value_boxes <- renderUI({
+    
+    # Always include these two
+    boxes <- list(
+      value_box(
+        title = "Total Cases Reported",
+        value = textOutput("total_cases_box"),
+        showcase = bsicons::bs_icon("journal-medical"),
+        showcase_layout = "top right", 
+        theme = "secondary"
+      ),
+      value_box(
+        title = "Total Tests Reported", 
+        value = textOutput("total_tests_box"),
+        showcase = bsicons::bs_icon("journal-medical"), 
+        showcase_layout = "top right", 
+        theme = "secondary" 
+      )
+    )
+    
+    # Conditionally add TPR box only if checkbox is ON
+    if (isTRUE(input$include_tpr)) {
+      boxes <- append(boxes, list(
+        value_box(
+          title = "Average TPR (%)",
+          value = textOutput("tpr_value"),
+          showcase = bsicons::bs_icon("percent"),
+          showcase_layout = "top right",
+          theme = "secondary"
+        )
+      ))
+    }
+    
+    # Wrap all boxes inside layout_column_wrap
+    layout_column_wrap(!!!boxes)
+  })
+  
+  #-conditional layout for time series plots------------------------------------
+  output$ts_plots_ui <- renderUI({
+    
+    # If TPR is selected, show both plots side by side
+    if (isTRUE(input$include_tpr)) { 
+      # Show both plots side by side
+      layout_columns(
+        col_widths = c(6, 6),  # 50-50 width
+        plotlyOutput("ts_plot"),
+        plotlyOutput("tpr_plot")
+      )
+      
+      # If TPR is not selected, show only the main time series plot
+    } else {
+      # Show single plot full width
+      layout_columns(
+        col_widths = c(12),  # full width
+        plotlyOutput("ts_plot")
+      )
+    }
+    
+  })
+  
+  
+  #-VALUE BOXES DATA--------------------------------------------------------------------------------------
+  #-Compute total cases from filtered data--------------------------------------
+  output$total_cases_box <- renderText({
+    
+    # Only validate if Province level is selected
+    if (input$reporting_level == "Province") {
+      validate(
+        need(input$province_select != "", "Select a province")
+      )
+    }
+   
+     df <- filtered_data() # this act like a function and pulls through our filtered data to an object inside renderText called 'df'
+    
+    total_cases <- df %>%
+      filter(var_name == "malaria_cases") %>% # filters to malaria cases data only
+      summarise(total = sum(value, na.rm = TRUE)) %>% # sums values over all periods included
+      pull(total) # pulls out the value from summary calculation into named vector
+    
+    # Apply formatting here
+    scales::comma(total_cases) # final value with nice formatting 
+  })
+  
+  #-Compute total tests from filtered data--------------------------------------
+  output$total_tests_box <- renderText({
+    
+    # Only validate if Province level is selected
+    if (input$reporting_level == "Province") {
+      validate(
+        need(input$province_select != "", "Select a province")
+      )
+    }
+    
+    df <- filtered_data() # pull filtered data
+    
+    total_tests <- df %>%
+      filter(var_name == "malaria_tests") %>%
+      summarise(total = sum(value, na.rm = TRUE)) %>% #sum total tesats
+      pull(total)
+    
+    scales::comma(total_tests) # final value with nice formatting 
+    
+  })
+  
+  #-average TPR value box-------------------------------------------------------
+  output$tpr_value <- renderText({
+    
+    req(input$include_tpr) # requires the TPR check to be TRUE 
+    
+    # data processing
+    df <- 
+      filtered_data() %>% # pull filtered data
+      pivot_wider(names_from = var_name, values_from = value) %>% #widens data frame to have a column per indicator 
+      mutate(
+        tpr = round((malaria_cases / malaria_tests) * 100, 2) # calculates TPR as a percentage
+      ) %>%
+      summarise(
+        tpr = mean(tpr, na.rm=TRUE) # takes average of TPR on % scale 
+      ) 
+    
+    avg_tpr <- round(df$tpr, 1) # rounds to one decimal place
+    
+    avg_tpr # returns value 
+  })
+  
+ 
+  #-PLOTS------------------------------------------------------------------------------------------------------
+  
+  #-Plot of reported values over time selected by province----------------------
+  output$ts_plot <- renderPlotly({
+    
+    # only validate if Province level is selected
+    if (input$reporting_level == "Province") {
+      # condiditional messaging -  Check if province selection is made and if not display the following message 
+      # Check if data selected and prompt to select data series
+      validate(
+        need(input$province_select != "", "Please select a province to view data."),
+        need(length(input$series_select) > 0, "Please select at least one data elemtent to generate the plot.")
+      )
+    }
+    
+    # title value 
+    title_val = 
+      ifelse(input$reporting_level == "Province", 
+             paste("Malaria Indicators in:", input$province_select), 
+             "Malaria Indicators at National Level")
+    
+    
+    df <- 
+      filtered_data()  %>%  # get province data
+      filter(var_name %in% input$series_select) # Get the filtered data as per input 
+    
+    req(nrow(df) > 0)              # Ensure there are rows to plot
+    
+    # Create a ggplot time series of time on the xaxis cases on the y, colour by data type
+    p <- 
+      ggplot(df, aes(x = period, y = value, col=var_name)) +
+      geom_line() +  #add line style
+      geom_point() + # add points to the line
+      labs(
+        title = title_val,
+        x = "Month",
+        y = "Value", 
+        col="Indicator"
+      ) +
+      scale_color_manual(values = c("malaria_cases" = "#571845", "malaria_tests" = "#C42847"))+ # set the colour values
+      theme_minimal()
+    
+    # Convert ggplot to interactive Plotly object
+    ggplotly(p)
+    
+  })
+  
+  #-Conditional rendering of TPR plot-------------------------------------------
   output$tpr_plot <- renderPlotly({
     
+    # validate if Province level is selected
+    if (input$reporting_level == "Province") {
+      # condiditional messaging -  Check if province selection is made and if not display the following message 
+      # Check if data selected and prompt to select data series
+      validate(
+        need(input$province_select != "", "Please select a province to view data."),
+        need(input$include_tpr, "Enable TPR toggle to display plot."),
+        need(length(input$series_select) == 2, "Please select both malaria cases and malaria tests to calculate TPR.")
+      )
+    }
+    
+    # Validate for national level 
     # Use validate + need to provide informative user messages
     validate(
       need(input$include_tpr, "Enable TPR toggle to display plot."),
-      need(input$province_select != "", "Please select a province to view data."),
       need(length(input$series_select) == 2, "Please select both malaria cases and malaria tests to calculate TPR.")
     )
     
+    # title value 
+    title_val = 
+      ifelse(input$reporting_level == "Province", 
+             paste("Test Positivity Rate (TPR) in:", input$province_select), 
+             "Test Positivity Rate (TPR) at National Level")
+    
     # calculate TPR - Test Positivity Rate
     df <- 
-      province_data() %>% # get the filtered province data
+      filtered_data() %>% # get the filtered province data
       pivot_wider(names_from = var_name, values_from = value) %>% # pivot the data wider to have cases and tests in separate columns
       arrange(period) %>% # arrange by period
       mutate(
@@ -2842,7 +3419,7 @@ server <- function(input, output) {
       ggplot(df, aes(x = period, y = tpr)) + 
       geom_point(color = "#FECC01") +
       labs(
-        title = paste("Test Positivity Rate (TPR) in:", input$province_select), # add selected province to the title
+        title =  title_val,
         x = "Month",
         y = "TPR (%)"
       ) +
@@ -2853,132 +3430,42 @@ server <- function(input, output) {
     
   })
   
-  #-average TPR value box-----------------------------------------------------------------
-  output$tpr_value <- renderText({
-    
-    req(input$include_tpr) # requires the TPR check to be TRUE 
-    
-    # data processing
-    df <- 
-      province_data() %>% # filters to province
-      pivot_wider(names_from = var_name, values_from = value) %>% #widens data frame to have a column per indicator 
-      mutate(
-        tpr = round((malaria_cases / malaria_tests) * 100, 2) # calculates TPR as a percentage
-      ) %>%
-      summarise(
-        tpr = mean(tpr, na.rm=TRUE) # takes average of TPR on % scale 
-        ) 
-    
-    avg_tpr <- round(df$tpr, 1) # rounds to one decimal place
-    
-    avg_tpr # returns value 
-  })
   
-
-#-Render the value box for TPR if checkbox is selected---------------------------------------------
-output$tpr_value_box <- renderUI({
-  # Check if the TPR checkbox is selected
-  if (isTRUE(input$include_tpr))  { # requires TPR check to be active
-    
-    # standard value box set up 
-    value_box(
-      title = "Average TPR (%)",       # Title
-      value = textOutput("tpr_value"), # using condiditional value 
-      showcase = bsicons::bs_icon("percent"), #Icon
-      showcase_layout = "top right",   # placement
-      theme = "secondary"              # colour theme
-    )
-  } else {
-    NULL # if not checked then nothing is displayed
-  }
-})
-
-#-Value Box dynamic number based on TPR toggle-----------------------------------------------------
-output$value_boxes <- renderUI({
-  
-  # Always include these two
-  boxes <- list(
-    value_box(
-      title = "Total Cases Reported",
-      value = textOutput("total_cases_box"),
-      showcase = bsicons::bs_icon("journal-medical"),
-      showcase_layout = "top right", 
-      theme = "secondary"
-    ),
-    value_box(
-      title = "Total Tests Reported", 
-      value = textOutput("total_tests_box"),
-      showcase = bsicons::bs_icon("journal-medical"), 
-      showcase_layout = "top right", 
-      theme = "secondary" 
-    )
-  )
-  
-  # Conditionally add TPR box only if checkbox is ON
-  if (isTRUE(input$include_tpr)) {
-    boxes <- append(boxes, list(
-      value_box(
-        title = "Average TPR (%)",
-        value = textOutput("tpr_value"),
-        showcase = bsicons::bs_icon("percent"),
-        showcase_layout = "top right",
-        theme = "secondary"
-      )
-    ))
-  }
-  
-  # Wrap all boxes inside layout_column_wrap
-  layout_column_wrap(!!!boxes)
-})
-
-#-conditional layout for time series plots---------------------------------------------
-output$ts_plots_ui <- renderUI({
-  
-  # If TPR is selected, show both plots side by side
-  if (isTRUE(input$include_tpr)) { 
-    # Show both plots side by side
-    layout_columns(
-      col_widths = c(6, 6),  # 50-50 width
-      plotlyOutput("ts_plot"),
-      plotlyOutput("tpr_plot")
-    )
-    
-  # If TPR is not selected, show only the main time series plot
-  } else {
-    # Show single plot full width
-    layout_columns(
-      col_widths = c(12),  # full width
-      plotlyOutput("ts_plot")
-    )
-  }
-  
-})
-
-#-Incidence plot---------------------------------------------------------------------------
-output$inc_plot <- renderPlotly({
+  #-Incidence plot----------------------------------------------------------------
+  output$inc_plot <- renderPlotly({
   
   # Add messages to inform user to select a province
-  validate(
-    need(input$province_select != "", "Please select a province to view data.")
-  )
+  if (input$reporting_level == "Province") {
+    validate(
+      need(input$province_select != "", "Please select a province to view data.")
+      )
+  }
   
-  # filter dataset
-  df <- 
-    province_data() %>% # filtr ptovince data
-    filter(var_name == "malaria_cases_per_1000") # select inc var
+  # filter dataset if province level otherwise use the full dataset
+  if(input$reporting_level == "Province"){
+    df <- 
+      filtered_data() %>% # filtr province data
+      filter(var_name == "malaria_cases_per_1000") # select inc var
+    
+  }else{
+    df <- app_data %>% 
+      filter(var_name == "malaria_cases_per_1000") # select inc var
+  }
   
-  # Ensure there is data to plot
-  validate(
-    need(nrow(df) > 0, "No incidence data available for this province.")
-  )
+  
+  # title value 
+  title_val = 
+    ifelse(input$reporting_level == "Province", 
+           paste("Malaria Incidence in:", input$province_select), 
+           "Malaria Incidence at National Level")
   
   # Plot the incidence over time 
   p <- 
-    ggplot(df, aes(x = period, y = value)) +
-    geom_line(color = "#FECC01") +
-    geom_point(color = "#FECC01") +
+    ggplot(df, aes(x = period, y = value, col=organisation_unit)) +
+    geom_line( ) +
+    geom_point( ) +
     labs(
-      title = paste("Malaria Incidence in:", input$province_select),
+      title = title_val,
       x = "Month",
       y = "Incidence (per 1,000)"
     ) +
@@ -2989,11 +3476,6 @@ output$inc_plot <- renderPlotly({
 
 # Incidence leaflet map----------------------------------------------------------------------
 output$inc_map <- renderLeaflet({
-  
-  # Add messages to inform user to select a province
-  validate(
-    need(input$province_select != "", "Please select a province to view data.")
-  )
   
   # Summarise incidence by province - no need to use filtered data as 
   # we want all provinces shown on the map
@@ -3008,10 +3490,17 @@ output$inc_map <- renderLeaflet({
   
   # Create color palette 
   pal <- colorNumeric(
-    palette = "YlOrRd",
+    palette = "YlOrRd",    # yellow orange red scale 
     domain = df_shape$inc, # use the incidence values for color mapping
-    na.color = "#f0f0f0"
+    na.color = "#f0f0f0"   # set the NA value colour
   )
+  
+  # Determine which province (if any) is selected to highlight
+  selected_province <- if (input$reporting_level == "Province" && input$province_select != "") {
+    input$province_select
+  } else {
+    "national"
+  }
   
   # Create the leaflet map 
   leaflet(df_shape) %>% # use the spatial data
@@ -3019,8 +3508,8 @@ output$inc_map <- renderLeaflet({
     addPolygons( 
       # add polygons for each province
       fillColor = ~pal(inc), # fill color based on incidence
-      weight = ~ifelse(org_unit == input$province_select, 3, 1), # highlight selected province with thicker border
-      color = ~ifelse(org_unit == input$province_select, "#7C204F", "black"), # set border color
+      weight = ~ifelse(org_unit == selected_province, 3, 1), # highlight selected province with thicker border
+      color = ~ifelse(org_unit == selected_province, "#7C204F", "black"), # set border color
       opacity = 1, # set opacity of the border
       fillOpacity = 0.8, # set fill opacity 
       label = ~paste0(org_unit, ": ", round(inc, 1), " per 1,000"), # add labels with province name and incidence
@@ -3041,13 +3530,8 @@ output$inc_map <- renderLeaflet({
     )
 })
 
-# -Summary table of annual values-------------------------------------------------------------
+#-Summary table of annual values-------------------------------------------------------------
 output$summary_data <- renderDT({
-  
-  # Add messages to inform user to select a province
-  validate(
-    need(input$province_select != "", "Please select a province to view data.")
-  )
   
   # Filter and summarise the app_data to create a summary table using all provinces 
   df <- 
@@ -3096,7 +3580,7 @@ output$summary_data <- renderDT({
   )
   
   # Highlight selected province
-  if (input$province_select != "") {
+  if (input$reporting_level == "Province" && input$province_select != "") {
     # Apply row styling to highlight the selected province
     selected <- input$province_select 
     # Use formatStyle to apply bold font weight to the selected province row

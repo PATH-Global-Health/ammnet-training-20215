@@ -52,6 +52,7 @@ install.packages("leaflet")   #"leaflet: mapping spatial data."
 install.packages("sf")        #"sf: mapping spatial data."
 install.paclages("lubridate") #"lubridate for dealting with date-time."
 install.packages("bsicons")   #"bsicons: Bootstrap icons for Shiny apps."
+install.packages("scales")    #"scales: for formatting numbers, dates, and other data types in a consistent way."
 
 # Packages load ===================================================================================
 library(janitor)
@@ -64,6 +65,7 @@ library(leaflet)
 library(sf)
 library(lubridate)
 library(bsicons)
+library(scales)
 
 ```
 
