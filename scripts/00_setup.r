@@ -11,6 +11,7 @@ install.packages("leaflet")   #"leaflet: mapping spatial data."
 install.packages("sf")        #"sf: mapping spatial data."
 install.packages("lubridate") #"lubridate for dealting with date-time."
 install.packages("bsicons")   #"bsicons: Bootstrap icons for Shiny apps."
+install.packages("scales")    #"scales: scales for ggplot2 graphics."
 
 # Packages load ===================================================================================
 # If any of these packages do not load, you will receive an error. Please follow up with an organizer
@@ -25,9 +26,11 @@ library(leaflet)
 library(sf)
 library(lubridate)
 library(bsicons)
+library(scales)
 
 # Load datd files ================================================================================
 # Check to make sure you are able to load the files. If you cannot, you will receive an error. Please
 # follow up with an organizer of the help desk.
+read_csv("./data-inputs/data_dhis2_laos_ammnet.csv")
 read_csv("./data-outputs/data_dhis2_laos_ammnet_cleaned.csv")
 st_read("./data-outputs/adm1_shapefile.shp")
