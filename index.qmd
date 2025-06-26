@@ -23,10 +23,12 @@ Data visualization is a powerful tool for understanding and communicating data. 
 
 Before starting the training session, it is important to master the basics in descriptive data analysis, install R and the RStudio IDE, and install the required packages for the training.
 
+
 Installation Guide: 
 👉 <a href="lesson-materials/installation-guide.pdf" download>Download Install guide (EN) </a> 
 
 👉 <a href="lesson-materials/installation-guide-FR.pdf" download>Download Install guide (FR) </a> 
+
 
 ```{r eval = FALSE}
 # Packages installation ==========================================================================
@@ -38,7 +40,7 @@ install.packages("DT")        #"DT: interactive tables."
 install.packages("plotly")    #"plotly: interactive plots."
 install.packages("leaflet")   #"leaflet: mapping spatial data."
 install.packages("sf")        #"sf: mapping spatial data."
-install.paclages("lubridate") #"lubridate for dealting with date-time."
+install.packages("lubridate") #"lubridate for dealting with date-time."
 install.packages("bsicons")   #"bsicons: Bootstrap icons for Shiny apps."
 install.packages("scales")    #"scales: for formatting numbers, dates, and other data types in a consistent way."
 
