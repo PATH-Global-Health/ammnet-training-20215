@@ -4,7 +4,6 @@ title: "Development of a dynamic dashboard for visualizing malaria epidemiologic
 
 Website for the materials for the Ammnet Session - "*Development of a dynamic dashboard for visualizing malaria epidemiological surveillance data with R-Shiny*"
 
-
 ::: callout-important
 To view the website in French - Open in Google Chrome - right click anywhere on the page and select "Translate to francias"
 
@@ -23,12 +22,9 @@ Data visualization is a powerful tool for understanding and communicating data. 
 
 Before starting the training session, it is important to master the basics in descriptive data analysis, install R and the RStudio IDE, and install the required packages for the training.
 
+Installation Guide: 👉 <a href="lesson-materials/installation-guide.pdf" download>Download Install guide (EN) </a>
 
-Installation Guide: 
-👉 <a href="lesson-materials/installation-guide.pdf" download>Download Install guide (EN) </a> 
-
-👉 <a href="lesson-materials/installation-guide-FR.pdf" download>Download Install guide (FR) </a> 
-
+👉 <a href="lesson-materials/installation-guide-FR.pdf" download>Download Install guide (FR) </a>
 
 ```{r eval = FALSE}
 # Packages installation ==========================================================================
@@ -97,6 +93,10 @@ The outcome of this session is a fully interactive local App displaying key mala
 | Part 2 - Data downloads | Download the following files and save them to your R project in a folder called: `data-outputs`. If you didn't complete Part 1 don't worry the final dataset is included in this folder! |
 |                         |                                                                                                                                                                                          |
 |                         | 👉 <a href="data-outputs.zip" download>Download data-outputs.zip</a>                                                                                                                     |
+|                         |                                                                                                                                                                                          |
+|                         | 👉 <a href="data-inputs" download>Download data-inputs</a>                                                                                                                               |
+|                         |                                                                                                                                                                                          |
+|                         | 👉 <a href="scripts" download>Download scripts</a>                                                                                                                                       |
 +-------------------------+------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
 | Part 2 - Slides         | Click [here](dashboarding-slides.qmd)                                                                                                                                                    |
 +-------------------------+------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+

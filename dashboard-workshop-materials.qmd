@@ -314,7 +314,7 @@ shinyApp(ui = ui, server = server)
 **What This Does**
 
 | Component | Description |
-|------------------------------------|------------------------------------|
+|----|----|
 | `page_sidebar()` | Creates a full-page layout with a sidebar + main area |
 | `title = "..."` | Sets the page title shown in the app’s header bar |
 | `sidebar = "..."` | Placeholder content for the sidebar (we’ll replace this with inputs soon) |
@@ -770,7 +770,7 @@ Before we add our first user input, it’s helpful to understand a few common ty
 Shiny provides [several ways](https://shiny.posit.co/r/components/) for users to make selections here are a couple of options:\
 
 | Input Type | Function | When to Use |
-|------------------------|------------------------|------------------------|
+|----|----|----|
 | [Dropdown menu](https://shiny.posit.co/r/components/inputs/select-single/) | `selectInput()` | ✅ Best for **long lists** — compact and searchable |
 | [Radio buttons](https://shiny.posit.co/r/components/inputs/radio-buttons/) | `radioButtons()` | ✅ Best for **short lists** with a few clear options (e.g., Yes/No, 3-4 choices) |
 | [Checkbox group](https://shiny.posit.co/r/components/inputs/checkbox/) | `checkboxGroupInput()` | ✅ Best for selecting **multiple options** |
@@ -868,7 +868,7 @@ We’ll start by updating the **UI** to add a control widget `selectInput()` tha
 **What this is doing:**
 
 | Function/Argument | Description |
-|------------------------------------|------------------------------------|
+|----|----|
 | `selectInput()` | Adds a dropdown input where users can choose a Province |
 | `inputId = "province_select"` | This ID connects the UI to the server logic (we’ll use it in Part 2) |
 | `choices = ...` | Pulls all Province names from the dataset and sorts them alphabetically |
@@ -929,7 +929,7 @@ Shiny provides a [family of functions](https://shiny.posit.co/r/components/) tha
 Below is a summary of some key output types, the functions to tell shiny what the expect in the UI and the functions to create it in the server and a short desciption of when to use.
 
 | Output Type | Render Function (Server) | Display Function (UI) | When to Use |
-|------------------|------------------|------------------|------------------|
+|----|----|----|----|
 | **Text** | `renderText()` | `textOutput()` | Display simple text strings |
 | **Tables (static)** | `renderTable()` | `tableOutput()` | Show small static tables |
 | **Tables (interactive)** | `renderDT()` | `DT::dataTableOutput()` | Show sortable, searchable tables |
