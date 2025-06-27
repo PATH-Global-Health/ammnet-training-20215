@@ -5,6 +5,8 @@ project:
     - lesson-materials/part-1/english.pdf
     - data-outputs.zip
     - images/
+    - data-inputs/
+    - scripts/
 
 website:
   title: "Data Dashboard Training Materials"
